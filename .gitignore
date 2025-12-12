@@ -1,0 +1,5 @@
+.DS_Store
+
+visualizations/
+
+__pycache__/
