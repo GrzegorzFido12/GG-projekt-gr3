@@ -74,8 +74,6 @@ class P12(Production):
 
         return None
 
-
-
     def get_left_side(self) -> Graph:
         g = Graph()
 
@@ -105,7 +103,6 @@ class P12(Production):
 
         return g
 
-
     def get_right_side(self, matched: Graph, level: int) -> Graph:
         """
         Right side reproduces the same hyperedge,
@@ -116,7 +113,7 @@ class P12(Production):
         # copy nodes
         for node in matched.nodes:
             g.add_node(node)
-
+        
         # copy hyperedges, setting R=1 for Q
         for edge in matched.hyperedges:
             if edge.hypertag == "Q" and len(edge.nodes) == 7:
@@ -129,5 +126,7 @@ class P12(Production):
                         B=edge.B,
                     )
                 )
+            else: g.add_edge(edge)
 
         return g
+
