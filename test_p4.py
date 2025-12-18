@@ -458,6 +458,230 @@ def test_p4_triangle_boundary():
     assert hanging.y == 0.0
 
 
+def test_p4_missing_edge():
+    """Test that P4 cannot be applied when there are 2 nodes but no edge connecting them."""
+    g = Graph()
+    n1 = Node(0, 0, "v1")
+    n2 = Node(4, 0, "v2")
+    g.add_node(n1)
+    g.add_node(n2)
+    # No edge added - missing edge
+    
+    production = P4()
+    assert not production.can_apply(g)
+    
+    result = g.apply(production)
+    assert result == 0
+    
+    # Graph should remain unchanged
+    assert len(g.nodes) == 2
+    assert len(g.hyperedges) == 0
+
+
+def test_p4_vertex_label_change():
+    """Test that changing vertex labels doesn't affect the production mechanism."""
+    # Test with various vertex labels - production should still work
+    # Note: empty labels are not tested because Node uses label for hashing/equality
+    test_cases = [
+        ("a", "b"),
+        ("node_1", "node_2"),
+        ("x", "y"),  # short labels
+        ("123", "456"),  # numeric strings
+        ("α", "β"),  # unicode labels
+        ("very_long_label_name_1", "very_long_label_name_2"),  # long labels
+    ]
+    
+    production = P4()
+    
+    for label1, label2 in test_cases:
+        g = Graph()
+        n1 = Node(0, 0, label1)
+        n2 = Node(4, 0, label2)
+        g.add_node(n1)
+        g.add_node(n2)
+        g.add_edge(HyperEdge((n1, n2), "E", boundary=True, R=1, B=1))
+        
+        # Production should be applicable regardless of vertex labels
+        assert production.can_apply(g), f"Failed for labels: {label1}, {label2}"
+        
+        result = g.apply(production)
+        assert result == 1, f"Production failed for labels: {label1}, {label2}"
+        
+        # Should have 3 nodes after application
+        assert len(g.nodes) == 3, f"Wrong node count for labels: {label1}, {label2}"
+
+
+def test_p4_wrong_vertex_coordinates():
+    """Test that production works correctly with various vertex coordinates."""
+    production = P4()
+    
+    # Test with different coordinate configurations
+    test_cases = [
+        # (x1, y1, x2, y2, expected_mid_x, expected_mid_y)
+        (0, 0, 4, 0, 2.0, 0.0),        # horizontal
+        (0, 0, 0, 4, 0.0, 2.0),        # vertical
+        (0, 0, 4, 4, 2.0, 2.0),        # diagonal
+        (-2, -2, 2, 2, 0.0, 0.0),      # crossing origin
+        (1.5, 2.5, 3.5, 4.5, 2.5, 3.5),  # floating point
+        (100, 200, 300, 400, 200.0, 300.0),  # large values
+        (-100, -200, -300, -400, -200.0, -300.0),  # negative values
+    ]
+    
+    for x1, y1, x2, y2, exp_mid_x, exp_mid_y in test_cases:
+        g = Graph()
+        n1 = Node(x1, y1, "v1")
+        n2 = Node(x2, y2, "v2")
+        g.add_node(n1)
+        g.add_node(n2)
+        g.add_edge(HyperEdge((n1, n2), "E", boundary=True, R=1, B=1))
+        
+        result = g.apply(production)
+        assert result == 1, f"Production failed for coords: ({x1},{y1})-({x2},{y2})"
+        
+        # Verify hanging node position
+        hanging_nodes = [n for n in g.nodes if n.hanging]
+        assert len(hanging_nodes) == 1
+        
+        assert hanging_nodes[0].x == exp_mid_x, \
+            f"Wrong x for ({x1},{y1})-({x2},{y2}): expected {exp_mid_x}, got {hanging_nodes[0].x}"
+        assert hanging_nodes[0].y == exp_mid_y, \
+            f"Wrong y for ({x1},{y1})-({x2},{y2}): expected {exp_mid_y}, got {hanging_nodes[0].y}"
+
+
+def test_p4_remove_random_edge_from_valid_graph():
+    """Test that removing an edge from a valid matching graph prevents production."""
+    # Create a graph that would normally match (square with one marked boundary edge)
+    g = Graph()
+    nodes = [
+        Node(0, 0, "n1"),
+        Node(4, 0, "n2"),
+        Node(4, 4, "n3"),
+        Node(0, 4, "n4")
+    ]
+    for n in nodes:
+        g.add_node(n)
+    
+    # Add all edges except the one marked for refinement (simulate "removing" it)
+    # The marked edge (n1-n2) is NOT added
+    g.add_edge(HyperEdge((nodes[1], nodes[2]), "E", boundary=True, R=0, B=1))
+    g.add_edge(HyperEdge((nodes[2], nodes[3]), "E", boundary=True, R=0, B=1))
+    g.add_edge(HyperEdge((nodes[3], nodes[0]), "E", boundary=True, R=0, B=1))
+    
+    production = P4()
+    
+    # Should not be able to apply - no edge with R=1 and B=1
+    assert not production.can_apply(g)
+    
+    result = g.apply(production)
+    assert result == 0
+    
+    # Graph should remain unchanged
+    assert len(g.nodes) == 4
+    assert len(g.hyperedges) == 3
+
+
+def test_p4_visualization_correctness():
+    """Test that visualization contains correct elements after production."""
+    import os
+    
+    g, n1, n2 = create_boundary_edge_graph()
+    
+    # Apply production
+    production = P4()
+    g.apply(production)
+    
+    # Verify graph state which will be visualized
+    # 1. All vertices exist
+    assert len(g.nodes) == 3
+    
+    # 2. All edges exist
+    edges = [e for e in g.hyperedges if e.hypertag == "E"]
+    assert len(edges) == 2
+    
+    # 3. Vertices have correct coordinates
+    node_coords = {(n.x, n.y) for n in g.nodes}
+    assert (0, 0) in node_coords, "Original node (0,0) missing"
+    assert (4, 0) in node_coords, "Original node (4,0) missing"
+    assert (2.0, 0.0) in node_coords, "Hanging node (2,0) missing"
+    
+    # 4. Vertices have labels
+    for node in g.nodes:
+        assert node.label is not None, f"Node at ({node.x}, {node.y}) has no label"
+    
+    # 5. Edges connect correct nodes
+    edge_node_coords = set()
+    for edge in edges:
+        for node in edge.nodes:
+            edge_node_coords.add((node.x, node.y))
+    
+    # All nodes should be connected by edges
+    assert edge_node_coords == node_coords, "Not all nodes are connected by edges"
+    
+    # Draw and verify file was created
+    output_path = f"{OUTPUT_DIR}/test_p4_viz_correctness.png"
+    draw(g, output_path)
+    assert os.path.exists(output_path), f"Visualization file {output_path} was not created"
+
+
+def test_p4_complete_right_side_verification():
+    """Comprehensive test verifying all aspects of the right side of the production."""
+    g = Graph()
+    n1 = Node(0, 0, "v1")
+    n2 = Node(6, 0, "v2")
+    g.add_node(n1)
+    g.add_node(n2)
+    g.add_edge(HyperEdge((n1, n2), "E", boundary=True, R=1, B=1))
+    
+    production = P4()
+    result = g.apply(production)
+    
+    assert result == 1
+    
+    # Verify all vertices
+    assert len(g.nodes) == 3, "Should have exactly 3 nodes"
+    
+    # Original nodes should still exist
+    original_nodes = [n for n in g.nodes if not n.hanging]
+    assert len(original_nodes) == 2, "Should have 2 original nodes"
+    
+    # Hanging node should exist
+    hanging_nodes = [n for n in g.nodes if n.hanging]
+    assert len(hanging_nodes) == 1, "Should have 1 hanging node"
+    
+    hanging = hanging_nodes[0]
+    assert hanging.x == 3.0, f"Hanging node x should be 3.0, got {hanging.x}"
+    assert hanging.y == 0.0, f"Hanging node y should be 0.0, got {hanging.y}"
+    assert hanging.label is not None, "Hanging node should have a label"
+    
+    # Verify all edges
+    edges = [e for e in g.hyperedges if e.hypertag == "E"]
+    assert len(edges) == 2, "Should have exactly 2 edges"
+    
+    for edge in edges:
+        # All edges should be boundary edges
+        assert edge.B == 1, f"Edge should have B=1, got {edge.B}"
+        # All edges should not be marked for refinement
+        assert edge.R == 0, f"Edge should have R=0, got {edge.R}"
+        # All edges should have label "E"
+        assert edge.hypertag == "E", f"Edge should have label 'E', got {edge.hypertag}"
+        # All edges should connect exactly 2 nodes
+        assert len(edge.nodes) == 2, f"Edge should connect 2 nodes, got {len(edge.nodes)}"
+    
+    # Verify edge connectivity
+    # One edge should connect v1 to hanging node
+    # Other edge should connect hanging node to v2
+    edge_endpoints = []
+    for edge in edges:
+        coords = tuple(sorted([(n.x, n.y) for n in edge.nodes]))
+        edge_endpoints.append(coords)
+    
+    expected_edge1 = tuple(sorted([(0, 0), (3.0, 0.0)]))
+    expected_edge2 = tuple(sorted([(3.0, 0.0), (6, 0)]))
+    
+    assert expected_edge1 in edge_endpoints, f"Missing edge from v1 to hanging node"
+    assert expected_edge2 in edge_endpoints, f"Missing edge from hanging node to v2"
+
+
 if __name__ == "__main__":
     tests = [
         ("P4 BASIC BOUNDARY EDGE", test_p4_basic_boundary_edge),
@@ -473,6 +697,12 @@ if __name__ == "__main__":
         ("P4 FIND ALL MATCHES", test_p4_find_all_matches),
         ("P4 EMBEDDED IN LARGER GRAPH", test_p4_embedded_in_larger_graph),
         ("P4 TRIANGLE BOUNDARY", test_p4_triangle_boundary),
+        ("P4 MISSING EDGE", test_p4_missing_edge),
+        ("P4 VERTEX LABEL CHANGE", test_p4_vertex_label_change),
+        ("P4 WRONG VERTEX COORDINATES", test_p4_wrong_vertex_coordinates),
+        ("P4 REMOVE RANDOM EDGE FROM VALID GRAPH", test_p4_remove_random_edge_from_valid_graph),
+        ("P4 VISUALIZATION CORRECTNESS", test_p4_visualization_correctness),
+        ("P4 COMPLETE RIGHT SIDE VERIFICATION", test_p4_complete_right_side_verification),
     ]
     
     passed = 0
