@@ -1,14 +1,3 @@
-"""
-Test Suite for P11 Production
-
-Tests included:
-1. P11 BASIC HEXAGON: Verifies that a single hexagon marked for refinement is correctly transformed.
-2. P11 CANNOT APPLY TO UNMARKED HEXAGON: Ensures P11 does not apply to unmarked hexagons.
-3. P11 PRESERVES OTHER EDGES: Confirms that edges unrelated to the hexagon are preserved.
-4. P11 HANGING NODE POSITION: Validates the correct placement of the central node.
-5. P11 MULTIPLE HEXAGONS: Tests that P11 refines only the marked hexagon when multiple hexagons are present.
-"""
-
 import os
 from graph_model import Graph, Node, HyperEdge
 from p11 import P11
