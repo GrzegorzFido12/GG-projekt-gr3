@@ -1,14 +1,13 @@
 import os
 from graph_model import Graph, Node, HyperEdge
-from p7 import P7
+from p7_alt import P7
 from visualization import draw
 
 OUTPUT_DIR = "visualizations"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # ============= HELPER FUNCTIONS =============
-
-def create_isolated_pentagon(r_value=1):
+def create_isolated_pentagon(r_value=1, missing_edge = False):
     """Creates a single pentagonal element P with 5 surrounding E edges."""
     g = Graph()
     nodes = [
@@ -22,10 +21,16 @@ def create_isolated_pentagon(r_value=1):
     g.add_edge(HyperEdge(tuple(nodes), "P", R=r_value))
     
     # 5 surrounding boundary edges E (initially R=0)
-    for i in range(5):
+    if missing_edge:
+        for i in range(4):
         # Mixing B values to test preservation
-        b_val = 1 if i < 3 else 0
-        g.add_edge(HyperEdge((nodes[i], nodes[(i+1)%5]), "E", boundary=(b_val==1), R=0, B=b_val))
+            b_val = 1 if i < 3 else 0
+            g.add_edge(HyperEdge((nodes[i], nodes[(i+1)%5]), "E", boundary=(b_val==1), R=0, B=b_val))
+    else:    
+        for i in range(5):
+            # Mixing B values to test preservation
+            b_val = 1 if i < 3 else 0
+            g.add_edge(HyperEdge((nodes[i], nodes[(i+1)%5]), "E", boundary=(b_val==1), R=0, B=b_val))
         
     return g, nodes
 
@@ -141,22 +146,51 @@ def test_p7_complex_mesh_isolation():
     assert len(unmarked_q_edges) == 5 # Total E edges in mesh (8) - P edges (3) = 5
 
 def test_p7_find_all_matches():
+    
     """Tests finding multiple marked pentagons in one graph."""
     g = Graph()
+   
     # Create two separate pentagons
-    for offset in [0, 10]:
-        nodes = [Node(offset+i, i, f"v{offset}_{i}") for i in range(5)]
-        for n in nodes: g.add_node(n)
-        g.add_edge(HyperEdge(tuple(nodes), "P", R=1))
-        for i in range(5):
-            g.add_edge(HyperEdge((nodes[i], nodes[(i+1)%5]), "E", R=0))
+    draw(g, f"{OUTPUT_DIR}/test_p7_complex_mesh_before.png")
             
     production = P7()
     matches = production.find_all_matches(g) if hasattr(production, 'find_all_matches') else []
-    
-    
+    g.apply(production)
+
+    draw(g, f"{OUTPUT_DIR}/test_p7_complex_mesh_after.png")
     if matches:
         assert len(matches) == 2
+
+def test_p7_missing_edge():
+    """Tests that P7 marks all 5 surrounding E edges of a marked pentagon."""
+    g, _ = create_isolated_pentagon(r_value=1, missing_edge=True)
+    draw(g, f"{OUTPUT_DIR}/test_p7_missing_before.png")
+    
+    production = P7()
+
+    print(production.can_apply(g))
+    assert not production.can_apply(g)
+    
+
+def test_p7_basic_propagation():
+    """Tests that P7 marks all 5 surrounding E edges of a marked pentagon."""
+    g, _ = create_isolated_pentagon(r_value=1)
+    draw(g, f"{OUTPUT_DIR}/test_p7_basic_before.png")
+    
+    production = P7()
+    assert production.can_apply(g)
+    
+    result = g.apply(production)
+    draw(g, f"{OUTPUT_DIR}/test_p7_basic_after.png")
+    
+    assert result == 1
+    # Verify all 5 edges now have R=1
+    marked_edges = [e for e in g.hyperedges if e.hypertag == "E" and e.R == 1]
+    assert len(marked_edges) == 5
+    
+    # Verify the P edge itself remains marked
+    p_edge = [e for e in g.hyperedges if e.hypertag == "P"][0]
+    assert p_edge.R == 1
 
 if __name__ == "__main__":
     tests = [
@@ -166,6 +200,7 @@ if __name__ == "__main__":
         ("P7 WRONG TAG", test_p7_wrong_tag),
         ("P7 COMPLEX MESH ISOLATION", test_p7_complex_mesh_isolation),
         ("P7 FIND ALL MATCHES", test_p7_find_all_matches),
+        ("P7 MISSING EDGE", test_p7_missing_edge)
     ]
     
     for name, test_func in tests:
