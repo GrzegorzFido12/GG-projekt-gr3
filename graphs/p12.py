@@ -85,11 +85,11 @@ def create_missing_edge_graph():
 
 def create_wrong_label_graph():
     """
-    Graf izomorficzny z LHS, ale zmienia etykietę jednego węzła.
+    Graf izomorficzny z LHS, ale zmienia etykietę jednej krawędzi.
     """
     g = create_lhs_septagon()
-    if g.nodes:
-        g.nodes[0].label = "wrong_label"
+    if g.hyperedges:
+        g.hyperedges[0].hypertag = "F"
     return g
 
 def create_wrong_coordinates_graph():
