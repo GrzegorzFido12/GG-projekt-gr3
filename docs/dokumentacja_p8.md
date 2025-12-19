@@ -32,7 +32,7 @@ Po pomyślnym dopasowaniu lewej strony, następuje transformacja struktury grafu
 
 ## Szczegółowy opis implementacji
 
-Implementacja produkcji znajduje się w klasie `P8` w pliku `productions/p8.py`. Poniżej omówiono kluczowe fragmenty logiki.
+Implementacja produkcji znajduje się w klasie `P8` w pliku `productions/p8.py` (względem głównego katalogu projektu). Poniżej omówiono kluczowe fragmenty logiki.
 
 ### 1. Algorytm dopasowania (`find_match`)
 
@@ -65,7 +65,7 @@ Metoda ta odpowiada za utworzenie wynikowego fragmentu grafu.
 
 ## Raport z testów (Idee i scenariusze)
 
-Testy w pliku `tests/test_p8.py` zostały zaprojektowane tak, aby pokryć nie tylko ścieżkę pozytywną, ale również szereg przypadków brzegowych i potencjalnych błędów w danych wejściowych.
+Testy w pliku `tests/test_p8.py` (względem głównego katalogu projektu) zostały zaprojektowane tak, aby pokryć nie tylko ścieżkę pozytywną, ale również szereg przypadków brzegowych i potencjalnych błędów w danych wejściowych.
 
 ### 1. Testy poprawności strukturalnej i geometrycznej
 

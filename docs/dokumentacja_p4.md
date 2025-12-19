@@ -138,7 +138,7 @@ Po zastosowaniu produkcji sprawdzamy:
 
 |  **Przed**                                    | **Po**                                  |
 |----------------------------------------------|------------------------------------------|
-| ![](visualizations/p4_visualisations/test_p4_basic_before.png) | ![](visualizations/p4_visualisations/test_p4_basic_after.png) |
+| ![](../visualizations/p4_visualisations/test_p4_basic_before.png) | ![](../visualizations/p4_visualisations/test_p4_basic_after.png) |
 
 ---
 
@@ -188,7 +188,7 @@ Po zastosowaniu produkcji sprawdzamy:
 
 |  **Przed**                                    | **Po**                                  |
 |----------------------------------------------|------------------------------------------|
-| ![](visualizations/p4_visualisations/test_p4_square_before.png) | ![](visualizations/p4_visualisations/test_p4_square_after.png) |
+| ![](../visualizations/p4_visualisations/test_p4_square_before.png) | ![](../visualizations/p4_visualisations/test_p4_square_after.png) |
 
 ---
 
@@ -206,7 +206,7 @@ Po zastosowaniu produkcji sprawdzamy:
 
 |  **Przed**                                    | **Po**                                  |
 |----------------------------------------------|------------------------------------------|
-| ![](visualizations/p4_visualisations/test_p4_complex_before.png) | ![](visualizations/p4_visualisations/test_p4_complex_after.png) |
+| ![](../visualizations/p4_visualisations/test_p4_complex_before.png) | ![](../visualizations/p4_visualisations/test_p4_complex_after.png) |
 
 ---
 
@@ -235,7 +235,7 @@ Po zastosowaniu produkcji sprawdzamy:
 
 |  **Przed**                                    | **Po**                                  |
 |----------------------------------------------|------------------------------------------|
-| ![](visualizations/p4_visualisations/test_p4_diagonal_before.png) | ![](visualizations/p4_visualisations/test_p4_diagonal_after.png) |
+| ![](../visualizations/p4_visualisations/test_p4_diagonal_before.png) | ![](../visualizations/p4_visualisations/test_p4_diagonal_after.png) |
 
 ---
 
@@ -287,7 +287,7 @@ Po zastosowaniu produkcji sprawdzamy:
 
 |  **Przed**                                    | **Po**                                  |
 |----------------------------------------------|------------------------------------------|
-| ![](visualizations/p4_visualisations/test_p4_multiple_before.png) | ![](visualizations/p4_visualisations/test_p4_multiple_after.png) |
+| ![](../visualizations/p4_visualisations/test_p4_multiple_before.png) | ![](../visualizations/p4_visualisations/test_p4_multiple_after.png) |
 
 ---
 
@@ -311,7 +311,7 @@ Po zastosowaniu produkcji sprawdzamy:
 
 |  **Przed**                                    | **Po**                                  |
 |----------------------------------------------|------------------------------------------|
-| ![](visualizations/p4_visualisations/test_p4_large_mesh_before.png) | ![](visualizations/p4_visualisations/test_p4_large_mesh_after.png) |
+| ![](../visualizations/p4_visualisations/test_p4_large_mesh_before.png) | ![](../visualizations/p4_visualisations/test_p4_large_mesh_after.png) |
 
 ---
 
@@ -333,7 +333,7 @@ Po zastosowaniu produkcji sprawdzamy:
 
 |  **Przed**                                    | **Po**                                  |
 |----------------------------------------------|------------------------------------------|
-| ![](visualizations/p4_visualisations/test_p4_triangle_before.png) | ![](visualizations/p4_visualisations/test_p4_triangle_after.png) |
+| ![](../visualizations/p4_visualisations/test_p4_triangle_before.png) | ![](../visualizations/p4_visualisations/test_p4_triangle_after.png) |
 
 ---
 
@@ -416,7 +416,7 @@ Po zastosowaniu produkcji sprawdzamy:
 
 | **Wizualizacja** |
 |------------------|
-| ![](visualizations/p4_visualisations/test_p4_viz_correctness.png) |
+| ![](../visualizations/p4_visualisations/test_p4_viz_correctness.png) |
 
 ---
 
@@ -539,10 +539,10 @@ Po zastosowaniu produkcji sprawdzamy:
 pip install -r requirements.txt
 
 # Uruchomienie testów P4
-python test_p4.py
+python tests/test_p4.py
 
 # Uruchomienie za pomocą pytest
-pytest test_p4.py -v
+pytest tests/test_p4.py -v
 ```
 
 ---
@@ -550,15 +550,18 @@ pytest test_p4.py -v
 ## Struktura plików
 
 ```
-graph_model.py        # Model grafu i hiperkrawędzi
-production_base.py    # Klasa bazowa produkcji
-p4.py                 # Implementacja produkcji P4
-test_p4.py            # Testy jednostkowe P4
-visualization.py      # Wizualizacja grafów
-visualizations/       # Folder z wizualizacjami
-    p4_visualisations/  # Wizualizacje testów P4
+graph_model.py              # Model grafu i hiperkrawędzi
+production_base.py          # Klasa bazowa produkcji
+productions/
+    p4.py                   # Implementacja produkcji P4
+tests/
+    test_p4.py              # Testy jednostkowe P4
+visualization.py            # Wizualizacja grafów
+visualizations/             # Folder z wizualizacjami
+    p4_visualisations/      # Wizualizacje testów P4
         test_p4_*.png
-dokumentacja_p4.md    # Ten plik dokumentacji
+docs/
+    dokumentacja_p4.md      # Ten plik dokumentacji
 ```
 
 ---
