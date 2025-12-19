@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4ca52990-a426-42bd-84e5-4b9b29a309b0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/graphs/p12.py" beforeDir="false" afterPath="$PROJECT_DIR$/graphs/p12.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/productions/p12.py" beforeDir="false" afterPath="$PROJECT_DIR$/productions/p12.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/p12_visualizations/test_4_after.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/p12_visualizations/test_4_before.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +83,7 @@
       <recent name="C:\Users\emiar\Desktop\MOJE\STUDIA\Nowy folder\GG-projekt-gr3\visualizations" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.p12">
+  <component name="RunManager">
     <configuration name="p12" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GG-projekt-gr3" />
       <option name="ENV_FILES" value="" />
@@ -107,7 +107,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in C:/Users/emiar/Desktop/MOJE/STUDIA/Nowy folder/GG-projekt-gr3/tests/test_p12.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in test_p12.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="GG-projekt-gr3" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -126,7 +126,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.p12" />
-        <item itemvalue="Python tests.Python tests in C:/Users/emiar/Desktop/MOJE/STUDIA/Nowy folder/GG-projekt-gr3/tests/test_p12.py" />
+        <item itemvalue="Python tests.Python tests in test_p12.py" />
       </list>
     </recent_temporary>
   </component>
@@ -149,7 +149,7 @@
       <workItem from="1766094985786" duration="1998000" />
       <workItem from="1766097070081" duration="1725000" />
       <workItem from="1766135793373" duration="786000" />
-      <workItem from="1766140606281" duration="324000" />
+      <workItem from="1766140606281" duration="1143000" />
     </task>
     <servers />
   </component>
