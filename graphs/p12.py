@@ -1,7 +1,6 @@
 import math
 import os
 import copy
-from graph_model import Graph
 from visualization import draw
 from production_base import Production
 from productions.p12 import P12

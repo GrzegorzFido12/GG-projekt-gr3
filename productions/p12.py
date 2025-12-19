@@ -14,8 +14,9 @@ class P12(Production):
         return self.find_match(graph) is not None
 
     def find_match(self, graph: Graph):
+        #sprawdzamy wszystkie hiperkrawędzie
         for q in graph.hyperedges:
-            # 1. Candidate Q
+            # podstawowe własności
             if q.hypertag != "Q" or q.R != 0 or len(q.nodes) != 7:
                 continue
 
@@ -25,7 +26,6 @@ class P12(Production):
             if not all(n in graph.nodes for n in nodes):
                 continue
 
-            # 2. Collect E-edges fully inside Q
             e_edges = [
                 e for e in graph.hyperedges
                 if (
@@ -35,11 +35,11 @@ class P12(Production):
                 )
             ]
 
-            # 3. Must be exactly 7 boundary edges
+            # 3. musi mieć 7 krawędzi E
             if len(e_edges) != 7:
                 continue
 
-            # 4. Degree check: each node has degree 2 in E
+            # każdy wierzchołek o stopniu 2
             degree = {n: 0 for n in nodes}
             for e in e_edges:
                 a, b = e.nodes
@@ -49,7 +49,7 @@ class P12(Production):
             if any(d != 2 for d in degree.values()):
                 continue
 
-            # 5. Connectivity: single cycle
+            # jeden cykl
             visited = set()
             stack = [next(iter(nodes))]
 
@@ -69,7 +69,6 @@ class P12(Production):
             if visited != nodes:
                 continue
 
-            # ✔ Isomorphic to LHS septagon
             return q
 
         return None
@@ -77,12 +76,11 @@ class P12(Production):
     def get_left_side(self) -> Graph:
         g = Graph()
 
-        # 7 abstract vertices
         nodes = [Node(0.0, 0.0, f"v{i}") for i in range(7)]
         for n in nodes:
             g.add_node(n)
 
-        # Q hyperedge: septagonal element, not yet marked
+        # hiperkrawedz Q
         q = HyperEdge(
             nodes=tuple(nodes),
             hypertag="Q",
@@ -91,7 +89,7 @@ class P12(Production):
         )
         g.add_edge(q)
 
-        # E hyperedges: boundary of the septagon (cycle)
+        # hiperkrawędzie E (tworzy siedmiokąt)
         for i in range(7):
             e = HyperEdge(
                 nodes=(nodes[i], nodes[(i + 1) % 7]),
@@ -110,11 +108,10 @@ class P12(Production):
         """
         g = Graph()
 
-        # copy nodes
         for node in matched.nodes:
             g.add_node(node)
         
-        # copy hyperedges, setting R=1 for Q
+        # R=1 dla Q + kopiowanie hiperkrawedzi
         for edge in matched.hyperedges:
             if edge.hypertag == "Q" and len(edge.nodes) == 7:
                 g.add_edge(
