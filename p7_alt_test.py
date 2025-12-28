@@ -7,13 +7,18 @@ OUTPUT_DIR = "visualizations"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # ============= HELPER FUNCTIONS =============
-def create_isolated_pentagon(r_value=1, missing_edge = False):
+def create_isolated_pentagon(r_value=1, missing_edge = False, missing_node = False):
     """Creates a single pentagonal element P with 5 surrounding E edges."""
     g = Graph()
     nodes = [
-        Node(2, 4, "v1"), Node(4, 3, "v2"), Node(3, 1, "v3"), 
-        Node(1, 1, "v4"), Node(0, 3, "v5")
+        Node(2, 4, "v1"),
+        Node(4, 3, "v2"), Node(3, 1, "v3"), 
+        Node(1, 1, "v4") 
     ]
+
+    if not missing_node:
+        nodes.append(Node(0, 3, "v5"))
+
     for n in nodes:
         g.add_node(n)
     
@@ -21,11 +26,14 @@ def create_isolated_pentagon(r_value=1, missing_edge = False):
     g.add_edge(HyperEdge(tuple(nodes), "P", R=r_value))
     
     # 5 surrounding boundary edges E (initially R=0)
-    if missing_edge:
+    if missing_edge or missing_node:
         for i in range(4):
         # Mixing B values to test preservation
             b_val = 1 if i < 3 else 0
-            g.add_edge(HyperEdge((nodes[i], nodes[(i+1)%5]), "E", boundary=(b_val==1), R=0, B=b_val))
+            d = 5
+            if missing_node:
+                d = 4
+            g.add_edge(HyperEdge((nodes[i], nodes[(i+1)%d]), "E", boundary=(b_val==1), R=0, B=b_val))
     else:    
         for i in range(5):
             # Mixing B values to test preservation
@@ -97,8 +105,14 @@ def test_p7_preservation_of_attributes():
     """Tests that B and boundary attributes of E edges are preserved."""
     g, _ = create_isolated_pentagon(r_value=1)
     production = P7()
+
+    draw(g, f"{OUTPUT_DIR}/test_p7_preservation_of_attributes_before.png")
+
     g.apply(production)
     
+    draw(g, f"{OUTPUT_DIR}/test_p7_preservation_of_attributes_after.png")
+
+    ##????
     for edge in g.hyperedges:
         if edge.hypertag == "E":
             # Check if original B values (from create_isolated_pentagon) are preserved
@@ -149,7 +163,7 @@ def test_p7_find_all_matches():
     
     """Tests finding multiple marked pentagons in one graph."""
     g = Graph()
-   
+    
     # Create two separate pentagons
     draw(g, f"{OUTPUT_DIR}/test_p7_complex_mesh_before.png")
             
@@ -164,11 +178,19 @@ def test_p7_find_all_matches():
 def test_p7_missing_edge():
     """Tests that P7 marks all 5 surrounding E edges of a marked pentagon."""
     g, _ = create_isolated_pentagon(r_value=1, missing_edge=True)
-    draw(g, f"{OUTPUT_DIR}/test_p7_missing_before.png")
+    draw(g, f"{OUTPUT_DIR}/test_p7_missing_edge_before.png")
     
     production = P7()
 
-    print(production.can_apply(g))
+    assert not production.can_apply(g)
+
+def test_p7_missing_node():
+    """Tests that P7 marks all 5 surrounding E edges of a marked pentagon."""
+    g, _ = create_isolated_pentagon(r_value=1, missing_node = True)
+    draw(g, f"{OUTPUT_DIR}/test_p7_missing_node_before.png")
+    
+    production = P7()
+
     assert not production.can_apply(g)
     
 
@@ -200,7 +222,8 @@ if __name__ == "__main__":
         ("P7 WRONG TAG", test_p7_wrong_tag),
         ("P7 COMPLEX MESH ISOLATION", test_p7_complex_mesh_isolation),
         ("P7 FIND ALL MATCHES", test_p7_find_all_matches),
-        ("P7 MISSING EDGE", test_p7_missing_edge)
+        ("P7 MISSING EDGE", test_p7_missing_edge),
+        ("P7 MISSING NODE", test_p7_missing_node),
     ]
     
     for name, test_func in tests:

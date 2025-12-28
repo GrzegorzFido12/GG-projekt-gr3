@@ -1,6 +1,6 @@
 from production_base import Production
 from graph_model import Graph, Node, HyperEdge
-from typing import Optional, List
+from typing import Optional, List, Tuple, Dict
 
 @Production.register
 class P7(Production):
@@ -10,7 +10,6 @@ class P7(Production):
     This production finds a pentagonal element (P) marked for refinement (R=1)
     and sets the R attribute of all its five boundary edges (E) to 1.
     """
-    
     def get_left_side(self) -> Graph:
         g = Graph()
         # Create 5 vertices for the pentagon
@@ -25,10 +24,34 @@ class P7(Production):
             g.add_edge(HyperEdge((nodes[i], nodes[(i+1)%5]), "E", R=0))
         return g
 
+    def is_any(self, e : HyperEdge, n : Dict):
+        a = None
+        for i in n.keys():
+            if i in e.nodes:
+                if a is None:
+                    a = i
+                    continue
+                n[a] -= 1
+                n[i] -= 1
+                return n
+        return n
+
     def find_match(self, graph: Graph) -> Optional[HyperEdge]:
         # The trigger is the central pentagonal edge P with R=1
         for edge in graph.hyperedges:
+
             if edge.hypertag == "P" and edge.R == 1 and len(edge.nodes) == 5:
+                n = {i : 2 for i in edge.nodes}
+                e = graph.hyperedges
+                for i in e:
+                    if i.hypertag == "P":
+                        continue
+                    n = self.is_any(i, n)
+
+                for i in n.values():
+                    if i != 0:
+                        return None
+                    
                 return edge
         return None
 
