@@ -5,22 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4ca52990-a426-42bd-84e5-4b9b29a309b0" name="Changes" comment="test4">
+      <change afterPath="$PROJECT_DIR$/docs/dokumentacja_p12.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphs/p12.py" beforeDir="false" afterPath="$PROJECT_DIR$/graphs/p12.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/productions/p12.py" beforeDir="false" afterPath="$PROJECT_DIR$/productions/p12.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_p12.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_p12.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualizations/p12_visualizations/test_0_after.png" beforeDir="false" afterPath="$PROJECT_DIR$/visualizations/p12_visualizations/test_0_after.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualizations/p12_visualizations/test_0_before.png" beforeDir="false" afterPath="$PROJECT_DIR$/visualizations/p12_visualizations/test_0_before.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualizations/p12_visualizations/test_1_after.png" beforeDir="false" afterPath="$PROJECT_DIR$/visualizations/p12_visualizations/test_1_after.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualizations/p12_visualizations/test_1_before.png" beforeDir="false" afterPath="$PROJECT_DIR$/visualizations/p12_visualizations/test_1_before.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualizations/p12_visualizations/test_2_after.png" beforeDir="false" afterPath="$PROJECT_DIR$/visualizations/p12_visualizations/test_2_after.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualizations/p12_visualizations/test_2_before.png" beforeDir="false" afterPath="$PROJECT_DIR$/visualizations/p12_visualizations/test_2_before.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualizations/p12_visualizations/test_3_after.png" beforeDir="false" afterPath="$PROJECT_DIR$/visualizations/p12_visualizations/test_3_after.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualizations/p12_visualizations/test_3_before.png" beforeDir="false" afterPath="$PROJECT_DIR$/visualizations/p12_visualizations/test_3_before.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualizations/p12_visualizations/test_4_after.png" beforeDir="false" afterPath="$PROJECT_DIR$/visualizations/p12_visualizations/test_4_after.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualizations/p12_visualizations/test_4_before.png" beforeDir="false" afterPath="$PROJECT_DIR$/visualizations/p12_visualizations/test_4_before.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualizations/p12_visualizations/test_5_after.png" beforeDir="false" afterPath="$PROJECT_DIR$/visualizations/p12_visualizations/test_5_after.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualizations/p12_visualizations/test_5_before.png" beforeDir="false" afterPath="$PROJECT_DIR$/visualizations/p12_visualizations/test_5_before.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,39 +48,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python tests.Python tests in test_p12.py.executor": "Run",
-    "Python.p12 (1).executor": "Run",
-    "Python.p12.executor": "Run",
-    "Python.temporary.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "master",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "C:/Users/emiar/Desktop/MOJE/STUDIA/Nowy folder/GG-projekt-gr3",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python tests.Python tests in test_p12.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python.p12 (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.p12.executor&quot;: &quot;Run&quot;,
+    &quot;Python.temporary.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/emiar/Desktop/MOJE/STUDIA/Nowy folder/GG-projekt-gr3&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\emiar\Desktop\MOJE\STUDIA\Nowy folder\GG-projekt-gr3" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\emiar\Desktop\MOJE\STUDIA\Nowy folder\GG-projekt-gr3\visualizations" />
       <recent name="C:\Users\emiar\Desktop\MOJE\STUDIA\Nowy folder\GG-projekt-gr3\visualizations\p12_visualizations" />
       <recent name="C:\Users\emiar\Desktop\MOJE\STUDIA\Nowy folder\GG-projekt-gr3\productions" />
       <recent name="C:\Users\emiar\Desktop\MOJE\STUDIA\Nowy folder\GG-projekt-gr3\tests" />
       <recent name="C:\Users\emiar\Desktop\MOJE\STUDIA\Nowy folder\GG-projekt-gr3\visualizations\p4_visualisations" />
-      <recent name="C:\Users\emiar\Desktop\MOJE\STUDIA\Nowy folder\GG-projekt-gr3\visualizations\p0_visualisations" />
     </key>
   </component>
   <component name="RunManager" selected="Python.p12 (1)">
@@ -189,7 +175,8 @@
       <workItem from="1766135793373" duration="786000" />
       <workItem from="1766140606281" duration="2105000" />
       <workItem from="1766438243994" duration="314000" />
-      <workItem from="1767527678283" duration="738000" />
+      <workItem from="1767527678283" duration="1518000" />
+      <workItem from="1767531218514" duration="618000" />
     </task>
     <task id="LOCAL-00001" summary="test4">
       <option name="closed" value="true" />
