@@ -29,7 +29,7 @@ def create_lhs_septagon():
         g.add_node(node)
 
     # Hiperkrawędź Q
-    q = HyperEdge(tuple(nodes), hypertag="Q", R=0, B=0)
+    q = HyperEdge(tuple(nodes), hypertag="T", R=0, B=0)
     g.add_edge(q)
 
     # Hiperkrawędzie E (cycle)

@@ -17,7 +17,7 @@ class P12(Production):
         #sprawdzamy wszystkie hiperkrawędzie
         for q in graph.hyperedges:
             # podstawowe własności
-            if q.hypertag != "Q" or q.R != 0 or len(q.nodes) != 7:
+            if q.hypertag != "T" or q.R != 0 or len(q.nodes) != 7:
                 continue
 
             nodes = set(q.nodes)
@@ -83,7 +83,7 @@ class P12(Production):
         # hiperkrawedz Q
         q = HyperEdge(
             nodes=tuple(nodes),
-            hypertag="Q",
+            hypertag="T",
             R=0,
             B=0
         )
@@ -113,11 +113,11 @@ class P12(Production):
         
         # R=1 dla Q + kopiowanie hiperkrawedzi
         for edge in matched.hyperedges:
-            if edge.hypertag == "Q" and len(edge.nodes) == 7:
+            if edge.hypertag == "T" and len(edge.nodes) == 7:
                 g.add_edge(
                     HyperEdge(
                         nodes=edge.nodes,
-                        hypertag="Q",
+                        hypertag="T",
                         boundary=edge.boundary,
                         R=1,
                         B=edge.B,
