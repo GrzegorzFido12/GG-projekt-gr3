@@ -38,21 +38,25 @@ class P7(Production):
 
     def find_match(self, graph: Graph) -> Optional[HyperEdge]:
         # The trigger is the central pentagonal edge P with R=1
+        
         for edge in graph.hyperedges:
-
+            flag=0
             if edge.hypertag == "P" and edge.R == 1 and len(edge.nodes) == 5:
                 n = {i : 2 for i in edge.nodes}
                 e = graph.hyperedges
                 for i in e:
-                    if i.hypertag == "P":
+                    if i.hypertag == "P" or i.R==1:
                         continue
                     n = self.is_any(i, n)
-
+               
                 for i in n.values():
                     if i != 0:
-                        return None
-                    
-                return edge
+                        flag=1
+                        break
+                if flag==1:
+                    continue
+                else:    
+                    return edge
         return None
 
     def get_right_side(self, matched: Graph, level: int) -> Graph:

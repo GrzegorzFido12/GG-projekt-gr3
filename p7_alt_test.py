@@ -3,7 +3,7 @@ from graph_model import Graph, Node, HyperEdge
 from p7_alt import P7
 from visualization import draw
 
-OUTPUT_DIR = "visualizations"
+OUTPUT_DIR = "visualizations/p7"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # ============= HELPER FUNCTIONS =============
@@ -79,6 +79,74 @@ def create_complex_pentagonal_mesh():
     
     return g
 
+
+
+
+def create_complex_pentagonal_mesh_2():
+    """Creates a mesh with a pentagon (P) and an adjacent quadrilateral (Q)."""
+    g = Graph()
+    # Nodes for the pentagon (left side) and quad (right side)
+    nodes = {
+        "v1": Node(1, 4, "v1"), "v2": Node(3, 4, "v2"), 
+        "v3": Node(4, 2, "v3"), "v4": Node(3, 0, "v4"),
+        "v5": Node(1, 0, "v5"), "v6": Node(5, 4, "v6"),
+        "v7": Node(5, 0, "v7"),"v11": Node(11, 4, "v11"), "v12": Node(13, 4, "v12"), 
+        "v13": Node(14, 2, "v13"), "v14": Node(13, 0, "v14"),
+        "v15": Node(11, 0, "v15"), "v16": Node(15, 4, "v16"),
+        "v17": Node(15, 0, "v17")
+    }
+    
+    for n in nodes.values():
+        g.add_node(n)
+    
+    # for n in nodes2.values():
+    #     g.add_node(n)
+    
+    # Pentagon P (marked for refinement)
+    p_nodes = (nodes["v1"], nodes["v2"], nodes["v3"], nodes["v4"], nodes["v5"])
+    g.add_edge(HyperEdge(p_nodes, "P", R=1))
+    # Pentagon P (marked for refinement)
+    p_nodes = (nodes["v11"], nodes["v12"], nodes["v13"], nodes["v14"], nodes["v15"])
+    g.add_edge(HyperEdge(p_nodes, "P", R=1))
+    
+    # Surrounding edges for P
+    g.add_edge(HyperEdge((nodes["v1"], nodes["v2"]), "E", boundary=True, R=0, B=1))
+    g.add_edge(HyperEdge((nodes["v2"], nodes["v3"]), "E", boundary=False, R=0, B=0)) # Shared with Q
+    g.add_edge(HyperEdge((nodes["v3"], nodes["v4"]), "E", boundary=False, R=0, B=0)) # Shared with Q
+    g.add_edge(HyperEdge((nodes["v4"], nodes["v5"]), "E", boundary=True, R=0, B=1))
+    g.add_edge(HyperEdge((nodes["v5"], nodes["v1"]), "E", boundary=True, R=0, B=1))
+    
+    # Quadrilateral Q (NOT marked for refinement)
+    # Surrounding edges for P
+    g.add_edge(HyperEdge((nodes["v11"], nodes["v12"]), "E", boundary=True, R=0, B=1))
+    g.add_edge(HyperEdge((nodes["v12"], nodes["v13"]), "E", boundary=False, R=0, B=0)) # Shared with Q
+    g.add_edge(HyperEdge((nodes["v13"], nodes["v14"]), "E", boundary=False, R=0, B=0)) # Shared with Q
+    g.add_edge(HyperEdge((nodes["v14"], nodes["v15"]), "E", boundary=True, R=0, B=1))
+    g.add_edge(HyperEdge((nodes["v15"], nodes["v11"]), "E", boundary=True, R=0, B=1))
+    
+   # Quadrilateral Q (NOT marked for refinement)
+    # q_nodes = (nodes["v2"], nodes["v6"], nodes["v7"], nodes["v4"], nodes["v3"])
+    # g.add_edge(HyperEdge(q_nodes, "Q", R=0))
+    
+    # Additional edges for Q that are not part of P
+    g.add_edge(HyperEdge((nodes["v2"], nodes["v6"]), "E", boundary=True, R=0, B=1))
+    g.add_edge(HyperEdge((nodes["v6"], nodes["v7"]), "E", boundary=True, R=0, B=1))
+    g.add_edge(HyperEdge((nodes["v7"], nodes["v4"]), "E", boundary=True, R=0, B=1))
+    g.add_edge(HyperEdge((nodes["v3"], nodes["v6"]), "E", boundary=True, R=0, B=1))
+    g.add_edge(HyperEdge((nodes["v3"], nodes["v7"]), "E", boundary=True, R=0, B=1))
+    # g.add_edge(HyperEdge((nodes["v6"], nodes["v11"]), "E", boundary=True, R=1, B=1))
+    # g.add_edge(HyperEdge((nodes["v7"], nodes["v15"]), "E", boundary=True, R=1, B=1))
+    
+    g.add_edge(HyperEdge((nodes["v12"], nodes["v16"]), "E", boundary=True, R=0, B=1))
+    g.add_edge(HyperEdge((nodes["v16"], nodes["v17"]), "E", boundary=True, R=0, B=1))
+    g.add_edge(HyperEdge((nodes["v17"], nodes["v14"]), "E", boundary=True, R=0, B=1))
+    g.add_edge(HyperEdge((nodes["v13"], nodes["v16"]), "E", boundary=True, R=0, B=1))
+    g.add_edge(HyperEdge((nodes["v13"], nodes["v17"]), "E", boundary=True, R=0, B=1))
+    
+    return g
+
+
+
 # ============= TEST FUNCTIONS =============
 
 def test_p7_basic_propagation():
@@ -143,21 +211,38 @@ def test_p7_wrong_tag():
 
 def test_p7_complex_mesh_isolation():
     """Tests P7 in a mesh: only edges belonging to the marked pentagon should change."""
-    g = create_complex_pentagonal_mesh()
+    g = create_complex_pentagonal_mesh_2()
     draw(g, f"{OUTPUT_DIR}/test_p7_mesh_before.png")
     
     production = P7()
+    cnt=1
+    print(production.can_apply(g))
     g.apply(production)
-    draw(g, f"{OUTPUT_DIR}/test_p7_mesh_after.png")
+    print(production.can_apply(g))
+    g.apply(production)
+    draw(g, f"{OUTPUT_DIR}/test_p7_mesh_after{cnt}.png")
     
+    # cnt=1
+    # while production.can_apply(g):
+    #     g.apply(production)
+        
+    #     draw(g, f"{OUTPUT_DIR}/test_p7_mesh_after{cnt}.png")
+    #     cnt=+1
+
+    
+    
+
+       
+        
+
     # 5 edges of the pentagon should be marked R=1
     # Note: 2 of these are shared with Q, but since they belong to P, they should be marked
     marked_edges = [e for e in g.hyperedges if e.hypertag == "E" and e.R == 1]
-    assert len(marked_edges) == 5
+    assert len(marked_edges) ==10
     
     # The 2 edges of Q that do NOT belong to P should still be R=0
     unmarked_q_edges = [e for e in g.hyperedges if e.hypertag == "E" and e.R == 0]
-    assert len(unmarked_q_edges) == 5 # Total E edges in mesh (8) - P edges (3) = 5
+    assert len(unmarked_q_edges) == 10 # Total E edges in mesh (8) - P edges (3) = 5
 
 def test_p7_find_all_matches():
     
