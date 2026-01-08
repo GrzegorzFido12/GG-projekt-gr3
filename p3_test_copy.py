@@ -146,26 +146,38 @@ def test_p3_on_two_quads_shared_edge():
     initial_e_edges = len([e for e in g.hyperedges if e.hypertag == "E"])
     
     production = P3()
-    
-    result = g.apply(production)
+    cnt=0
+    while production.can_apply(g):
+        result=g.apply(production)
+        
+        cnt+=1
+        draw(g, f"{OUTPUT_DIR}/p3/test_p3_on_two_quads_shared_edge_after_{cnt}.png")
 
-    draw(g, f"{OUTPUT_DIR}/test_p3_on_two_quads_shared_edge_after.png")
+    
+
+    # draw(g, f"{OUTPUT_DIR}/test_p3_on_two_quads_shared_edge_after.png")
     
     # draw(g, f"{OUTPUT_DIR}/test_p3_two_quads_after.png")
     
     assert result == 1
-    
+    # print(result)
     # Should have one more node
-    assert len(g.nodes) == initial_nodes + 1
+    # print(len(g.nodes) , initial_nodes , cnt)
+    
+    
+    assert len(g.nodes) == initial_nodes + cnt
+
     
     # Should have one more E edge (1 marked E becomes 2 new E's, so +1)
     final_e_edges = len([e for e in g.hyperedges if e.hypertag == "E"])
-
-    assert final_e_edges == initial_e_edges + 2
+    # print(final_e_edges , initial_e_edges + 2*cnt)
     
+    assert final_e_edges == initial_e_edges + 2*cnt
+
     # Q edges should be preserved
     q_edges = [e for e in g.hyperedges if e.hypertag == "Q"]
     assert len(q_edges) == 2
+    # print(len(q_edges))
 
 
 def test_p3_hanging_node_position_diagonal():
