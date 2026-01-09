@@ -7,7 +7,7 @@ from p3_new import P3_alt as P3
 # from visualization import draw 
 from visualization import draw
 
-OUTPUT_DIR = "visualizations"
+OUTPUT_DIR = "visualizations/p3"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 def create_shared_edge_graph():
@@ -138,7 +138,7 @@ def test_p3_on_two_quads_shared_edge():
     """Test P3 on a complex mesh where one shared edge is marked."""
     g, nodes = create_two_quads_with_shared_edge()
     
-    draw(g, f"{OUTPUT_DIR}/p3/test_p3_on_two_quads_shared_edge_before.png")
+    draw(g, f"{OUTPUT_DIR}/test_p3_on_two_quads_shared_edge_before.png")
     # draw(g, f"{OUTPUT_DIR}/test_p3_two_quads_before.png")
     
     # Initial counts
@@ -151,7 +151,7 @@ def test_p3_on_two_quads_shared_edge():
         result=g.apply(production)
         
         cnt+=1
-        draw(g, f"{OUTPUT_DIR}/p3/test_p3_on_two_quads_shared_edge_after_{cnt}.png")
+        draw(g, f"{OUTPUT_DIR}/test_p3_on_two_quads_shared_edge_after_{cnt}.png")
 
     
     # draw(g, f"{OUTPUT_DIR}/test_p3_on_two_quads_shared_edge_after.png")
