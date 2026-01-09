@@ -45,7 +45,7 @@ class P7(Production):
                 n = {i : 2 for i in edge.nodes}
                 e = graph.hyperedges
                 for i in e:
-                    if i.hypertag == "P" or i.R==1:
+                    if i.hypertag != "E" or i.R==1:
                         continue
                     n = self.is_any(i, n)
                
