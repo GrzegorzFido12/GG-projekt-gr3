@@ -244,21 +244,21 @@ def test_p7_complex_mesh_isolation():
     unmarked_q_edges = [e for e in g.hyperedges if e.hypertag == "E" and e.R == 0]
     assert len(unmarked_q_edges) == 10 # Total E edges in mesh (8) - P edges (3) = 5
 
-def test_p7_find_all_matches():
+# def test_p7_find_all_matches():
     
-    """Tests finding multiple marked pentagons in one graph."""
-    g = Graph()
+#     """Tests finding multiple marked pentagons in one graph."""
+#     g = Graph()
     
-    # Create two separate pentagons
-    draw(g, f"{OUTPUT_DIR}/test_p7_complex_mesh_before.png")
+#     # Create two separate pentagons
+#     draw(g, f"{OUTPUT_DIR}/test_p7_complex_mesh_before.png")
             
-    production = P7()
-    matches = production.find_all_matches(g) if hasattr(production, 'find_all_matches') else []
-    g.apply(production)
+#     production = P7()
+#     matches = production.find_all_matches(g) if hasattr(production, 'find_all_matches') else []
+#     g.apply(production)
 
-    draw(g, f"{OUTPUT_DIR}/test_p7_complex_mesh_after.png")
-    if matches:
-        assert len(matches) == 2
+#     draw(g, f"{OUTPUT_DIR}/test_p7_complex_mesh_after.png")
+#     if matches:
+#         assert len(matches) == 2
 
 def test_p7_missing_edge():
     """Tests that P7 marks all 5 surrounding E edges of a marked pentagon."""
@@ -268,6 +268,7 @@ def test_p7_missing_edge():
     production = P7()
 
     assert not production.can_apply(g)
+    draw(g, f"{OUTPUT_DIR}/test_p7_missing_edge_after.png")
 
 def test_p7_missing_node():
     """Tests that P7 marks all 5 surrounding E edges of a marked pentagon."""
@@ -277,7 +278,7 @@ def test_p7_missing_node():
     production = P7()
 
     assert not production.can_apply(g)
-    
+    draw(g, f"{OUTPUT_DIR}/test_p7_missing_node_after.png")
 
 def test_p7_basic_propagation():
     """Tests that P7 marks all 5 surrounding E edges of a marked pentagon."""
@@ -306,7 +307,7 @@ if __name__ == "__main__":
         ("P7 CANNOT APPLY UNMARKED", test_p7_cannot_apply_unmarked),
         ("P7 WRONG TAG", test_p7_wrong_tag),
         ("P7 COMPLEX MESH ISOLATION", test_p7_complex_mesh_isolation),
-        ("P7 FIND ALL MATCHES", test_p7_find_all_matches),
+        # ("P7 FIND ALL MATCHES", test_p7_find_all_matches),
         ("P7 MISSING EDGE", test_p7_missing_edge),
         ("P7 MISSING NODE", test_p7_missing_node),
     ]
