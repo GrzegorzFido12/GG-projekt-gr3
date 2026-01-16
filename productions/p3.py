@@ -4,7 +4,7 @@ from typing import Optional, List
 import uuid
 
 @Production.register
-class P3_alt(Production):
+class P3(Production):
     """
     Production P3_alt - Refines a shared edge marked for refinement.
     
