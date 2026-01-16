@@ -1,6 +1,8 @@
 from typing import Optional
+
 from graph_model import Graph, Node, HyperEdge
 from production_base import Production
+
 
 @Production.register
 class P6(Production):
@@ -11,7 +13,8 @@ class P6(Production):
         n3 = Node(1, 2, "v3")
         n4 = Node(0, 2, "v4")
         n5 = Node(2, 1, "v5")
-        for n in [n1, n2, n3, n4, n5]: g.add_node(n)
+        for n in [n1, n2, n3, n4, n5]:
+            g.add_node(n)
 
         g.add_edge(HyperEdge((n1, n2), "E", R=1, B=1))
         g.add_edge(HyperEdge((n2, n5), "E", R=2, B=2))

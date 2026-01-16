@@ -1,11 +1,13 @@
-import unittest
 import os
+import unittest
+
 from graph_model import Graph, Node, HyperEdge
 from productions.p6 import P6
 from visualization import draw
 
 OUTPUT_DIR = "visualizations/p6_visualisations"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
+
 
 def make_graph():
     prod = P6()
@@ -49,8 +51,8 @@ class TestP6Production(unittest.TestCase):
         n3 = Node(1, 1, "x3")
         n4 = Node(0, 1, "x4")
         nodes = [n1, n2, n3, n4]
-        for n in nodes: g.add_node(n)
-
+        for n in nodes:
+            g.add_node(n)
 
         g.add_edge(HyperEdge((n1, n2), "E", R=1, B=1))
         g.add_edge(HyperEdge((n2, n3), "E", R=0, B=1))
@@ -108,7 +110,9 @@ class TestP6Production(unittest.TestCase):
             Node(5.0, 0.0, "sec1"), Node(5.0, 2.0, "sec2"),
             Node(6.0, 3.0, "sec3"), Node(7.0, 2.0, "sec4"), Node(7.0, 0.0, "sec5")
         ]
-        for n in nodes2: g.add_node(n)
+        for n in nodes2:
+            g.add_node(n)
+
         for i in range(5):
             g.add_edge(HyperEdge((nodes2[i], nodes2[(i + 1) % 5]), "E"))
         g.add_edge(HyperEdge(tuple(nodes2), "P", R=0))
@@ -137,7 +141,6 @@ class TestP6Production(unittest.TestCase):
 
         self.assertFalse(self.prod.can_apply(g))
 
-
     def test_preserves_boundary_conditions(self):
         """Sprawdza, czy produkcja zmienia R, ale zachowuje wartości B na krawędziach"""
         g = make_graph()
@@ -156,7 +159,9 @@ class TestP6Production(unittest.TestCase):
         g.apply(self.prod)
         vertices_after = len(g.nodes)
 
-        self.assertEqual(vertices_after, vertices_before, "Ilość wierzchołków po produkcji powinna być taka, jak przed produkcją")
+        self.assertEqual(vertices_after, vertices_before,
+                         "Ilość wierzchołków po produkcji powinna być taka, jak przed produkcją")
+
 
 if __name__ == '__main__':
     unittest.main()

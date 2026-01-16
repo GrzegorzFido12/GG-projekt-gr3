@@ -1,15 +1,18 @@
+import os
+import unittest
+
 from graph_model import Graph, Node, HyperEdge
 from productions.p2 import P2
-import unittest
 from visualization import draw
-import os
 
 OUTPUT_DIR = "visualizations/p2_visualisations"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
+
 def make_graph():
     prod = P2()
     return prod.get_left_side()
+
 
 class TestP2Isomorphism(unittest.TestCase):
 
