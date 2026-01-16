@@ -1,7 +1,6 @@
 import math
 import os
 import copy
-from graph_model import Graph
 from visualization import draw
 from production_base import Production
 from productions.p12 import P12
@@ -30,7 +29,7 @@ def create_lhs_septagon():
         g.add_node(node)
 
     # Hiperkrawędź Q
-    q = HyperEdge(tuple(nodes), hypertag="Q", R=0, B=0)
+    q = HyperEdge(tuple(nodes), hypertag="T", R=0, B=0)
     g.add_edge(q)
 
     # Hiperkrawędzie E (cycle)
@@ -86,11 +85,11 @@ def create_missing_edge_graph():
 
 def create_wrong_label_graph():
     """
-    Graf izomorficzny z LHS, ale zmienia etykietę jednego węzła.
+    Graf izomorficzny z LHS, ale zmienia etykietę jednej krawędzi.
     """
     g = create_lhs_septagon()
-    if g.nodes:
-        g.nodes[0].label = "wrong_label"
+    if g.hyperedges:
+        g.hyperedges[0].hypertag = "F"
     return g
 
 def create_wrong_coordinates_graph():

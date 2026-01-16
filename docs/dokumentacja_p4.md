@@ -136,7 +136,9 @@ Po zastosowaniu produkcji sprawdzamy:
 
 **Wynik**: PASSED
 
-Wizualizacja: `visualizations/test_p4_basic_before.png`, `visualizations/test_p4_basic_after.png`
+|  **Przed**                                    | **Po**                                  |
+|----------------------------------------------|------------------------------------------|
+| ![](../visualizations/p4_visualisations/test_p4_basic_before.png) | ![](../visualizations/p4_visualisations/test_p4_basic_after.png) |
 
 ---
 
@@ -184,7 +186,9 @@ Wizualizacja: `visualizations/test_p4_basic_before.png`, `visualizations/test_p4
 
 **Wynik**: PASSED
 
-Wizualizacja: `visualizations/test_p4_square_before.png`, `visualizations/test_p4_square_after.png`
+|  **Przed**                                    | **Po**                                  |
+|----------------------------------------------|------------------------------------------|
+| ![](../visualizations/p4_visualisations/test_p4_square_before.png) | ![](../visualizations/p4_visualisations/test_p4_square_after.png) |
 
 ---
 
@@ -200,7 +204,9 @@ Wizualizacja: `visualizations/test_p4_square_before.png`, `visualizations/test_p
 
 **Wynik**: PASSED (tylko krawędź brzegowa oznaczona została podzielona)
 
-Wizualizacja: `visualizations/test_p4_complex_before.png`, `visualizations/test_p4_complex_after.png`
+|  **Przed**                                    | **Po**                                  |
+|----------------------------------------------|------------------------------------------|
+| ![](../visualizations/p4_visualisations/test_p4_complex_before.png) | ![](../visualizations/p4_visualisations/test_p4_complex_after.png) |
 
 ---
 
@@ -227,7 +233,9 @@ Wizualizacja: `visualizations/test_p4_complex_before.png`, `visualizations/test_
 
 **Wynik**: PASSED
 
-Wizualizacja: `visualizations/test_p4_diagonal_before.png`, `visualizations/test_p4_diagonal_after.png`
+|  **Przed**                                    | **Po**                                  |
+|----------------------------------------------|------------------------------------------|
+| ![](../visualizations/p4_visualisations/test_p4_diagonal_before.png) | ![](../visualizations/p4_visualisations/test_p4_diagonal_after.png) |
 
 ---
 
@@ -277,7 +285,9 @@ Wizualizacja: `visualizations/test_p4_diagonal_before.png`, `visualizations/test
 
 **Wynik**: PASSED
 
-Wizualizacja: `visualizations/test_p4_multiple_before.png`, `visualizations/test_p4_multiple_after.png`
+|  **Przed**                                    | **Po**                                  |
+|----------------------------------------------|------------------------------------------|
+| ![](../visualizations/p4_visualisations/test_p4_multiple_before.png) | ![](../visualizations/p4_visualisations/test_p4_multiple_after.png) |
 
 ---
 
@@ -299,7 +309,9 @@ Wizualizacja: `visualizations/test_p4_multiple_before.png`, `visualizations/test
 
 **Wynik**: PASSED
 
-Wizualizacja: `visualizations/test_p4_large_mesh_before.png`, `visualizations/test_p4_large_mesh_after.png`
+|  **Przed**                                    | **Po**                                  |
+|----------------------------------------------|------------------------------------------|
+| ![](../visualizations/p4_visualisations/test_p4_large_mesh_before.png) | ![](../visualizations/p4_visualisations/test_p4_large_mesh_after.png) |
 
 ---
 
@@ -319,7 +331,9 @@ Wizualizacja: `visualizations/test_p4_large_mesh_before.png`, `visualizations/te
 
 **Wynik**: PASSED
 
-Wizualizacja: `visualizations/test_p4_triangle_before.png`, `visualizations/test_p4_triangle_after.png`
+|  **Przed**                                    | **Po**                                  |
+|----------------------------------------------|------------------------------------------|
+| ![](../visualizations/p4_visualisations/test_p4_triangle_before.png) | ![](../visualizations/p4_visualisations/test_p4_triangle_after.png) |
 
 ---
 
@@ -400,7 +414,9 @@ Wizualizacja: `visualizations/test_p4_triangle_before.png`, `visualizations/test
 
 **Wynik**: PASSED
 
-Wizualizacja: `visualizations/test_p4_viz_correctness.png`
+| **Wizualizacja** |
+|------------------|
+| ![](../visualizations/p4_visualisations/test_p4_viz_correctness.png) |
 
 ---
 
@@ -523,10 +539,10 @@ Wizualizacja: `visualizations/test_p4_viz_correctness.png`
 pip install -r requirements.txt
 
 # Uruchomienie testów P4
-python test_p4.py
+python tests/test_p4.py
 
 # Uruchomienie za pomocą pytest
-pytest test_p4.py -v
+pytest tests/test_p4.py -v
 ```
 
 ---
@@ -534,14 +550,18 @@ pytest test_p4.py -v
 ## Struktura plików
 
 ```
-graph_model.py        # Model grafu i hiperkrawędzi
-production_base.py    # Klasa bazowa produkcji
-p4.py                 # Implementacja produkcji P4
-test_p4.py            # Testy jednostkowe P4
-visualization.py      # Wizualizacja grafów
-visualizations/       # Folder z wizualizacjami
-    test_p4_*.png     # Wizualizacje testów P4
-dokumentacja_p4.md    # Ten plik dokumentacji
+graph_model.py              # Model grafu i hiperkrawędzi
+production_base.py          # Klasa bazowa produkcji
+productions/
+    p4.py                   # Implementacja produkcji P4
+tests/
+    test_p4.py              # Testy jednostkowe P4
+visualization.py            # Wizualizacja grafów
+visualizations/             # Folder z wizualizacjami
+    p4_visualisations/      # Wizualizacje testów P4
+        test_p4_*.png
+docs/
+    dokumentacja_p4.md      # Ten plik dokumentacji
 ```
 
 ---

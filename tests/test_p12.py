@@ -101,13 +101,13 @@ dobrze transformuje osadzenie
         """
         g = make_septagon()
 
-        q_before = [e for e in g.hyperedges if e.hypertag == "Q"][0]
+        q_before = [e for e in g.hyperedges if e.hypertag == "T"][0]
         nodes_before = set(q_before.nodes)
 
         production = P12()
         g.apply(production)
 
-        q_after = [e for e in g.hyperedges if e.hypertag == "Q"][0]
+        q_after = [e for e in g.hyperedges if e.hypertag == "T"][0]
 
         self.assertEqual(q_after.R, 1)
         self.assertEqual(set(q_after.nodes), nodes_before)
@@ -122,7 +122,7 @@ ma wszystkie wierzchołki, krawędzie i poprawne etykiety)
         production = P12()
         g.apply(production)
 
-        q_edges = [e for e in g.hyperedges if e.hypertag == "Q"]
+        q_edges = [e for e in g.hyperedges if e.hypertag == "T"]
         e_edges = [e for e in g.hyperedges if e.hypertag == "E"]
 
         self.assertEqual(len(q_edges), 1)
