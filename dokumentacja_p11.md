@@ -178,7 +178,7 @@ def _check_all_edges_broken(self, graph: Graph, s_edge: HyperEdge) -> bool:
 ```
 
 Węzeł wiszczący musi spełniać:
-- **Geometrycznie**: Być pośrodku linii między dwoma narożnikami (tolerancja 1e-4)
+- **Geometrycznie**: Być pośrodku linii między dwoma narożnikami 
 - **Topologicznie**: Być połączonym z obydwoma narożnikami krawędziami typu E
 
 ### 3.4 Test Decyzji o Miejscu (test_location_decision_based_on_R)
@@ -307,17 +307,17 @@ Weryfikuje transformację PRZED → PO:
 **Wyniki**: ✓ PASSED
 
 #### Wizualizacja - Przypadek Pozytywny
-![Sześciokąt prawidłowy dla izomorfizmu](visualizations/test_p11_isomorphism_check__before.png)
+<img src="visualizations/test_p11_isomorphism_check__before.png" alt="Sześciokąt prawidłowy dla izomorfizmu" style="width:50%" />
 
 **Struktura**: 6 narożników, 6 węzłów wiszczących, krawędź S z R=1
 
 #### Wizualizacja - Przypadek Negatywny 1 (Brak węzła wiszczącego)
-![Sześciokąt bez węzła wiszczącego](visualizations/test_p11_isomorphism_check__broken_topology.png)
+<img src="visualizations/test_p11_isomorphism_check__broken_topology.png" alt="Sześciokąt bez węzła wiszczącego" style="width:50%" />
 
 **Struktura**: Brakuje węzła wiszczącego h - graf NIE jest izomorficzny
 
 #### Wizualizacja - Przypadek Negatywny 2 (Zła etykieta)
-![Sześciokąt ze złą etykietą](visualizations/test_p11_isomorphism_check__wrong_label.png)
+<img src="visualizations/test_p11_isomorphism_check__wrong_label.png" alt="Sześciokąt ze złą etykietą" style="width:50%" />
 
 **Struktura**: Krawędź S zmieniona na X - graf NIE jest izomorficzny
 
@@ -334,12 +334,12 @@ Weryfikuje transformację PRZED → PO:
 **Wyniki**: ✓ PASSED
 
 #### Wizualizacja - R=0 (Ignorowany)
-![Sześciokąt z R=0](visualizations/test_p11_location_decision_based_on_R__R0_ignored.png)
+<img src="visualizations/test_p11_location_decision_based_on_R__R0_ignored.png" alt="Sześciokąt z R=0" style="width:50%" />
 
 **Decyzja**: Produkcja NIE znajduje match (R=0)
 
 #### Wizualizacja - R=1 (Przetwarzany)
-![Sześciokąt z R=1](visualizations/test_p11_location_decision_based_on_R__R1_matched.png)
+<img src="visualizations/test_p11_location_decision_based_on_R__R1_matched.png" alt="Sześciokąt z R=1" style="width:50%" />
 
 **Decyzja**: Produkcja ZNAJDUJE match (R=1)
 
@@ -357,12 +357,14 @@ Weryfikuje transformację PRZED → PO:
 **Wyniki**: ✓ PASSED
 
 #### Wizualizacja - Duży Graf z Szumem
-![Duży graf z szumem](visualizations/test_p11_finding_subgraph_in_large_graph__before.png)
+<img src="visualizations/test_p11_finding_subgraph_in_large_graph__before.png" alt="Duży graf z szumem" style="width:50%" />
 
 **Struktura**: Szum (noise1, noise2) + prawidłowy sześciokąt
 
 **Wynik**: Produkcja znalazła prawidłowy sześciokąt (6 węzłów narożnikowych + 6 węzłów wiszczących)
 
+#### Wizualizacja - PO
+<img src="visualizations/test_p11_finding_subgraph_in_large_graph__after.png" alt="Sześciokąt bez flagi hanging" style="width:50%" />
 ---
 
 ### 6.4 Test 4: Poprawność Wyniku (test_result_correctness)
@@ -377,12 +379,12 @@ Weryfikuje transformację PRZED → PO:
 **Wyniki**: ✓ PASSED
 
 #### Wizualizacja - PRZED
-![Sześciokąt przed transformacją](visualizations/test_p11_result_correctness__before.png)
+<img src="visualizations/test_p11_result_correctness__before.png" alt="Sześciokąt przed transformacją" style="width:50%" />
 
 **Struktura**: Sześciokąt z węzłami wiszczącymi, R=1
 
 #### Wizualizacja - PO
-![Sześciokąt po transformacji](visualizations/test_p11_result_correctness__after.png)
+<img src="visualizations/test_p11_result_correctness__after.png" alt="Sześciokąt po transformacji" style="width:50%" />
 
 **Struktura**: 1 węzeł centralny + 6 czworokątów (Q), wszystkie węzły wiszczące są teraz zwykłymi węzłami
 
@@ -397,12 +399,12 @@ Weryfikuje transformację PRZED → PO:
 **Wyniki**: ✓ PASSED
 
 #### Wizualizacja - PRZED (Nieregularna Geometria)
-![Sześciokąt zniekształcony - przed](visualizations/test_p11_irregular_geometry_before.png)
+<img src="visualizations/test_p11_irregular_geometry_before.png" alt="Sześciokąt zniekształcony - przed" style="width:50%" />
 
 **Struktura**: Nieregularny sześciokąt, ale topologia prawidłowa
 
 #### Wizualizacja - PO
-![Sześciokąt zniekształcony - po](visualizations/test_p11_irregular_geometry_after.png)
+<img src="visualizations/test_p11_irregular_geometry_after.png" alt="Sześciokąt zniekształcony - po" style="width:50%" />
 
 **Wynik**: Transformacja prawidłowa mimo nieregularnej geometrii (otrzymane 6 czworokątów Q)
 
@@ -417,14 +419,14 @@ Weryfikuje transformację PRZED → PO:
 **Wyniki**: ✓ PASSED
 
 #### Wizualizacja - PRZED
-![Sześciokąt bez flagi hanging](visualizations/test_p11_missing_hanging_flag_before.png)
+<img src="visualizations/test_p11_missing_hanging_flag_before.png" alt="Sześciokąt bez flagi hanging" style="width:50%" />
 
 **Struktura**: Węzły wygładają jak zwykłe węzły (hanging=False)
 
 **Decyzja**: Produkcja NIE jest stosowana (warunek: hanging node musi mieć hanging=True)
 
 #### Wizualizacja - PO
-![Sześciokąt bez flagi hanging - po](visualizations/test_p11_missing_hanging_flag_after.png)
+<img src="visualizations/test_p11_missing_hanging_flag_after.png" alt="Sześciokąt bez flagi hanging - po" style="width:50%" />
 
 **Wynik**: Graf NIEZMIENIONY (produkcja nie zastosowana)
 
@@ -442,14 +444,14 @@ Weryfikuje transformację PRZED → PO:
 **Wyniki**: ✓ PASSED
 
 #### Wizualizacja - PRZED
-![Rozłączny węzeł wiszczący - przed](visualizations/test_p11_disconnected_hanging_node_before.png)
+<img src="visualizations/test_p11_disconnected_hanging_node_before.png" alt="Rozłączny węzeł wiszczący - przed" style="width:50%" />
 
 **Struktura**: Węzeł h_0 istnieje ale nie jest połączony
 
 **Decyzja**: Produkcja NIE jest stosowana (warunek topologiczny: h musi być w krawędziach E)
 
 #### Wizualizacja - PO
-![Rozłączny węzeł wiszczący - po](visualizations/test_p11_disconnected_hanging_node_after.png)
+<img src="visualizations/test_p11_disconnected_hanging_node_after.png" alt="Rozłączny węzeł wiszczący - po" style="width:50%" />
 
 **Wynik**: Graf NIEZMIENIONY
 
@@ -466,17 +468,17 @@ Weryfikuje transformację PRZED → PO:
 **Wyniki**: ✓ PASSED
 
 #### Wizualizacja - PRZED (Pierwsza Aplikacja)
-![Podwójna aplikacja - przed](visualizations/test_p11_double_application_before.png)
+<img src="visualizations/test_p11_double_application_before.png" alt="Podwójna aplikacja - przed" style="width:50%" />
 
 **Struktura**: Sześciokąt z S, R=1
 
 #### Wizualizacja - PO Pierwsza Aplikacja
-![Podwójna aplikacja - po pierwszy raz](visualizations/test_p11_double_application_step1.png)
+<img src="visualizations/test_p11_double_application_step1.png" alt="Podwójna aplikacja - po pierwszy raz" style="width:50%" />
 
 **Struktura**: 6 czworokątów Q z R=0
 
 #### Wizualizacja - PO Druga Próba
-![Podwójna aplikacja - po drugi raz](visualizations/test_p11_double_application_after.png)
+<img src="visualizations/test_p11_double_application_after.png" alt="Podwójna aplikacja - po drugi raz" style="width:50%" />
 
 **Wynik**: Graf NIEZMIENIONY (produkcja P11 nie znajduje S z R=1)
 

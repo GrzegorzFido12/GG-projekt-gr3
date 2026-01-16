@@ -24,7 +24,8 @@ def draw(graph: Graph, output_path: str) -> None:
             if current_node.hyperref:
                 tag = current_node.hyperref.hypertag
                 r_val = current_node.hyperref.R
-                node_labels[node_label] = f"{tag}\nR={r_val}"
+                b_val = current_node.hyperref.B
+                node_labels[node_label] = f"{tag}\nR={r_val}\nB={b_val}"
             else:
                 node_labels[node_label] = node_label.split('_')[0]
         else:
