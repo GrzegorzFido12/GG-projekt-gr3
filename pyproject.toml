@@ -1,0 +1,10 @@
+[project]
+name = "gg-projekt-gr3"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.13"
+dependencies = [
+    "matplotlib>=3.5.0",
+    "networkx>=3.0",
+    "pytest>=7.0.0",
+]
