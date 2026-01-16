@@ -68,15 +68,15 @@ export-env {
         }
     }
 
-    let virtual_env = '/Users/antoniwojcik/agh/semestr_9/gramatyki_grafowe/GG-projekt-gr3/.venv'
+    let virtual_env = '/Users/pklatka/Desktop/GG-projekt-gr3/.venv'
     let bin = 'bin'
     let path_name = if (has-env 'Path') { 'Path' } else { 'PATH' }
     let venv_path = ([$virtual_env $bin] | path join)
     let new_path = ($env | get $path_name | prepend $venv_path)
-    let virtual_env_prompt = if ('GG-projekt-gr3' | is-empty) {
+    let virtual_env_prompt = if ('gg-projekt-gr3' | is-empty) {
         ($virtual_env | path basename)
     } else {
-        'GG-projekt-gr3'
+        'gg-projekt-gr3'
     }
     let new_env = { $path_name: $new_path VIRTUAL_ENV: $virtual_env VIRTUAL_ENV_PROMPT: $virtual_env_prompt }
     let old_prompt_command = if (has-env 'PROMPT_COMMAND') { $env.PROMPT_COMMAND } else { '' }

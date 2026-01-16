@@ -79,7 +79,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV '/Users/antoniwojcik/agh/semestr_9/gramatyki_grafowe/GG-projekt-gr3/.venv'
+set -gx VIRTUAL_ENV '/Users/pklatka/Desktop/GG-projekt-gr3/.venv'
 
 # https://github.com/fish-shell/fish-shell/issues/436 altered PATH handling
 if test (string sub -s 1 -l 1 $FISH_VERSION) -lt 3
@@ -91,8 +91,8 @@ set -gx PATH "$VIRTUAL_ENV"'/bin' $PATH
 
 # Prompt override provided?
 # If not, just use the environment name.
-if test -n 'GG-projekt-gr3'
-    set -gx VIRTUAL_ENV_PROMPT 'GG-projekt-gr3'
+if test -n 'gg-projekt-gr3'
+    set -gx VIRTUAL_ENV_PROMPT 'gg-projekt-gr3'
 else
     set -gx VIRTUAL_ENV_PROMPT (basename "$VIRTUAL_ENV")
 end

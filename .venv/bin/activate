@@ -78,7 +78,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV='/Users/antoniwojcik/agh/semestr_9/gramatyki_grafowe/GG-projekt-gr3/.venv'
+VIRTUAL_ENV='/Users/pklatka/Desktop/GG-projekt-gr3/.venv'
 if ([ "$OSTYPE" = "cygwin" ] || [ "$OSTYPE" = "msys" ]) && $(command -v cygpath &> /dev/null) ; then
     VIRTUAL_ENV=$(cygpath -u "$VIRTUAL_ENV")
 fi
@@ -98,8 +98,8 @@ _OLD_VIRTUAL_PATH="$PATH"
 PATH="$VIRTUAL_ENV/bin:$PATH"
 export PATH
 
-if [ "xGG-projekt-gr3" != x ] ; then
-    VIRTUAL_ENV_PROMPT="GG-projekt-gr3"
+if [ "xgg-projekt-gr3" != x ] ; then
+    VIRTUAL_ENV_PROMPT="gg-projekt-gr3"
 else
     VIRTUAL_ENV_PROMPT=$(basename "$VIRTUAL_ENV")
 fi

@@ -1,4 +1,4 @@
-#!/Users/antoniwojcik/agh/semestr_9/gramatyki_grafowe/GG-projekt-gr3/.venv/bin/python3
+#!/Users/pklatka/Desktop/GG-projekt-gr3/.venv/bin/python
 # -*- coding: utf-8 -*-
 import sys
 from pytest import console_main

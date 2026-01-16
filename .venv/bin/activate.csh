@@ -31,15 +31,15 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelevant variables.
 deactivate nondestructive
 
-setenv VIRTUAL_ENV '/Users/antoniwojcik/agh/semestr_9/gramatyki_grafowe/GG-projekt-gr3/.venv'
+setenv VIRTUAL_ENV '/Users/pklatka/Desktop/GG-projekt-gr3/.venv'
 
 set _OLD_VIRTUAL_PATH="$PATH:q"
 setenv PATH "$VIRTUAL_ENV:q/bin:$PATH:q"
 
 
 
-if ('GG-projekt-gr3' != "") then
-    setenv VIRTUAL_ENV_PROMPT 'GG-projekt-gr3'
+if ('gg-projekt-gr3' != "") then
+    setenv VIRTUAL_ENV_PROMPT 'gg-projekt-gr3'
 else
     setenv VIRTUAL_ENV_PROMPT "$VIRTUAL_ENV:t:q"
 endif

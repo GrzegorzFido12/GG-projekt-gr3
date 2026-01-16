@@ -26,9 +26,9 @@
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-@for %%i in ("/Users/antoniwojcik/agh/semestr_9/gramatyki_grafowe/GG-projekt-gr3/.venv") do @set "VIRTUAL_ENV=%%~fi"
+@for %%i in ("/Users/pklatka/Desktop/GG-projekt-gr3/.venv") do @set "VIRTUAL_ENV=%%~fi"
 
-@set "VIRTUAL_ENV_PROMPT=GG-projekt-gr3"
+@set "VIRTUAL_ENV_PROMPT=gg-projekt-gr3"
 @if NOT DEFINED VIRTUAL_ENV_PROMPT (
     @for %%d in ("%VIRTUAL_ENV%") do @set "VIRTUAL_ENV_PROMPT=%%~nxd"
 )
