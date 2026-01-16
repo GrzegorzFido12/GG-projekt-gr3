@@ -232,7 +232,7 @@ def test_p4_preserves_other_edges():
     g.apply(production)
 
     # Check that unmarked edges are still present
-    unmarked_edges_after = [
+    [
         (e.nodes[0].label, e.nodes[1].label, e.R, e.B)
         for e in g.hyperedges
         if e.hypertag == "E"
@@ -685,8 +685,8 @@ def test_p4_complete_right_side_verification():
     expected_edge1 = tuple(sorted([(0, 0), (3.0, 0.0)]))
     expected_edge2 = tuple(sorted([(3.0, 0.0), (6, 0)]))
 
-    assert expected_edge1 in edge_endpoints, f"Missing edge from v1 to hanging node"
-    assert expected_edge2 in edge_endpoints, f"Missing edge from hanging node to v2"
+    assert expected_edge1 in edge_endpoints, "Missing edge from v1 to hanging node"
+    assert expected_edge2 in edge_endpoints, "Missing edge from hanging node to v2"
 
 
 if __name__ == "__main__":

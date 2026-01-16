@@ -14,7 +14,7 @@ class P12(Production):
         return self.find_match(graph) is not None
 
     def find_match(self, graph: Graph):
-        #sprawdzamy wszystkie hiperkrawędzie
+        # sprawdzamy wszystkie hiperkrawędzie
         for q in graph.hyperedges:
             # podstawowe własności
             if q.hypertag != "T" or q.R != 0 or len(q.nodes) != 7:
@@ -27,7 +27,8 @@ class P12(Production):
                 continue
 
             e_edges = [
-                e for e in graph.hyperedges
+                e
+                for e in graph.hyperedges
                 if (
                     e.hypertag == "E"
                     and len(e.nodes) == 2
@@ -81,12 +82,7 @@ class P12(Production):
             g.add_node(n)
 
         # hiperkrawedz Q
-        q = HyperEdge(
-            nodes=tuple(nodes),
-            hypertag="T",
-            R=0,
-            B=0
-        )
+        q = HyperEdge(nodes=tuple(nodes), hypertag="T", R=0, B=0)
         g.add_edge(q)
 
         # hiperkrawędzie E (tworzy siedmiokąt)
@@ -95,7 +91,7 @@ class P12(Production):
                 nodes=(nodes[i], nodes[(i + 1) % 7]),
                 hypertag="E",
                 R=0,
-                B=1   # boundary edge
+                B=1,  # boundary edge
             )
             g.add_edge(e)
 
@@ -110,7 +106,7 @@ class P12(Production):
 
         for node in matched.nodes:
             g.add_node(node)
-        
+
         # R=1 dla Q + kopiowanie hiperkrawedzi
         for edge in matched.hyperedges:
             if edge.hypertag == "T" and len(edge.nodes) == 7:
@@ -123,7 +119,7 @@ class P12(Production):
                         B=edge.B,
                     )
                 )
-            else: g.add_edge(edge)
+            else:
+                g.add_edge(edge)
 
         return g
-

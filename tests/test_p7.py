@@ -324,27 +324,6 @@ def test_p7_missing_node():
     draw(g, f"{OUTPUT_DIR}/test_p7_missing_node_after.png")
 
 
-def test_p7_basic_propagation():
-    """Tests that P7 marks all 5 surrounding E edges of a marked pentagon."""
-    g, _ = create_isolated_pentagon(r_value=1)
-    draw(g, f"{OUTPUT_DIR}/test_p7_basic_before.png")
-
-    production = P7()
-    assert production.can_apply(g)
-
-    result = g.apply(production)
-    draw(g, f"{OUTPUT_DIR}/test_p7_basic_after.png")
-
-    assert result == 1
-    # Verify all 5 edges now have R=1
-    marked_edges = [e for e in g.hyperedges if e.hypertag == "E" and e.R == 1]
-    assert len(marked_edges) == 5
-
-    # Verify the P edge itself remains marked
-    p_edge = [e for e in g.hyperedges if e.hypertag == "P"][0]
-    assert p_edge.R == 1
-
-
 if __name__ == "__main__":
     tests = [
         ("P7 BASIC PROPAGATION", test_p7_basic_propagation),

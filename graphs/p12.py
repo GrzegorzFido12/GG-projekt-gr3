@@ -6,9 +6,11 @@ from production_base import Production
 from productions.p12 import P12
 from graph_model import Graph, Node, HyperEdge
 
+
 def make_septagon():
     prod = P12()
     return prod.get_left_side()
+
 
 def create_lhs_septagon():
     """
@@ -49,8 +51,7 @@ def create_containing_graph():
     septagon_nodes = g.nodes[:7]  # pierwsze 7 węzłów to septagon
 
     # Dodajemy dodatkowe węzły
-    extra_nodes = [Node(x=2.0, y=0, label="extra1"),
-                   Node(x=2.0, y=2.0, label="extra2")]
+    extra_nodes = [Node(x=2.0, y=0, label="extra1"), Node(x=2.0, y=2.0, label="extra2")]
     for n in extra_nodes:
         g.add_node(n)
 
@@ -73,6 +74,7 @@ def create_missing_vertex_graph():
         g.remove_node(g.nodes[0])
     return g
 
+
 def create_missing_edge_graph():
     """
     Graf izomorficzny z LHS, ale bez jednej krawędzi E.
@@ -83,6 +85,7 @@ def create_missing_edge_graph():
         g.remove_edge(e_edges[0])
     return g
 
+
 def create_wrong_label_graph():
     """
     Graf izomorficzny z LHS, ale zmienia etykietę jednej krawędzi.
@@ -91,6 +94,7 @@ def create_wrong_label_graph():
     if g.hyperedges:
         g.hyperedges[0].hypertag = "F"
     return g
+
 
 def create_wrong_coordinates_graph():
     """
@@ -101,6 +105,7 @@ def create_wrong_coordinates_graph():
     g.nodes[0].y += 0.5
 
     return g
+
 
 def create_all_test_graphs():
     """
@@ -118,10 +123,13 @@ def create_all_test_graphs():
         create_missing_vertex_graph(),
         create_missing_edge_graph(),
         create_wrong_label_graph(),
-        create_wrong_coordinates_graph()
+        create_wrong_coordinates_graph(),
     ]
 
-def draw_graph_before_after(graph: Graph, production: Production, output_dir: str, prefix: str = "p12"):
+
+def draw_graph_before_after(
+    graph: Graph, production: Production, output_dir: str, prefix: str = "p12"
+):
     """
     Rysuje graf przed i po zastosowaniu produkcji.
     Zapisuje dwa obrazy do output_dir:
@@ -145,8 +153,8 @@ def draw_graph_before_after(graph: Graph, production: Production, output_dir: st
     draw(graph_after, after_path)
     print(f"Saved after-application graph: {after_path}")
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     out_dir = "../productions/visualizations/p12_visualizations"
     graphs = create_all_test_graphs()
     prod = P12()

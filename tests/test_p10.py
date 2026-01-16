@@ -9,7 +9,9 @@ VIS_DIR = "visualizations/p10_visualizations"
 os.makedirs(VIS_DIR, exist_ok=True)
 
 
-def create_hexagon_with_edges(shift_x=0, shift_y=0, radius=10, label_prefix="", s_R=1, e_R=0):
+def create_hexagon_with_edges(
+    shift_x=0, shift_y=0, radius=10, label_prefix="", s_R=1, e_R=0
+):
     """
     Tworzy heksagon wraz z krawędziami brzegowymi.
 
@@ -43,7 +45,6 @@ def create_hexagon_with_edges(shift_x=0, shift_y=0, radius=10, label_prefix="", 
 
 
 class TestP10(unittest.TestCase):
-
     def viz(self, graph, step_name):
         test_method_name = self._testMethodName
         filename = f"{VIS_DIR}/{test_method_name}_{step_name}.png"
@@ -136,8 +137,10 @@ class TestP10(unittest.TestCase):
         g = create_hexagon_with_edges(shift_x=-15, label_prefix="A_", s_R=1, e_R=0)
         g_right = create_hexagon_with_edges(shift_x=15, label_prefix="B_", s_R=0, e_R=0)
 
-        for n in g_right.nodes: g.add_node(n)
-        for e in g_right.hyperedges: g.add_edge(e)
+        for n in g_right.nodes:
+            g.add_node(n)
+        for e in g_right.hyperedges:
+            g.add_edge(e)
 
         self.viz(g, "before")
 
@@ -147,12 +150,16 @@ class TestP10(unittest.TestCase):
         self.viz(g, "after")
 
         # Krawędzie A powinny zmienić się na 1
-        edges_A = [e for e in g.hyperedges if e.hypertag == "E" and "A_" in e.nodes[0].label]
+        edges_A = [
+            e for e in g.hyperedges if e.hypertag == "E" and "A_" in e.nodes[0].label
+        ]
         for e in edges_A:
             self.assertEqual(e.R, 1, "Krawędzie heksagonu A powinny zostać oznaczone")
 
         # Krawędzie B powinny pozostać 0
-        edges_B = [e for e in g.hyperedges if e.hypertag == "E" and "B_" in e.nodes[0].label]
+        edges_B = [
+            e for e in g.hyperedges if e.hypertag == "E" and "B_" in e.nodes[0].label
+        ]
         for e in edges_B:
             self.assertEqual(e.R, 0, "Krawędzie heksagonu B nie powinny być ruszane")
 
@@ -203,13 +210,15 @@ class TestP10(unittest.TestCase):
         self.assertFalse(prod.can_apply(g))
 
         # Próba aplikacji powinna nie wprowadzić zmian (lub zwrócić błąd/0)
-        res = g.apply(prod)
+        g.apply(prod)
         self.viz(g, "after")
 
         # Sprawdzamy, czy graf pozostał nienaruszony (krawędzie nadal mają R=0)
         remaining_edges = [e for e in g.hyperedges if e.hypertag == "E"]
         for e in remaining_edges:
-            self.assertEqual(e.R, 0, "Produkcja nie powinna zmieniać uszkodzonego grafu")
+            self.assertEqual(
+                e.R, 0, "Produkcja nie powinna zmieniać uszkodzonego grafu"
+            )
 
     def test_disjoint_edge_topology(self):
         """
@@ -273,15 +282,19 @@ class TestP10(unittest.TestCase):
             if edge.hypertag == "E":
                 self.assertEqual(edge.R, 1, "R powinno być zmienione na 1")
                 # Sprawdzamy czy B zostało zachowane
-                expected_B = 0 if (i % 2 == 0) else 1
+                0 if (i % 2 == 0) else 1
                 # Uwaga: kolejność w hyperedges może być inna niż przy tworzeniu,
                 # więc lepiej sprawdzać konkretne instancje lub logikę opartą na węzłach.
                 # W tym prostym przypadku (jedna operacja) kolejność zazwyczaj się zachowuje,
                 # ale bezpieczniej byłoby to zrobić tak:
 
         # Weryfikacja bardziej odporna na kolejność:
-        cnt_b0 = sum(1 for e in g.hyperedges if e.hypertag == "E" and e.B == 0 and e.R == 1)
-        cnt_b1 = sum(1 for e in g.hyperedges if e.hypertag == "E" and e.B == 1 and e.R == 1)
+        cnt_b0 = sum(
+            1 for e in g.hyperedges if e.hypertag == "E" and e.B == 0 and e.R == 1
+        )
+        cnt_b1 = sum(
+            1 for e in g.hyperedges if e.hypertag == "E" and e.B == 1 and e.R == 1
+        )
 
         self.assertEqual(cnt_b0, 3, "Powinny być 3 krawędzie z B=0")
         self.assertEqual(cnt_b1, 3, "Powinny być 3 krawędzie z B=1")
@@ -343,6 +356,7 @@ class TestP10(unittest.TestCase):
             self.assertEqual(res, 0)
         except Exception as e:
             self.fail(f"Aplikacja na pustym grafie rzuciła wyjątek: {e}")
+
 
 if __name__ == "__main__":
     unittest.main()

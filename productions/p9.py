@@ -46,10 +46,14 @@ class P9(Production):
         for edge in matched.hyperedges:
             if edge.hypertag == "S" and edge.R == 0:
                 # To jest nasza krawędź S, którą zmieniamy -> R=1
-                result.add_edge(HyperEdge(edge.nodes, "S", edge.boundary, R=1, B=edge.B))
+                result.add_edge(
+                    HyperEdge(edge.nodes, "S", edge.boundary, R=1, B=edge.B)
+                )
             else:
                 # Krawędzie E (i ewentualne inne) przepisujemy bez zmian
-                result.add_edge(HyperEdge(edge.nodes, edge.hypertag, edge.boundary, edge.R, edge.B))
+                result.add_edge(
+                    HyperEdge(edge.nodes, edge.hypertag, edge.boundary, edge.R, edge.B)
+                )
 
         return result
 

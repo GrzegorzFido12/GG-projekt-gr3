@@ -70,7 +70,9 @@ class P8(Production):
                     neighbors_u = set()
                     for edge in graph.hyperedges:
                         if edge.hypertag == "E" and u in edge.nodes:
-                            other = edge.nodes[1] if edge.nodes[0] == u else edge.nodes[0]
+                            other = (
+                                edge.nodes[1] if edge.nodes[0] == u else edge.nodes[0]
+                            )
                             neighbors_u.add(other)
 
                     # Sprawdź czy któryś z sąsiadów jest odpowiednim węzłem wiszącym
@@ -85,7 +87,11 @@ class P8(Production):
 
                         is_connected_to_v = False
                         for edge in graph.hyperedges:
-                            if edge.hypertag == "E" and h_cand in edge.nodes and v in edge.nodes:
+                            if (
+                                edge.hypertag == "E"
+                                and h_cand in edge.nodes
+                                and v in edge.nodes
+                            ):
                                 is_connected_to_v = True
                                 break
 
@@ -131,14 +137,17 @@ class P8(Production):
 
             found_h = None
             for n in matched.nodes:
-                if n in corners: continue
+                if n in corners:
+                    continue
 
                 connected_u = False
                 connected_v = False
                 for e in matched.hyperedges:
                     if e.hypertag == "E" and n in e.nodes:
-                        if u in e.nodes: connected_u = True
-                        if v in e.nodes: connected_v = True
+                        if u in e.nodes:
+                            connected_u = True
+                        if v in e.nodes:
+                            connected_v = True
 
                 if connected_u and connected_v:
                     found_h = n
@@ -174,8 +183,12 @@ class P8(Production):
                     b_val_hv = e.B
                     break
 
-            result.add_edge(HyperEdge((u, h), "E", boundary=(b_val_uh == 1), R=0, B=b_val_uh))
-            result.add_edge(HyperEdge((h, v), "E", boundary=(b_val_hv == 1), R=0, B=b_val_hv))
+            result.add_edge(
+                HyperEdge((u, h), "E", boundary=(b_val_uh == 1), R=0, B=b_val_uh)
+            )
+            result.add_edge(
+                HyperEdge((h, v), "E", boundary=(b_val_hv == 1), R=0, B=b_val_hv)
+            )
 
             result.add_edge(HyperEdge((center, h), "E", boundary=False, R=0, B=0))
 

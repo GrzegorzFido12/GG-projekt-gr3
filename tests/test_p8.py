@@ -1,7 +1,6 @@
 import math
 import os
 import unittest
-import inspect
 from productions.p8 import P8
 from graph_model import Graph, Node, HyperEdge
 from visualization import draw
@@ -11,7 +10,9 @@ VIS_DIR = "visualizations/p8"
 os.makedirs(VIS_DIR, exist_ok=True)
 
 
-def create_broken_pentagon(shift_x=0, shift_y=0, radius=10, label_prefix="", R=1, broken=True):
+def create_broken_pentagon(
+    shift_x=0, shift_y=0, radius=10, label_prefix="", R=1, broken=True
+):
     """
     Tworzy graf zawierający pięciokąt.
 
@@ -63,7 +64,6 @@ def create_broken_pentagon(shift_x=0, shift_y=0, radius=10, label_prefix="", R=1
 
 
 class TestP8(unittest.TestCase):
-
     def viz(self, graph, step_name):
         """Pomocnicza funkcja do wizualizacji kroków testu"""
         test_method_name = self._testMethodName
@@ -95,7 +95,9 @@ class TestP8(unittest.TestCase):
         g = create_broken_pentagon()
 
         # Usuwamy 'złamanie' na jednym boku (h0)
-        edges_to_remove = [e for e in g.hyperedges if any(n.label == "h0" for n in e.nodes)]
+        edges_to_remove = [
+            e for e in g.hyperedges if any(n.label == "h0" for n in e.nodes)
+        ]
         for e in edges_to_remove:
             g.remove_edge(e)
 
@@ -192,11 +194,10 @@ class TestP8(unittest.TestCase):
         """
         g = Graph()
         # Definiujemy ręcznie "krzywe" wierzchołki
-        coords = [
-            (0, 10), (8, 5), (5, -8), (-5, -8), (-8, 5)
-        ]
+        coords = [(0, 10), (8, 5), (5, -8), (-5, -8), (-8, 5)]
         corners = [Node(x, y, f"v{i}") for i, (x, y) in enumerate(coords)]
-        for n in corners: g.add_node(n)
+        for n in corners:
+            g.add_node(n)
 
         hanging = []
         for i in range(5):
@@ -234,23 +235,32 @@ class TestP8(unittest.TestCase):
         Wynik: Tylko lewy powinien się podzielić.
         """
         # Tworzymy lewy pentagon (gotowy)
-        g_left = create_broken_pentagon(shift_x=-15, label_prefix="L_", R=1, broken=True)
+        g_left = create_broken_pentagon(
+            shift_x=-15, label_prefix="L_", R=1, broken=True
+        )
 
         # Tworzymy prawy pentagon (niegotowy - broken=False tworzy ciągłe krawędzie)
         # Uwaga: create_broken_pentagon z broken=False tworzy pentagon bez węzłów wiszących.
         # Żeby test był ciekawszy, dodajmy mu 4 węzły wiszące ręcznie, a jeden zostawmy ciągły.
         # Ale najprościej użyć broken=True i "naprawić" jeden bok.
-        g_right = create_broken_pentagon(shift_x=15, label_prefix="R_", R=1, broken=True)
+        g_right = create_broken_pentagon(
+            shift_x=15, label_prefix="R_", R=1, broken=True
+        )
 
         # Łączymy grafy
-        for n in g_left.nodes: g_right.add_node(n)
-        for e in g_left.hyperedges: g_right.add_edge(e)
+        for n in g_left.nodes:
+            g_right.add_node(n)
+        for e in g_left.hyperedges:
+            g_right.add_edge(e)
         g = g_right  # teraz g zawiera oba
 
         # Psujemy jeden bok w prawym pentagonie (R_)
         # Usuwamy h0 i zastępujemy krawędzią v0-v1
-        edges_to_remove = [e for e in g.hyperedges if any(n.label == "R_h0" for n in e.nodes)]
-        for e in edges_to_remove: g.remove_edge(e)
+        edges_to_remove = [
+            e for e in g.hyperedges if any(n.label == "R_h0" for n in e.nodes)
+        ]
+        for e in edges_to_remove:
+            g.remove_edge(e)
         g.remove_node(g.get_node("R_h0"))
 
         r_v0 = g.get_node("R_v0")
@@ -272,11 +282,19 @@ class TestP8(unittest.TestCase):
 
         # Weryfikacja:
         # Lewy pentagon (L_P) powinien zniknąć (zastąpiony przez Q)
-        left_p = [e for e in g.hyperedges if e.hypertag == "P" and any("L_" in n.label for n in e.nodes)]
+        left_p = [
+            e
+            for e in g.hyperedges
+            if e.hypertag == "P" and any("L_" in n.label for n in e.nodes)
+        ]
         self.assertEqual(len(left_p), 0)
 
         # Prawy pentagon (R_P) powinien zostać nienaruszony
-        right_p = [e for e in g.hyperedges if e.hypertag == "P" and any("R_" in n.label for n in e.nodes)]
+        right_p = [
+            e
+            for e in g.hyperedges
+            if e.hypertag == "P" and any("R_" in n.label for n in e.nodes)
+        ]
         self.assertEqual(len(right_p), 1)
 
 

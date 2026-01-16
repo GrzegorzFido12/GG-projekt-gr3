@@ -1,5 +1,4 @@
 import os
-import uuid
 from graph_model import Graph, Node, HyperEdge
 from productions.p3 import P3
 

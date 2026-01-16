@@ -450,7 +450,7 @@ if __name__ == "__main__":
         print(f"\n{name}")
         try:
             test_func()
-            print(f"PASSED")
+            print("PASSED")
             passed += 1
         except AssertionError as e:
             print(f"FAILED: {e}")

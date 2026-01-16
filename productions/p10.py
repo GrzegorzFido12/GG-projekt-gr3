@@ -36,7 +36,9 @@ class P10(Production):
             elif edge.hypertag == "E":
                 # Krawędzie E oznaczamy do podziału (R=1)
                 # Zachowujemy atrybut B (Boundary) bez zmian
-                result.add_edge(HyperEdge(edge.nodes, "E", edge.boundary, R=1, B=edge.B))
+                result.add_edge(
+                    HyperEdge(edge.nodes, "E", edge.boundary, R=1, B=edge.B)
+                )
 
         return result
 
@@ -49,7 +51,8 @@ class P10(Production):
 
             # KROK 1 (STRICT): Znajdź WSZYSTKIE krawędzie E należące do tego heksagonu
             enclosed_edges = [
-                e for e in graph.hyperedges
+                e
+                for e in graph.hyperedges
                 if e.hypertag == "E" and set(e.nodes).issubset(s_nodes_set)
             ]
 
@@ -71,7 +74,8 @@ class P10(Production):
             s_nodes_set = set(s_edge.nodes)
 
             enclosed_edges = [
-                e for e in graph.hyperedges
+                e
+                for e in graph.hyperedges
                 if e.hypertag == "E" and set(e.nodes).issubset(s_nodes_set)
             ]
 

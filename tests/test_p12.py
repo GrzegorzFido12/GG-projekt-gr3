@@ -2,9 +2,11 @@ from graph_model import Node
 from productions.p12 import P12
 import unittest
 
+
 def make_septagon():
     prod = P12()
     return prod.get_left_side()
+
 
 def make_big_graph_with_septagon_subgraph():
     g = make_septagon()
@@ -14,11 +16,10 @@ def make_big_graph_with_septagon_subgraph():
         g.add_node(n)
     return g
 
-class TestP12Isomorphism(unittest.TestCase):
 
+class TestP12Isomorphism(unittest.TestCase):
     def setUp(self):
         self.prod = P12()
-    
 
     def test_can_apply_to_isomorphic_graph(self):
         """
@@ -29,8 +30,8 @@ class TestP12Isomorphism(unittest.TestCase):
 
     def test_missing_vertex_breaks_isomorphism(self):
         """
-        czy zmiana grafu do którego stosujemy produkcję poprzez
-usunięcie losowego wierzchołka nie psuje tego mechanizmu
+                czy zmiana grafu do którego stosujemy produkcję poprzez
+        usunięcie losowego wierzchołka nie psuje tego mechanizmu
         """
         g = make_septagon()
 
@@ -38,7 +39,7 @@ usunięcie losowego wierzchołka nie psuje tego mechanizmu
         g.remove_node(node)
 
         self.assertFalse(self.prod.can_apply(g))
-        
+
     def test_missing_edge_breaks_isomorphism(self):
         """
         czy zmiana grafu do którego stosujemy produkcję poprzez usunięcie losowej krawędzi nie psuje tego mechanizmu
@@ -52,9 +53,9 @@ usunięcie losowego wierzchołka nie psuje tego mechanizmu
 
     def test_relabeling_vertex_breaks_isomorphism(self):
         """
-        czy zmiana grafu do którego stosujemy produkcję poprzez
-zmianę etykiety losowego wierzchołka nie psuje tego
-mechanizmu
+                czy zmiana grafu do którego stosujemy produkcję poprzez
+        zmianę etykiety losowego wierzchołka nie psuje tego
+        mechanizmu
         """
         g = make_septagon()
 
@@ -65,8 +66,8 @@ mechanizmu
 
     def test_septagon_as_subgraph_of_larger_graph(self):
         """
-        czy umieszczenie grafu izomorficznego z grafem lewej strony
-jako podgrafu większego grafu nie psuje tego mechanizmu
+                czy umieszczenie grafu izomorficznego z grafem lewej strony
+        jako podgrafu większego grafu nie psuje tego mechanizmu
         """
         g = make_big_graph_with_septagon_subgraph()
 
@@ -74,9 +75,9 @@ jako podgrafu większego grafu nie psuje tego mechanizmu
 
     def test_apply_does_not_damage_supergraph(self):
         """
-        czy jeśli graf izomorficzny z grafem lewej strony jest
-umieszczony jako podgraf większego grafu, to czy produkcja nie
-„uszkadza” większego grafu
+                czy jeśli graf izomorficzny z grafem lewej strony jest
+        umieszczony jako podgraf większego grafu, to czy produkcja nie
+        „uszkadza” większego grafu
         """
         g = make_big_graph_with_septagon_subgraph()
 
@@ -95,9 +96,9 @@ umieszczony jako podgraf większego grafu, to czy produkcja nie
 
     def test_embedding_transformation(self):
         """
-        czy jeśli graf izomorficzny z grafem lewej strony jest
-umieszczony w jako podgraf większego grafu, to czy produkcja
-dobrze transformuje osadzenie
+                czy jeśli graf izomorficzny z grafem lewej strony jest
+        umieszczony w jako podgraf większego grafu, to czy produkcja
+        dobrze transformuje osadzenie
         """
         g = make_septagon()
 
@@ -114,8 +115,8 @@ dobrze transformuje osadzenie
 
     def test_rhs_graph_structure(self):
         """
-        czy graf izomorficzny z grafem prawej strony jest poprawny (czy
-ma wszystkie wierzchołki, krawędzie i poprawne etykiety)
+                czy graf izomorficzny z grafem prawej strony jest poprawny (czy
+        ma wszystkie wierzchołki, krawędzie i poprawne etykiety)
         """
         g = make_septagon()
 
@@ -132,25 +133,16 @@ ma wszystkie wierzchołki, krawędzie i poprawne etykiety)
         self.assertEqual(len(e_edges), 7)
         for e in e_edges:
             self.assertEqual(len(e.nodes), 2)
-        
+
     def test_vertex_coordinates_preserved(self):
         """czy współrzędne nowych wierzchołków w tym grafie są
-poprawne"""
+        poprawne"""
         g = make_septagon()
 
-        coords_before = {
-            n.label: (n.x, n.y) for n in g.nodes
-        }
+        coords_before = {n.label: (n.x, n.y) for n in g.nodes}
 
         production = P12()
         g.apply(production)
 
         for n in g.nodes:
             self.assertEqual(coords_before[n.label], (n.x, n.y))
-
-
-
-
-
-
-

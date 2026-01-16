@@ -51,7 +51,6 @@ def create_hexagon(shift_x=0, shift_y=0, radius=10, label_prefix="", R=0):
 
 
 class TestP9(unittest.TestCase):
-
     def viz(self, graph, step_name):
         """Pomocnicza funkcja do wizualizacji"""
         test_method_name = self._testMethodName
@@ -65,7 +64,9 @@ class TestP9(unittest.TestCase):
 
         prod = P9()
         # Teraz can_apply sprawdza również obecność krawędzi E
-        self.assertTrue(prod.can_apply(g), "Produkcja powinna zaakceptować kompletny heksagon")
+        self.assertTrue(
+            prod.can_apply(g), "Produkcja powinna zaakceptować kompletny heksagon"
+        )
 
         result = g.apply(prod)
         self.viz(g, "after")
@@ -90,7 +91,10 @@ class TestP9(unittest.TestCase):
         self.viz(g, "before")
 
         prod = P9()
-        self.assertFalse(prod.can_apply(g), "Produkcja nie powinna aplikować się bez krawędzi obwodowych E")
+        self.assertFalse(
+            prod.can_apply(g),
+            "Produkcja nie powinna aplikować się bez krawędzi obwodowych E",
+        )
 
         result = g.apply(prod)
         self.viz(g, "after")
@@ -135,8 +139,10 @@ class TestP9(unittest.TestCase):
         g_right = create_hexagon(shift_x=15, label_prefix="R_", R=1)
 
         # Scalanie grafów
-        for n in g_right.nodes: g.add_node(n)
-        for e in g_right.hyperedges: g.add_edge(e)
+        for n in g_right.nodes:
+            g.add_node(n)
+        for e in g_right.hyperedges:
+            g.add_edge(e)
 
         self.viz(g, "before")
 
@@ -148,8 +154,16 @@ class TestP9(unittest.TestCase):
 
         # Weryfikacja
         # POPRAWKA: Dodano warunek 'e.hypertag == "S"', aby nie pobrało krawędzi "E" (która ma R=0)
-        left_s = next(e for e in g.hyperedges if e.hypertag == "S" and "L_v0" in [n.label for n in e.nodes])
-        right_s = next(e for e in g.hyperedges if e.hypertag == "S" and "R_v0" in [n.label for n in e.nodes])
+        left_s = next(
+            e
+            for e in g.hyperedges
+            if e.hypertag == "S" and "L_v0" in [n.label for n in e.nodes]
+        )
+        right_s = next(
+            e
+            for e in g.hyperedges
+            if e.hypertag == "S" and "R_v0" in [n.label for n in e.nodes]
+        )
 
         self.assertEqual(left_s.R, 1, "Lewy powinien zostać oznaczony (zmieniony na 1)")
         self.assertEqual(right_s.R, 1, "Prawy powinien pozostać 1")

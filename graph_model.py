@@ -68,13 +68,13 @@ class Graph:
 
     def add_edge(self, edge: HyperEdge) -> None:
         self._hyperedges.add(edge)
-        
+
         avg_x = sum(n.x for n in edge.nodes) / len(edge.nodes)
         avg_y = sum(n.y for n in edge.nodes) / len(edge.nodes)
-        
+
         hyper_node = Node(avg_x, avg_y, edge.label, hyperref=edge)
         self._graph.add_node(edge.label, node=hyper_node, is_hyper=True)
-        
+
         for node in edge.nodes:
             if node.label not in self._graph:
                 self.add_node(node)
@@ -118,36 +118,40 @@ class Graph:
     def apply(self, production) -> int:
         if not production.can_apply(self):
             return 0
-        
+
         matched_edge = production.find_match(self)
         if matched_edge is None:
             return 0
-        
+
         matched_subgraph = Graph()
-        
+
         for node in matched_edge.nodes:
             matched_subgraph.add_node(node)
-        
+
         for edge in self.hyperedges:
             if all(n in matched_edge.nodes for n in edge.nodes):
-                matched_subgraph.add_edge(HyperEdge(edge.nodes, edge.hypertag, edge.boundary, edge.R, edge.B))
-        
+                matched_subgraph.add_edge(
+                    HyperEdge(edge.nodes, edge.hypertag, edge.boundary, edge.R, edge.B)
+                )
+
         edges_to_remove = []
         for edge in matched_subgraph.hyperedges:
             for main_edge in self.hyperedges:
-                if (main_edge.hypertag == edge.hypertag and 
-                    set(main_edge.nodes) == set(edge.nodes) and
-                    main_edge.R == edge.R and
-                    main_edge.B == edge.B):
+                if (
+                    main_edge.hypertag == edge.hypertag
+                    and set(main_edge.nodes) == set(edge.nodes)
+                    and main_edge.R == edge.R
+                    and main_edge.B == edge.B
+                ):
                     edges_to_remove.append(main_edge)
                     break
-        
+
         for edge in edges_to_remove:
             self.remove_edge(edge)
-        
+
         right_graph = production.get_right_side(matched_subgraph, 0)
-        
+
         for edge in right_graph.hyperedges:
             self.add_edge(edge)
-        
+
         return 1
