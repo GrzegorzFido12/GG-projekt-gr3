@@ -16,7 +16,6 @@ Produkcja:
 - **nie usuwa ani nie dodaje wierzchołków**,
 - modyfikuje wyłącznie atrybut `R` hiperkrawędzi `T`.
 
-
 ## 2. Kontekst: model grafu
 
 ### 2.1 Klasa `Node`
@@ -77,12 +76,14 @@ Metoda `apply`:
 @Production.register
 class P12(Production):
 ```
+
 Produkcja jest automatycznie rejestrowana
 w globalnym rejestrze produkcji.
 
 ## 4. Metody produkcji
 
 ### 4.1 can_apply(self, graph)
+
 Sprawdza, czy w grafie istnieje podgraf izomorficzny
 z lewą stroną produkcji.
 
@@ -93,8 +94,10 @@ Zwraca:
 - False – w przeciwnym przypadku
 
 ### 4.2 find_match(self, graph)
+
 Najważniejsza metoda produkcji – pełne sprawdzenie izomorfizmu.
 Warunki dopasowania:
+
 - Istnieje hiperkrawędź:
 
 - hypertag == "T"
@@ -119,6 +122,7 @@ Jeśli wszystkie warunki są spełnione → graf jest izomorficzny
 z lewą stroną produkcji.
 
 ### 4.3 get_left_side(self)
+
 Buduje abstrakcyjny graf lewej strony produkcji.
 Struktura:
 
@@ -135,6 +139,7 @@ Graf ten:
 - wykorzystywany jest w testach.
 
 ### 4.4 get_right_side(self, matched, level)
+
 Tworzy graf prawej strony produkcji.
 
 Działanie:
@@ -150,6 +155,7 @@ Działanie:
 - nie zmienia osadzenia grafu.
 
 ## 5. Funkcje pomocnicze do testów
+
 make_septagon()
 Tworzy graf izomorficzny z lewą stroną produkcji.
 
@@ -163,28 +169,28 @@ dodatkowe wierzchołki niezwiązane z produkcją
 Służy do testowania lokalności produkcji.
 
 ## 6. Testy jednostkowe (unittest)
+
 Klasa testowa:
 
 python
 Skopiuj kod
 class TestP12Isomorphism(unittest.TestCase):
+
 ### 6.1 Testy izomorfizmu
 
-| Test | Sprawdzana własność     |
-| ---------- |-------------------------|
-| test_can_apply_to_isomorphic_graph | 	poprawny graf          |
-| test_missing_vertex_breaks_isomorphism | 	brak wierzchołka       |
-| test_missing_edge_breaks_isomorphism	| brak krawędzi           |
-| test_relabeling_vertex_breaks_isomorphism	| etykiety nie wpływają   |
-| test_septagon_as_subgraph_of_larger_graph	| poprawność dla podgrafu |
+| Test                                      | Sprawdzana własność     |
+| ----------------------------------------- | ----------------------- |
+| test_can_apply_to_isomorphic_graph        | poprawny graf           |
+| test_missing_vertex_breaks_isomorphism    | brak wierzchołka        |
+| test_missing_edge_breaks_isomorphism      | brak krawędzi           |
+| test_relabeling_vertex_breaks_isomorphism | etykiety nie wpływają   |
+| test_septagon_as_subgraph_of_larger_graph | poprawność dla podgrafu |
 
 ### 6.2 Testy poprawności wykonania produkcji
 
-| Test	| Sprawdzana własność | 
-| ---------- | -------------------- |
+| Test                                  | Sprawdzana własność              |
+| ------------------------------------- | -------------------------------- |
 | test_apply_does_not_damage_supergraph | brak uszkodzeń grafu nadrzędnego |
-| test_embedding_transformation	| R zmienia się z 0 → 1 |
-| test_rhs_graph_structure	| poprawna struktura RHS |
-| test_vertex_coordinates_preserved	| zachowanie współrzędnych |
-
-
+| test_embedding_transformation         | R zmienia się z 0 → 1            |
+| test_rhs_graph_structure              | poprawna struktura RHS           |
+| test_vertex_coordinates_preserved     | zachowanie współrzędnych         |
