@@ -1,92 +1,79 @@
+
 from production_base import Production
-from graph_model import Graph, Node, HyperEdge
+from graph_model import Graph, HyperEdge
 
 
 @Production.register
 class P1(Production):
     """
-    Production P1 - set boundary edges r=1.
+    P1: If there exists a quadrilateral element Q with R=1,
+        then mark its boundary edges E (belonging to this Q) by setting R=1.
     """
 
     def get_left_side(self) -> Graph:
-        """
-        Creates the left side of the production.
+        return Graph()
 
-        Returns:
-            Graph with 4 nodes in a square, connected by E edges,
-            with Q hyperedge in the middle.
-        """
-        g = Graph()
+    def can_apply(self, graph: Graph) -> bool:
+        for q in graph.hyperedges:
+            if q.hypertag != "Q" or q.R != 1 or len(q.nodes) != 4:
+                continue
 
-        n1 = Node(0, 0, "n1")
-        n2 = Node(1, 0, "n2")
-        n3 = Node(1, 1, "n3")
-        n4 = Node(0, 1, "n4")
+            for e in graph.hyperedges:
+                if (
+                    e.hypertag == "E"
+                    and e.R == 0
+                    and all(n in q.nodes for n in e.nodes)
+                ):
+                    return True
 
-        g.add_node(n1)
-        g.add_node(n2)
-        g.add_node(n3)
-        g.add_node(n4)
+        return False
 
-        g.add_edge(HyperEdge((n1, n2), "E"))
-        g.add_edge(HyperEdge((n2, n3), "E"))
-        g.add_edge(HyperEdge((n3, n4), "E"))
-        g.add_edge(HyperEdge((n4, n1), "E"))
+    def find_match(self, graph: Graph):
+        for q in graph.hyperedges:
+            if q.hypertag != "Q" or q.R != 1 or len(q.nodes) != 4:
+                continue
 
-        g.add_edge(HyperEdge((n1, n2, n3, n4), "Q"))
+            for e in graph.hyperedges:
+                if (
+                    e.hypertag == "E"
+                    and e.R == 0
+                    and all(n in q.nodes for n in e.nodes)
+                ):
+                    return q
 
-        return g
+        return None
 
     def get_right_side(self, matched: Graph, level: int) -> Graph:
         """
-        Creates the right side of the production.
-
-        All E hyperedges get r=1.
-        Q hyperedge is preserved.
+        Marks only those E-edges whose both endpoints are among the nodes of the matched Q (R=1).
+        Everything else is preserved.
         """
-        g = Graph()
+        result = Graph()
 
-        # Add all nodes unchanged
         for node in matched.nodes:
-            g.add_node(node)
+            result.add_node(node)
 
-        # Rewrite hyperedges
-        for edge in matched.hyperedges:
-            if edge.hypertag == "E":
-                g.add_edge(
-                    HyperEdge(edge.nodes, "E", r=1, b=edge.b),
-                    check_nodes=False
+        q = None
+        for he in matched.hyperedges:
+            if he.hypertag == "Q" and he.R == 1 and len(he.nodes) == 4:
+                q = he
+                break
+
+        if q is None:
+            for he in matched.hyperedges:
+                result.add_edge(
+                    HyperEdge(he.nodes, he.hypertag, he.boundary, he.R, he.B)
                 )
-            elif edge.hypertag == "Q":
-                g.add_edge(
-                    HyperEdge(edge.nodes, "Q", r=edge.r, b=edge.b),
-                    check_nodes=False
+            return result
+
+        q_nodes = set(q.nodes)
+
+        for he in matched.hyperedges:
+            if he.hypertag == "E" and all(n in q_nodes for n in he.nodes):
+                result.add_edge(HyperEdge(he.nodes, "E", he.boundary, R=1, B=he.B))
+            else:
+                result.add_edge(
+                    HyperEdge(he.nodes, he.hypertag, he.boundary, he.R, he.B)
                 )
 
-        return g
-
-    def can_apply(self, matched_graph: Graph) -> bool:
-        """
-        Production P1 can be applied if at least one E hyperedge
-        is not yet marked with r = 1.
-        """
-        for edge in matched_graph.hyperedges:
-            if edge.hypertag == "E" and edge.R != 1:
-                return True
-        return False
-
-    def find_match(self, graph: Graph) -> list[Graph]:
-        """
-        Finds all subgraphs to which production P1 can be applied.
-        """
-
-        matches = []
-
-        pattern = self.get_left_side()
-        candidate_subgraphs = graph.find_subgraphs_isomorphic_to(pattern)
-
-        for subgraph in candidate_subgraphs:
-            if self.can_apply(subgraph):
-                matches.append(subgraph)
-
-        return matches[0]
+        return result

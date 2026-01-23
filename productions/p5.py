@@ -1,130 +1,119 @@
-from graph_model import Graph, Node, HyperEdge
+
 from production_base import Production
+from graph_model import Graph, Node, HyperEdge
 
 
 @Production.register
 class P5(Production):
-    """Production P5 - breaks quadrilateral into 4 smaller quadrilaterals."""
+    """
+    P5: Splits Q (R=1) into 4 smaller quads if ALL its 4 sides are already broken
+        into two E-edges with R=0 via a midpoint node.
+
+    IMPORTANT: Graph.apply() passes to get_right_side() only a subgraph built from Q corners,
+               so we MUST compute and store midpoints context while we still have the full graph.
+    """
+
+    def __init__(self):
+        self._ctx = None
 
     def get_left_side(self) -> Graph:
-        """Creates the left side pattern."""
-        g = Graph()
+        return Graph()
 
-        # Corner nodes
-        n1 = Node(0, 0, "n1")
-        n2 = Node(2, 0, "n2")
-        n3 = Node(2, 2, "n3")
-        n4 = Node(0, 2, "n4")
+    @staticmethod
+    def _find_midpoint_node(full_graph: Graph, a: Node, b: Node):
+        """
+        Find node m such that:
+          E(a,m) exists with R=0
+          E(m,b) exists with R=0
+        """
+        for e1 in full_graph.hyperedges:
+            if e1.hypertag != "E" or e1.R != 0 or len(e1.nodes) != 2:
+                continue
+            if a not in e1.nodes:
+                continue
 
-        # Midpoint nodes
-        n5 = Node(1, 0, "n5")
-        n6 = Node(2, 1, "n6")
-        n7 = Node(1, 2, "n7")
-        n8 = Node(0, 1, "n8")
+            m = e1.nodes[0] if e1.nodes[1] == a else e1.nodes[1]
+            if m == b:
+                continue
 
-        for node in [n1, n2, n3, n4, n5, n6, n7, n8]:
-            g.add_node(node)
+            for e2 in full_graph.hyperedges:
+                if e2.hypertag != "E" or e2.R != 0 or len(e2.nodes) != 2:
+                    continue
+                if m in e2.nodes and b in e2.nodes:
+                    return m
 
-        # E hyperedges (all R=0)
-        g.add_edge(HyperEdge((n1, n5), "E", r=0))
-        g.add_edge(HyperEdge((n5, n2), "E", r=0))
-        g.add_edge(HyperEdge((n2, n6), "E", r=0))
-        g.add_edge(HyperEdge((n6, n3), "E", r=0))
-        g.add_edge(HyperEdge((n3, n7), "E", r=0))
-        g.add_edge(HyperEdge((n7, n4), "E", r=0))
-        g.add_edge(HyperEdge((n4, n8), "E", r=0))
-        g.add_edge(HyperEdge((n8, n1), "E", r=0))
+        return None
 
-        # Q hyperedge (R=1)
-        g.add_edge(HyperEdge((n1, n2, n3, n4), "Q", r=1))
+    def _compute_ctx(self, full_graph: Graph):
+        self._ctx = None
 
-        return g
+        for q in full_graph.hyperedges:
+            if q.hypertag != "Q" or q.R != 1 or len(q.nodes) != 4:
+                continue
+
+            corners = list(q.nodes)
+            mids = []
+
+            ok = True
+            for i in range(4):
+                a = corners[i]
+                b = corners[(i + 1) % 4]
+                m = self._find_midpoint_node(full_graph, a, b)
+                if m is None:
+                    ok = False
+                    break
+                mids.append(m)
+
+            if ok:
+                self._ctx = {"q": q, "corners": corners, "mid": mids}
+                return q
+
+        return None
+
+    def can_apply(self, graph: Graph) -> bool:
+        return self._compute_ctx(graph) is not None
+
+    def find_match(self, graph: Graph):
+        return self._compute_ctx(graph)
 
     def get_right_side(self, matched: Graph, level: int) -> Graph:
-        """Creates the right side transformation (conforms to Production interface)."""
-        g = Graph()
-
-        # Retrieve nodes by their pattern labels
-        n1 = matched.get_node("n1")
-        n2 = matched.get_node("n2")
-        n3 = matched.get_node("n3")
-        n4 = matched.get_node("n4")
-        n5 = matched.get_node("n5")
-        n6 = matched.get_node("n6")
-        n7 = matched.get_node("n7")
-        n8 = matched.get_node("n8")
-
-        # Calculate central vertex (centroid of corners)
-        corners = [n1, n2, n3, n4]
-        corner_labels = "_".join(sorted(n.label for n in corners))
-        v_x = sum(n.x for n in corners) / 4
-        v_y = sum(n.y for n in corners) / 4
-        v = Node(v_x, v_y, f"V_{corner_labels}_L{level}")
-
-        # Add all nodes
-        for node in [n1, n2, n3, n4, n5, n6, n7, n8, v]:
-            g.add_node(node)
-
-        # Preserve existing E hyperedges (including boundary flag B)
-        for edge in matched.hyperedges:
-            if edge.hypertag == "E":
-                g.add_edge(
-                    HyperEdge(edge.nodes, "E", R=edge.R, B=edge.B)
-                )
-
-        # New internal E hyperedges: midpoint -> center
-        for mp in [n5, n6, n7, n8]:
-            g.add_edge(
-                HyperEdge((mp, v), "E", R=0, B=0)
-            )
-
-        # New Q hyperedges (always internal)
-        g.add_edge(HyperEdge((n1, n5, v, n8), "Q", R=0, B=0))
-        g.add_edge(HyperEdge((n5, n2, n6, v), "Q", R=0, B=0))
-        g.add_edge(HyperEdge((v, n6, n3, n7), "Q", R=0, B=0))
-        g.add_edge(HyperEdge((n8, v, n7, n4), "Q", R=0, B=0))
-
-        return g
-
-    def can_apply(self, matched_graph: Graph) -> bool:
         """
-        Checks whether the production P5 can be applied to the matched subgraph.
-        Logical equivalent of the former filter_match method.
+        matched contains ONLY corners of Q (and any edges strictly among those corners).
+        We use self._ctx (computed on full graph) to build refinement result.
         """
+        result = Graph()
 
-        # Exactly one Q hyperedge marked for refinement
-        q_edges = [e for e in matched_graph.hyperedges if e.hypertag == "Q"]
-        if len(q_edges) != 1:
-            return False
-        if q_edges[0].r != 1:
-            return False
+        for node in matched.nodes:
+            result.add_node(node)
 
-        # All E hyperedges must be already broken (R = 0)
-        e_edges = [e for e in matched_graph.hyperedges if e.hypertag == "E"]
-        if not e_edges or not all(e.r == 0 for e in e_edges):
-            return False
+        old_q = None
+        for he in matched.hyperedges:
+            if he.hypertag == "Q" and he.R == 1 and len(he.nodes) == 4:
+                old_q = he
+                break
 
-        # Exactly 8 regular nodes (4 corners + 4 midpoints)
-        regular_nodes = [n for n in matched_graph.nodes if n.hyperref is None]
-        if len(regular_nodes) != 8:
-            return False
+        for he in matched.hyperedges:
+            if he == old_q:
+                continue
+            result.add_edge(HyperEdge(he.nodes, he.hypertag, he.boundary, he.R, he.B))
 
-        return True
+        if not self._ctx:
+            return result
 
-    def find_match(self, graph: Graph) -> list[Graph]:
-        """
-        Finds all subgraphs of `graph` to which this production can be applied.
-        """
+        v1, v2, v3, v4 = self._ctx["corners"]
+        m12, m23, m34, m41 = self._ctx["mid"]
 
-        matches = []
+        cx = (v1.x + v2.x + v3.x + v4.x) / 4.0
+        cy = (v1.y + v2.y + v3.y + v4.y) / 4.0
+        c = Node(cx, cy, f"c_{v1.label}_{v2.label}_{v3.label}_{v4.label}")
+        result.add_node(c)
 
-        # Step 1: structural matching using left side pattern
-        pattern = self.get_left_side()
-        candidate_subgraphs = graph.find_subgraphs_isomorphic_to(pattern)
+        for m in (m12, m23, m34, m41):
+            result.add_edge(HyperEdge((c, m), "E", boundary=False, R=0, B=0))
 
-        # Step 2: semantic filtering (R, B, counts, etc.)
-        for subgraph in candidate_subgraphs:
-            if self.can_apply(subgraph):
-                matches.append(subgraph)
+        result.add_edge(HyperEdge((v1, m12, c, m41), "Q", boundary=False, R=0, B=0))
+        result.add_edge(HyperEdge((v2, m23, c, m12), "Q", boundary=False, R=0, B=0))
+        result.add_edge(HyperEdge((v3, m34, c, m23), "Q", boundary=False, R=0, B=0))
+        result.add_edge(HyperEdge((v4, m41, c, m34), "Q", boundary=False, R=0, B=0))
 
-        return matches[0]
+        return result

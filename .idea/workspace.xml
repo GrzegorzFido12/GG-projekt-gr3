@@ -5,15 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4ca52990-a426-42bd-84e5-4b9b29a309b0" name="Changes" comment="test4">
-      <change afterPath="$PROJECT_DIR$/productions/p1.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/productions/p5.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/productions/p6.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/productions/p7.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wywody/gr7/breaking_edges.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wywody/gr7/first_graph.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wywody/gr7/wywod.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/productions/p3.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/dokumentacja_p12.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/dokumentacja_p12.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/productions/p1.py" beforeDir="false" afterPath="$PROJECT_DIR$/productions/p1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/productions/p5.py" beforeDir="false" afterPath="$PROJECT_DIR$/productions/p5.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualization.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wywody/gr7/1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wywody/gr7/2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wywody/gr7/3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wywody/gr7/4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wywody/gr7/5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wywody/gr7/breaking_edges.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wywody/gr7/test.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wywody/gr7/wywod.py" beforeDir="false" afterPath="$PROJECT_DIR$/wywody/gr7/wywod.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,32 +59,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python tests.Python tests in test_p12.py.executor": "Run",
-    "Python.first_graph.executor": "Run",
-    "Python.graph_model.executor": "Run",
-    "Python.p12 (1).executor": "Run",
-    "Python.p12.executor": "Run",
-    "Python.temporary.executor": "Run",
-    "Python.wywod.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "wywod__7",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "C:/Users/emiar/Desktop/MOJE/STUDIA/Nowy folder/GG-projekt-gr3",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python tests.Python tests in test_p12.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python.first_graph.executor&quot;: &quot;Run&quot;,
+    &quot;Python.graph_model.executor&quot;: &quot;Run&quot;,
+    &quot;Python.p12 (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.p12.executor&quot;: &quot;Run&quot;,
+    &quot;Python.temporary.executor&quot;: &quot;Run&quot;,
+    &quot;Python.wywod.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;wywod__7&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/emiar/Desktop/MOJE/STUDIA/Nowy folder/GG-projekt-gr3&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\emiar\Desktop\MOJE\STUDIA\Nowy folder\GG-projekt-gr3" />
@@ -158,8 +162,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.p12 (1)" />
         <item itemvalue="Python.p12" />
+        <item itemvalue="Python.p12 (1)" />
         <item itemvalue="Python tests.Python tests in test_p12.py" />
       </list>
     </recent_temporary>
@@ -191,7 +195,11 @@
       <workItem from="1768046195661" duration="31000" />
       <workItem from="1768946423851" duration="3279000" />
       <workItem from="1768992735619" duration="1166000" />
-      <workItem from="1769028676389" duration="6081000" />
+      <workItem from="1769028676389" duration="6611000" />
+      <workItem from="1769086993901" duration="29000" />
+      <workItem from="1769158748689" duration="1639000" />
+      <workItem from="1769180496680" duration="106000" />
+      <workItem from="1769181178015" duration="1030000" />
     </task>
     <task id="LOCAL-00001" summary="test4">
       <option name="closed" value="true" />
@@ -221,10 +229,10 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/GG_projekt_gr3$first_graph.coverage" NAME="first_graph Coverage Results" MODIFIED="1769028988049" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/wywody/gr7" />
-    <SUITE FILE_PATH="coverage/GG_projekt_gr3$wywod.coverage" NAME="wywod Coverage Results" MODIFIED="1769034564799" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/wywody/gr7" />
+    <SUITE FILE_PATH="coverage/GG_projekt_gr3$wywod.coverage" NAME="wywod Coverage Results" MODIFIED="1769182161671" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/wywody/gr7" />
     <SUITE FILE_PATH="coverage/GG_projekt_gr3$p12__1_.coverage" NAME="p12 (1) Coverage Results" MODIFIED="1767528298790" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/graphs" />
     <SUITE FILE_PATH="coverage/GG_projekt_gr3$.coverage" NAME=" Coverage Results" MODIFIED="1766095211194" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/GG_projekt_gr3$p12.coverage" NAME="p12 Coverage Results" MODIFIED="1766141577586" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/graphs" />
+    <SUITE FILE_PATH="coverage/GG_projekt_gr3$p12.coverage" NAME="p12 Coverage Results" MODIFIED="1769159440821" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/productions" />
     <SUITE FILE_PATH="coverage/GG_projekt_gr3$temporary.coverage" NAME="p12 Coverage Results" MODIFIED="1766096729753" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/productions" />
     <SUITE FILE_PATH="coverage/GG_projekt_gr3$graph_model.coverage" NAME="graph_model Coverage Results" MODIFIED="1769031225158" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
