@@ -1,7 +1,7 @@
 import unittest
 import math
 import os
-from graph_model import Graph, Node, HyperEdge
+from ..graph_model import Graph, Node, HyperEdge
 from productions.p14 import P14
 from visualization import draw
 

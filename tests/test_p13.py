@@ -97,5 +97,18 @@ class TestP13(unittest.TestCase):
         for e in [e for e in g.hyperedges if e.hypertag == "E"]:
             self.assertEqual(e.R, 1)
 
+    def test_p13_incomplete_heptagon(self):
+        g = self.create_heptagon_with_edges(t_r=1, e_r=0)
+        
+        e_edges = [e for e in g.hyperedges if e.hypertag == "E"]
+        for idx in [1, 3, 5]:
+            g.remove_edge(e_edges[idx])
+        draw(g, os.path.join(self.viz_dir, "test_p13_incomplete_before.png"))
+        match = self.production.find_match(g)
+        self.assertIsNone(match)
+        
+        result = g.apply(self.production)
+        self.assertEqual(result, 0)
+
 if __name__ == '__main__':
     unittest.main()
