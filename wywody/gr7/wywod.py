@@ -36,23 +36,31 @@ def main_func():
     draw(g, "img/5.png")
 
     p8 = P8()
+    print(p8.can_apply(g))
     g.apply(p8)
     draw(g, "img/6.png")
 
     p0 = P0()
+    print(p0.can_apply(g))
     g.apply(p0)
-    draw(g, "img/6.png")
-
-    p1 = P1() #tego nikt nie wstawił na gita xD
-    g.apply(p1)
     draw(g, "img/7.png")
 
-    p4 = P4()
-    g.apply(p4)
+    p1 = P1()
+    g.apply(p1)
     draw(g, "img/8.png")
+
+    p3 = P3()
+    while p3.can_apply(g):
+        g.apply(p3)
+    draw(g, "img/9.png")
+
+    p4 = P4()
+    while p4.can_apply(g):
+        g.apply(p4)
+    draw(g, "img/10.png")
 
     p5 = P5() #tego też nie..
     g.apply(p5)
-    draw(g, "img/9.png")
+    draw(g, "img/11.png")
 
 main_func()

@@ -28,7 +28,7 @@ class P8(Production):
         g = Graph()
         # Tworzymy 5 wierzchołków narożnych i 5 wiszących
         corners = [Node(0, 0, f"v{i}") for i in range(5)]
-        hanging = [Node(0, 0, f"h{i}", hanging=True) for i in range(5)]
+        hanging = [Node(0, 0, f"h{i}") for i in range(5)]
 
         for n in corners + hanging:
             g.add_node(n)
@@ -47,61 +47,49 @@ class P8(Production):
 
         return g
 
-    def find_match(self, graph: Graph) -> Optional[HyperEdge]:
-        """
-        Znajduje element P oznaczony do podziału, którego wszystkie krawędzie są podzielone.
-        """
+    def find_match(self, graph: Graph) -> Optional[Graph]:
         for p_edge in graph.hyperedges:
-            # Szukamy hiperkrawędzi P, R=1, 5 wierzchołków
-            if p_edge.hypertag == "P" and p_edge.R == 1 and len(p_edge.nodes) == 5:
-                corners = list(p_edge.nodes)
-                hanging_nodes = []
-                found_all_hanging = True
+            if p_edge.hypertag != "P" or p_edge.R != 1 or len(p_edge.nodes) != 5:
+                continue
 
-                # Sprawdzamy każdy bok pięciokąta
-                for i in range(5):
-                    u = corners[i]
-                    v = corners[(i + 1) % 5]
+            corners = list(p_edge.nodes)
+            hanging_nodes = []
+            matched_edges = [p_edge]
 
-                    # Szukamy węzła wiszącego h pomiędzy u i v
-                    h_found = None
+            for i in range(5):
+                u = corners[i]
+                v = corners[(i + 1) % 5]
+                h = None
 
-                    # Znajdź sąsiadów u połączonych krawędzią E
-                    neighbors_u = set()
-                    for edge in graph.hyperedges:
-                        if edge.hypertag == "E" and u in edge.nodes:
-                            other = edge.nodes[1] if edge.nodes[0] == u else edge.nodes[0]
-                            neighbors_u.add(other)
-
-                    # Sprawdź czy któryś z sąsiadów jest odpowiednim węzłem wiszącym
-                    for h_cand in neighbors_u:
-                        # POPRAWKA: Węzeł wiszący nie może być wierzchołkiem narożnym
-                        if h_cand == u or h_cand == v:
+                for e1 in graph.hyperedges:
+                    if e1.hypertag == "E" and u in e1.nodes:
+                        h_cand = e1.nodes[0] if e1.nodes[1] == u else e1.nodes[1]
+                        if h_cand in corners:
                             continue
 
-                        # POPRAWKA: Wymagamy, aby węzeł miał flagę hanging (zgodnie z modelem)
-                        if not h_cand.hanging:
-                            continue
-
-                        is_connected_to_v = False
-                        for edge in graph.hyperedges:
-                            if edge.hypertag == "E" and h_cand in edge.nodes and v in edge.nodes:
-                                is_connected_to_v = True
+                        for e2 in graph.hyperedges:
+                            if e2.hypertag == "E" and set(e2.nodes) == {h_cand, v}:
+                                h = h_cand
+                                matched_edges.extend([e1, e2])
                                 break
-
-                        if is_connected_to_v:
-                            h_found = h_cand
-                            break
-
-                    if h_found:
-                        hanging_nodes.append(h_found)
-                    else:
-                        found_all_hanging = False
+                    if h:
                         break
 
-                if found_all_hanging:
-                    all_nodes = corners + hanging_nodes
-                    return HyperEdge(tuple(all_nodes), "MATCH_CONTAINER", R=1)
+                if h is None:
+                    break
+
+                hanging_nodes.append(h)
+
+            if len(hanging_nodes) != 5:
+                continue
+
+            matched = Graph()
+            for n in corners + hanging_nodes:
+                matched.add_node(n)
+            for e in matched_edges:
+                matched.add_edge(e)
+
+            return matched
 
         return None
 
@@ -111,19 +99,22 @@ class P8(Production):
     def get_right_side(self, matched: Graph, level: int) -> Graph:
         result = Graph()
 
-        # 1. Odzyskaj strukturę z podgrafu matched
-        p_edge = None
+        # 1. PRZEPISZ CAŁY GRAF
+        for n in matched.nodes:
+            result.add_node(n)
         for e in matched.hyperedges:
             if e.hypertag == "P":
-                p_edge = e
-                break
+                continue
+            result.add_edge(e)
 
-        if not p_edge:
-            return matched
+        # 2. znajdź P
+        p_edge = next(e for e in matched.hyperedges if e.hypertag == "P")
 
         corners = list(p_edge.nodes)
 
-        # Odzyskaj węzły wiszące w odpowiedniej kolejności
+        # 3. oznacz jako przetworzone
+        p_edge.R = 0
+
         hanging_nodes = []
         for i in range(5):
             u = corners[i]
@@ -155,31 +146,11 @@ class P8(Production):
         center = Node(avg_x, avg_y, f"center_p8_{corners[0].label}")
         result.add_node(center)
 
-        # 3. Odtwórz krawędzie i dodaj wnętrze
         for i in range(5):
-            u = corners[i]
-            v = corners[(i + 1) % 5]
             h = hanging_nodes[i]
-
-            # Pobierz atrybut B z oryginalnych krawędzi
-            b_val_uh = 0
-            for e in matched.hyperedges:
-                if set(e.nodes) == {u, h}:
-                    b_val_uh = e.B
-                    break
-
-            b_val_hv = 0
-            for e in matched.hyperedges:
-                if set(e.nodes) == {h, v}:
-                    b_val_hv = e.B
-                    break
-
-            result.add_edge(HyperEdge((u, h), "E", boundary=(b_val_uh == 1), R=0, B=b_val_uh))
-            result.add_edge(HyperEdge((h, v), "E", boundary=(b_val_hv == 1), R=0, B=b_val_hv))
-
-            result.add_edge(HyperEdge((center, h), "E", boundary=False, R=0, B=0))
-
             h_prev = hanging_nodes[(i - 1) % 5]
-            result.add_edge(HyperEdge((u, h, center, h_prev), "Q", R=0))
+
+            result.add_edge(HyperEdge((center, h), "E", R=0, B=0))
+            result.add_edge(HyperEdge((corners[i], h, center, h_prev), "Q", R=0))
 
         return result

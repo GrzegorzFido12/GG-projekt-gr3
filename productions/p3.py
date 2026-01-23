@@ -80,7 +80,7 @@ class P3(Production):
         # Create a unique label for the new node
         # print(new_x,new_y)
         new_node_label = f"v_new_{new_x, new_y}"
-        v_new = Node(x=new_x, y=new_y, label=new_node_label, hanging=True)
+        v_new = Node(x=new_x, y=new_y, label=new_node_label)
 
         result.add_node(v_new)
 

@@ -64,7 +64,7 @@ class P4(Production):
         mid_x = (n1.x + n2.x) / 2
         mid_y = (n1.y + n2.y) / 2
         new_node_label = f"h_{n1.label}_{n2.label}"
-        hanging_node = Node(mid_x, mid_y, new_node_label, hanging=True)
+        hanging_node = Node(mid_x, mid_y, new_node_label)
         result.add_node(hanging_node)
         
         # Create two new edges, both boundary (B=1) but not marked for refinement (R=0)

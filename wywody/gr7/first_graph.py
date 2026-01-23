@@ -5,9 +5,9 @@ from visualization import draw
 def make_graph() -> Graph:
     g = Graph()
     n1 = Node(3, 13, "v1")
-    n2 = Node(22, 13, "v2")
-    n3 = Node(30, 7, "v3")
-    n4 = Node(22, 1, "v4")
+    n2 = Node(50, 13, "v2")
+    n3 = Node(70, 7, "v3")
+    n4 = Node(50, 1, "v4")
     n5 = Node(3, 1, "v5")
     n6 = Node(1, 5, "v6")
     n7 = Node(1, 9, "v7")
