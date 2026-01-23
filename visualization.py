@@ -18,14 +18,17 @@ def draw(graph: Graph, output_path: str) -> None:
         positions[node_label] = (current_node.x, current_node.y)
 
         if node_data.get('is_hyper', False):
-            colors.append('red')
-            sizes.append(800)
-            
+            if current_node.hyperref.B == 1:
+                colors.append('blue')
+            else:
+                colors.append('red')
+
+            sizes.append(120)
+
             if current_node.hyperref:
                 tag = current_node.hyperref.hypertag
-                r_val = current_node.hyperref.R
-                b_val = current_node.hyperref.B
-                node_labels[node_label] = f"{tag}\nR={r_val}\nB={b_val} "
+                r_val = "R" if current_node.hyperref.R == 1 else " "
+                node_labels[node_label] = f"{tag}\n{r_val}\n"
             else:
                 node_labels[node_label] = node_label.split('_')[0]
         else:
@@ -33,8 +36,8 @@ def draw(graph: Graph, output_path: str) -> None:
                 colors.append('grey')
             else:
                 colors.append('yellow')
-            sizes.append(1200)
-            node_labels[node_label] = node_label
+            sizes.append(150)
+            node_labels[node_label] = ''
 
     nx.draw(
         graph._graph,
@@ -49,7 +52,7 @@ def draw(graph: Graph, output_path: str) -> None:
         edge_color='gray',
         width=2.0
     )
-    
+
     plt.tight_layout()
     plt.savefig(output_path, dpi=150, bbox_inches='tight')
     plt.close()

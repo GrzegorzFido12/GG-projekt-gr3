@@ -7,18 +7,20 @@
     <list default="true" id="4ca52990-a426-42bd-84e5-4b9b29a309b0" name="Changes" comment="test4">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/productions/p3.py" beforeDir="false" afterPath="$PROJECT_DIR$/productions/p3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/productions/p4.py" beforeDir="false" afterPath="$PROJECT_DIR$/productions/p4.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/productions/p8.py" beforeDir="false" afterPath="$PROJECT_DIR$/productions/p8.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/productions/p5.py" beforeDir="false" afterPath="$PROJECT_DIR$/productions/p5.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualization.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wywody/gr7/first_graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/wywody/gr7/first_graph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wywody/gr7/img/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/wywody/gr7/img/1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wywody/gr7/img/2.png" beforeDir="false" afterPath="$PROJECT_DIR$/wywody/gr7/img/2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wywody/gr7/img/3.png" beforeDir="false" afterPath="$PROJECT_DIR$/wywody/gr7/img/3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wywody/gr7/img/4.png" beforeDir="false" afterPath="$PROJECT_DIR$/wywody/gr7/img/4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wywody/gr7/img/5.png" beforeDir="false" afterPath="$PROJECT_DIR$/wywody/gr7/img/5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wywody/gr7/img/6.png" beforeDir="false" afterPath="$PROJECT_DIR$/wywody/gr7/img/6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wywody/gr7/img/7.png" beforeDir="false" afterPath="$PROJECT_DIR$/wywody/gr7/img/7.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wywody/gr7/img/8.png" beforeDir="false" afterPath="$PROJECT_DIR$/wywody/gr7/img/8.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wywody/gr7/img/9.png" beforeDir="false" afterPath="$PROJECT_DIR$/wywody/gr7/img/9.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wywody/gr7/img/1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wywody/gr7/img/10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wywody/gr7/img/11.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wywody/gr7/img/2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wywody/gr7/img/3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wywody/gr7/img/4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wywody/gr7/img/5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wywody/gr7/img/6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wywody/gr7/img/7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wywody/gr7/img/8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wywody/gr7/img/9.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/wywody/gr7/wywod.py" beforeDir="false" afterPath="$PROJECT_DIR$/wywody/gr7/wywod.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -201,7 +203,7 @@
       <workItem from="1769086993901" duration="29000" />
       <workItem from="1769158748689" duration="1639000" />
       <workItem from="1769180496680" duration="106000" />
-      <workItem from="1769181178015" duration="4029000" />
+      <workItem from="1769181178015" duration="11207000" />
     </task>
     <task id="LOCAL-00001" summary="test4">
       <option name="closed" value="true" />
@@ -231,7 +233,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/GG_projekt_gr3$first_graph.coverage" NAME="first_graph Coverage Results" MODIFIED="1769028988049" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/wywody/gr7" />
-    <SUITE FILE_PATH="coverage/GG_projekt_gr3$wywod.coverage" NAME="wywod Coverage Results" MODIFIED="1769185149667" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/wywody/gr7" />
+    <SUITE FILE_PATH="coverage/GG_projekt_gr3$wywod.coverage" NAME="wywod Coverage Results" MODIFIED="1769192439549" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/wywody/gr7" />
     <SUITE FILE_PATH="coverage/GG_projekt_gr3$p12__1_.coverage" NAME="p12 (1) Coverage Results" MODIFIED="1767528298790" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/graphs" />
     <SUITE FILE_PATH="coverage/GG_projekt_gr3$.coverage" NAME=" Coverage Results" MODIFIED="1766095211194" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/GG_projekt_gr3$p12.coverage" NAME="p12 Coverage Results" MODIFIED="1769159440821" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/productions" />
