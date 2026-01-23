@@ -130,6 +130,33 @@ class TestP13(unittest.TestCase):
         result = g.apply(self.production)
         self.assertEqual(result, 0)
 
+    def test_p13_no_boundary_by_parameter(self):
+        g = self.create_heptagon_with_edges(t_r=1, e_r=0)
+        rng_idxs = [1, 5]
+        for idx, edge in enumerate(g.hyperedges):
+            if idx in rng_idxs:
+                edge.B = 1
+                edge.color = "blue"
+        
+        draw(g, os.path.join(self.viz_dir, "test_p13_no_boundary_before.png"))
+        for idx, edge in enumerate(g.hyperedges):
+            if idx in rng_idxs:
+                self.assertEqual(edge.B, 1)
+            else:
+                self.assertEqual(edge.B, 0)
+
+        match = self.production.find_match(g)
+        self.assertIsNone(match)
+        
+        result = g.apply(self.production)
+        self.assertEqual(result, 0)
+
+        for idx, edge in enumerate(g.hyperedges):
+            if idx in rng_idxs:
+                self.assertEqual(edge.B, 1)
+            else:
+                self.assertEqual(edge.B, 0)
+
 
 if __name__ == '__main__':
     unittest.main()
