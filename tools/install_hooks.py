@@ -12,20 +12,19 @@ def install_hooks():
     # 1. Define the commands
     # We use 'sys.executable' to ensure we use the active python environment (venv)
     python_cmd = sys.executable
-    script_name = "tools/obfuscate.py" 
-    target_file = "derivations/group5.py"
+    script_name = "tools/obfuscate_g5.py" 
 
     # Pre-commit: Curse the file, then add the cursed version to staging
     pre_commit_content = f"""#!/bin/sh
-echo "💀 Cursing {target_file} before commit..."
-"{python_cmd}" "{script_name}" "{target_file}" curse
-git add "{target_file}"
+echo "💀 Cursing files before commit..."
+"{python_cmd}" "{script_name}" curse
+git add .
 """
 
     # Post-commit: Bless the file back to normal immediately
     post_commit_content = f"""#!/bin/sh
-echo "✨ Blessing {target_file} after commit..."
-"{python_cmd}" "{script_name}" "{target_file}" bless
+echo "✨ Blessing files after commit..."
+"{python_cmd}" "{script_name}" bless
 """
 
     # 2. Write the files

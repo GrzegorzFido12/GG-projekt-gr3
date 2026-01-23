@@ -84,12 +84,13 @@ def bless(filepath):
 if __name__ == "__main__":
     # 2. Add Argument Parsing
     parser = argparse.ArgumentParser(description="Obfuscate or de-obfuscate a python file.")
-    parser.add_argument("file", help="The file to process")
     parser.add_argument("mode", choices=["curse", "bless"], help="Mode: curse (hide) or bless (reveal)")
     
+    file="derivations/group5.py"
+
     args = parser.parse_args()
     
     if args.mode == 'curse':
-        curse(args.file)
+        curse(file)
     elif args.mode == 'bless':
-        bless(args.file)
+        bless(file)
