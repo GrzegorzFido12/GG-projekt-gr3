@@ -110,7 +110,7 @@ class TestP13(unittest.TestCase):
         result = g.apply(self.production)
         self.assertEqual(result, 0)
 
-    def test_p13_no_boundary_edges(self):
+    def test_p13_wrong_boundary_labels(self):
         g = Graph()
         nodes = [Node(x, y, f"v{i}") for i, (x, y) in enumerate([
             (0, 2), (1, 3), (2, 3), (3, 2), (3, 1), (2, 0), (1, 0)
@@ -118,7 +118,11 @@ class TestP13(unittest.TestCase):
         for n in nodes:
             g.add_node(n)
         g.add_edge(HyperEdge(tuple(nodes), "T", R=1))
-        draw(g, os.path.join(self.viz_dir, "test_p13_no_boundary_before.png"))
+        
+        for i in range(7):
+            g.add_edge(HyperEdge((nodes[i], nodes[(i + 1) % 7]), "F", R=0))
+        
+        draw(g, os.path.join(self.viz_dir, "test_p13_wrong_boundary_before.png"))
         
         match = self.production.find_match(g)
         self.assertIsNone(match)
