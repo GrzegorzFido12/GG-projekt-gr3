@@ -12,18 +12,34 @@ class P1(Production):
     def get_left_side(self) -> Graph:
         return Graph()
 
+    @staticmethod
+    def _check_isomorphism(graph: Graph, q: HyperEdge) -> bool:
+        """
+        Check if there are exactly 4 boundary edges (E, R=0) connecting the nodes of Q.
+        (This assumes the standard square topology v1-v2-v3-v4-v1)
+        """
+        q_nodes = set(q.nodes)
+        count = 0
+        for e in graph.hyperedges:
+            if (
+                e.hypertag == "E"
+                and e.R == 0
+                and len(e.nodes) == 2
+                and e.nodes[0] in q_nodes
+                and e.nodes[1] in q_nodes
+            ):
+                count += 1
+
+        # We expect exactly 4 edges for a quadrilateral
+        return count == 4
+
     def can_apply(self, graph: Graph) -> bool:
         for q in graph.hyperedges:
             if q.hypertag != "Q" or q.R != 1 or len(q.nodes) != 4:
                 continue
 
-            for e in graph.hyperedges:
-                if (
-                    e.hypertag == "E"
-                    and e.R == 0
-                    and all(n in q.nodes for n in e.nodes)
-                ):
-                    return True
+            if self._check_isomorphism(graph, q):
+                return True
 
         return False
 
@@ -32,13 +48,8 @@ class P1(Production):
             if q.hypertag != "Q" or q.R != 1 or len(q.nodes) != 4:
                 continue
 
-            for e in graph.hyperedges:
-                if (
-                    e.hypertag == "E"
-                    and e.R == 0
-                    and all(n in q.nodes for n in e.nodes)
-                ):
-                    return q
+            if self._check_isomorphism(graph, q):
+                return q
 
         return None
 
