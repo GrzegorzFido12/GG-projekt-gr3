@@ -117,11 +117,98 @@ class Graph:
 
     def apply(self, production) -> int:
         if not production.can_apply(self):
+            print(0)
             return 0
 
         matched_edge = production.find_match(self)
         if matched_edge is None:
             return 0
+
+        matched_subgraph = Graph()
+
+        for node in matched_edge.nodes:
+            matched_subgraph.add_node(node)
+
+        for edge in self.hyperedges:
+            if all(n in matched_edge.nodes for n in edge.nodes):
+                matched_subgraph.add_edge(
+                    HyperEdge(edge.nodes, edge.hypertag, edge.boundary, edge.R, edge.B)
+                )
+
+        edges_to_remove = []
+        for edge in matched_subgraph.hyperedges:
+            for main_edge in self.hyperedges:
+                if (
+                    main_edge.hypertag == edge.hypertag
+                    and set(main_edge.nodes) == set(edge.nodes)
+                    and main_edge.R == edge.R
+                    and main_edge.B == edge.B
+                ):
+                    edges_to_remove.append(main_edge)
+                    break
+
+        for edge in edges_to_remove:
+            self.remove_edge(edge)
+
+        right_graph = production.get_right_side(matched_subgraph, 0)
+
+        for edge in right_graph.hyperedges:
+            self.add_edge(edge)
+
+        return 1
+
+    def apply_with_point(self, production, point) -> int:
+        if not production.can_apply(self):
+            return 0
+
+        matched_edge = production.find_match_with_point(self, point)
+
+        if matched_edge is None:
+            return 0
+
+
+        matched_subgraph = Graph()
+
+        for node in matched_edge.nodes:
+            matched_subgraph.add_node(node)
+
+        for edge in self.hyperedges:
+            if all(n in matched_edge.nodes for n in edge.nodes):
+                matched_subgraph.add_edge(
+                    HyperEdge(edge.nodes, edge.hypertag, edge.boundary, edge.R, edge.B)
+                )
+
+        edges_to_remove = []
+        for edge in matched_subgraph.hyperedges:
+            for main_edge in self.hyperedges:
+                if (
+                    main_edge.hypertag == edge.hypertag
+                    and set(main_edge.nodes) == set(edge.nodes)
+                    and main_edge.R == edge.R
+                    and main_edge.B == edge.B
+                ):
+                    edges_to_remove.append(main_edge)
+                    break
+
+        for edge in edges_to_remove:
+            self.remove_edge(edge)
+
+        right_graph = production.get_right_side(matched_subgraph, 0)
+
+        for edge in right_graph.hyperedges:
+            self.add_edge(edge)
+
+        return 1
+
+    def apply_rectangle_with_point(self, production, point) -> int:
+        if not production.can_apply(self):
+            return 0
+
+        matched_edge = production.find_rectangle_match_with_point(self, point)
+
+        if matched_edge is None:
+            return 0
+
 
         matched_subgraph = Graph()
 

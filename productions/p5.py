@@ -1,5 +1,7 @@
-from production_base import Production
+import math
+import uuid
 from graph_model import Graph, Node, HyperEdge
+from production_base import Production
 
 
 @Production.register
@@ -50,7 +52,16 @@ class P5(Production):
             if q.hypertag != "Q" or q.R != 1 or len(q.nodes) != 4:
                 continue
 
-            corners = list(q.nodes)
+            raw_corners = list(q.nodes)
+
+            avg_x = sum(n.x for n in raw_corners) / 4.0
+            avg_y = sum(n.y for n in raw_corners) / 4.0
+
+            corners = sorted(
+                raw_corners,
+                key=lambda n: math.atan2(n.y - avg_y, n.x - avg_x),
+                reverse=True
+            )
             mids = []
 
             ok = True
@@ -104,7 +115,9 @@ class P5(Production):
 
         cx = (v1.x + v2.x + v3.x + v4.x) / 4.0
         cy = (v1.y + v2.y + v3.y + v4.y) / 4.0
-        c = Node(cx, cy, f"c_{v1.label}_{v2.label}_{v3.label}_{v4.label}")
+        # c = Node(cx, cy, f"{v1.label, v2.label}\n{v3.label, v4.label}")
+        new_node_label = f"m_{str(uuid.uuid4())[:4]}"
+        c = Node(cx, cy, new_node_label)
         result.add_node(c)
 
         for m in (m12, m23, m34, m41):

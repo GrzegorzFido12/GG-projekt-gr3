@@ -1,5 +1,5 @@
-from production_base import Production
 from graph_model import Graph, HyperEdge
+from production_base import Production
 
 
 @Production.register
@@ -28,9 +28,9 @@ class P0(Production):
     def can_apply(self, graph: Graph) -> bool:
         for edge in graph.hyperedges:
             if (
-                edge.hypertag == "Q"
-                and edge.R == 0
-                and self._has_boundary_edges(graph, edge)
+                    edge.hypertag == "Q"
+                    and edge.R == 0
+                    and self._has_boundary_edges(graph, edge)
             ):
                 return True
         return False
@@ -38,9 +38,53 @@ class P0(Production):
     def find_match(self, graph: Graph):
         for edge in graph.hyperedges:
             if (
-                edge.hypertag == "Q"
-                and edge.R == 0
-                and self._has_boundary_edges(graph, edge)
+                    edge.hypertag == "Q"
+                    and edge.R == 0
+                    and self._has_boundary_edges(graph, edge)
+            ):
+                return edge
+        return None
+
+    def has_point(self, point, nodes):
+        for node in nodes:
+            if node.x == point.x and node.y == point.y:
+                return True
+        # print("No point")
+        return False
+
+    def find_match_with_point(self, graph: Graph, point):
+        for edge in graph.hyperedges:
+            if (
+                    edge.hypertag == "Q"
+                    and edge.R == 0
+                    and self._has_boundary_edges(graph, edge)
+                    and self.has_point(point, edge.nodes)
+                    and not self.is_rectangle(edge.nodes)
+            ):
+                return edge
+        return None
+
+    def is_rectangle(self, nodes):
+        if len(nodes) != 4:
+            return False
+        nodes_list = list(nodes)
+        nodes_list.sort(key=lambda node: (node.y, node.x))
+        # print(nodes_list)
+        if nodes_list[0].x == nodes_list[2].x and nodes_list[1].x == nodes_list[3].x:
+            if nodes_list[0].y == nodes_list[1].y and nodes_list[2].y == nodes_list[3].y:
+                # print("rect")
+                return True
+        # print("No rect")
+        return False
+
+    def find_rectangle_match_with_point(self, graph: Graph, point):
+        for edge in graph.hyperedges:
+            if (
+                    edge.hypertag == "Q"
+                    and edge.R == 0
+                    and self._has_boundary_edges(graph, edge)
+                    and self.has_point(point, edge.nodes)
+                    and self.is_rectangle(edge.nodes)
             ):
                 return edge
         return None

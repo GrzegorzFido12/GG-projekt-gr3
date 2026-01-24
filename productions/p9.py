@@ -1,6 +1,8 @@
-from production_base import Production
-from graph_model import Graph, Node, HyperEdge
 from typing import Optional
+import math
+
+from graph_model import Graph, Node, HyperEdge
+from production_base import Production
 
 
 @Production.register
@@ -70,20 +72,29 @@ class P9(Production):
         if len(s_edge.nodes) != 6:
             return False
 
-        # 3. Sprawdzenie obecności krawędzi E na obwodzie
-        # Zakładamy, że węzły w S są posortowane zgodnie z obwodem (co jest standardem w tym modelu)
-        nodes = s_edge.nodes
+        # 3. Sortowanie wierzchołków zgodnie z obwodem (polarne)
+        raw_nodes = list(s_edge.nodes)
+
+        # Obliczamy środek geometryczny heksagonu
+        avg_x = sum(n.x for n in raw_nodes) / 6.0
+        avg_y = sum(n.y for n in raw_nodes) / 6.0
+
+        # Sortujemy wierzchołki według kąta (tutaj reverse=True dla zgodności z Twoją prośbą)
+        nodes = sorted(
+            raw_nodes,
+            key=lambda n: math.atan2(n.y - avg_y, n.x - avg_x),
+            reverse=True
+        )
+
         for i in range(6):
             u = nodes[i]
-            v = nodes[(i + 1) % 6]  # Cykliczne następstwo
+            v = nodes[(i + 1) % 6]
 
-            # Szukamy krawędzi E łączącej u i v
             edge_found = False
             for edge in graph.hyperedges:
                 if edge.hypertag == "E" and set(edge.nodes) == {u, v}:
                     edge_found = True
                     break
-
             if not edge_found:
                 return False  # Brak krawędzi E między wierzchołkami heksagonu
 
@@ -100,5 +111,17 @@ class P9(Production):
         # Zwracamy hiperkrawędź S, która spełnia wszystkie wymogi topologiczne
         for edge in graph.hyperedges:
             if self._check_topology(graph, edge):
+                return edge
+        return None
+
+    def has_point(self, point, nodes):
+        for node in nodes:
+            if node.x == point.x and node.y == point.y:
+                return True
+        return False
+
+    def find_match_with_point(self, graph: Graph, point):
+        for edge in graph.hyperedges:
+            if self._check_topology(graph, edge) and self.has_point(point, edge.nodes):
                 return edge
         return None
