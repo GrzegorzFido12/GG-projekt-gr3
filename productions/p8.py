@@ -47,7 +47,9 @@ class P8(Production):
 
         return g
 
-    def find_match(self, graph: Graph) -> Optional[HyperEdge]:
+    def find_match(
+        self, graph: Graph, node_label: Optional[str] = None
+    ) -> Optional[HyperEdge]:
         """
         Znajduje element P oznaczony do podziału, którego wszystkie krawędzie są podzielone.
         """
@@ -107,6 +109,8 @@ class P8(Production):
 
                 if found_all_hanging:
                     all_nodes = corners + hanging_nodes
+                    if node_label and not any(n.label == node_label for n in all_nodes):
+                        continue
                     return HyperEdge(tuple(all_nodes), "MATCH_CONTAINER", R=1)
 
         return None

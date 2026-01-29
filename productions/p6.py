@@ -39,9 +39,13 @@ class P6(Production):
 
         return result
 
-    def find_match(self, graph: Graph) -> Optional[HyperEdge]:
+    def find_match(
+        self, graph: Graph, node_label: Optional[str] = None
+    ) -> Optional[HyperEdge]:
         for p_edge in graph.hyperedges:
             if p_edge.hypertag == "P" and len(p_edge.nodes) == 5 and p_edge.R == 0:
+                if node_label and not any(n.label == node_label for n in p_edge.nodes):
+                    continue
                 return p_edge
         return None
 

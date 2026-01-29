@@ -115,11 +115,11 @@ class Graph:
     def count_nodes(self) -> NodeCount:
         return NodeCount(normal=len(self._nodes), hyper=len(self._hyperedges))
 
-    def apply(self, production) -> int:
+    def apply(self, production, specified_label: Optional[str] = None) -> int:
         if not production.can_apply(self):
             return 0
 
-        matched_edge = production.find_match(self)
+        matched_edge = production.find_match(self, specified_label)
         if matched_edge is None:
             return 0
 

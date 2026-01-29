@@ -1,4 +1,5 @@
 from production_base import Production
+from typing import Optional
 from graph_model import Graph, HyperEdge
 
 
@@ -35,13 +36,17 @@ class P0(Production):
                 return True
         return False
 
-    def find_match(self, graph: Graph):
+    def find_match(
+        self, graph: Graph, node_label: Optional[str] = None
+    ) -> Optional[HyperEdge]:
         for edge in graph.hyperedges:
             if (
                 edge.hypertag == "Q"
                 and edge.R == 0
                 and self._has_boundary_edges(graph, edge)
             ):
+                if node_label and not any(n.label == node_label for n in edge.nodes):
+                    continue
                 return edge
         return None
 

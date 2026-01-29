@@ -1,4 +1,5 @@
 from production_base import Production
+from typing import Optional
 from graph_model import Graph, HyperEdge, Node
 
 
@@ -13,7 +14,7 @@ class P12(Production):
     def can_apply(self, graph: Graph) -> bool:
         return self.find_match(graph) is not None
 
-    def find_match(self, graph: Graph):
+    def find_match(self, graph: Graph, node_label: Optional[str] = None):
         # sprawdzamy wszystkie hiperkrawędzie
         for q in graph.hyperedges:
             # podstawowe własności
@@ -68,6 +69,9 @@ class P12(Production):
                 stack.extend(adjacency[v] - visited)
 
             if visited != nodes:
+                continue
+
+            if node_label and not any(n.label == node_label for n in q.nodes):
                 continue
 
             return q

@@ -3,6 +3,7 @@ from typing import Optional
 from graph_model import Graph, Node, HyperEdge
 from production_base import Production
 
+
 @Production.register
 class P2(Production):
     def get_left_side(self) -> Graph:
@@ -20,7 +21,9 @@ class P2(Production):
         g.add_edge(HyperEdge((v3, v2), "E", R=2, B=2))
         return g
 
-    def find_match(self, graph: Graph) -> Optional[HyperEdge]:
+    def find_match(
+        self, graph: Graph, node_label: Optional[str] = None
+    ) -> Optional[HyperEdge]:
         for e1 in graph.hyperedges:
             if e1.hypertag == "E" and e1.R == 1 and e1.B == 0 and len(e1.nodes) == 2:
                 u, v = e1.nodes[0], e1.nodes[1]
@@ -28,14 +31,26 @@ class P2(Production):
                 target_x = (u.x + v.x) / 2
                 target_y = (u.y + v.y) / 2
 
-                w = next((n for n in graph.nodes if math.isclose(n.x, target_x)
-                          and math.isclose(n.y, target_y) and n not in (u, v)), None)
+                w = next(
+                    (
+                        n
+                        for n in graph.nodes
+                        if math.isclose(n.x, target_x)
+                        and math.isclose(n.y, target_y)
+                        and n not in (u, v)
+                    ),
+                    None,
+                )
 
                 if w:
                     has_u_w = any(set(e.nodes) == {u, w} for e in graph.hyperedges)
                     has_v_w = any(set(e.nodes) == {v, w} for e in graph.hyperedges)
 
                     if has_u_w and has_v_w:
+                        if node_label and not any(
+                            n.label == node_label for n in (u, v, w)
+                        ):
+                            continue
                         return HyperEdge((u, v, w), "E", R=1, B=0)
         return None
 

@@ -1,4 +1,5 @@
 from production_base import Production
+from typing import Optional
 from graph_model import Graph, Node, HyperEdge
 
 
@@ -43,7 +44,7 @@ class P5(Production):
 
         return None
 
-    def _compute_ctx(self, full_graph: Graph):
+    def _compute_ctx(self, full_graph: Graph, node_label: Optional[str] = None):
         self._ctx = None
 
         for q in full_graph.hyperedges:
@@ -64,6 +65,8 @@ class P5(Production):
                 mids.append(m)
 
             if ok:
+                if node_label and not any(n.label == node_label for n in q.nodes):
+                    continue
                 self._ctx = {"q": q, "corners": corners, "mid": mids}
                 return q
 
@@ -72,8 +75,8 @@ class P5(Production):
     def can_apply(self, graph: Graph) -> bool:
         return self._compute_ctx(graph) is not None
 
-    def find_match(self, graph: Graph):
-        return self._compute_ctx(graph)
+    def find_match(self, graph: Graph, node_label: Optional[str] = None):
+        return self._compute_ctx(graph, node_label)
 
     def get_right_side(self, matched: Graph, level: int) -> Graph:
         """

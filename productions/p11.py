@@ -4,6 +4,7 @@ from typing import List, Optional, Tuple, Dict
 from graph_model import Graph, HyperEdge, Node
 from production_base import Production
 
+
 @Production.register
 class P11(Production):
     def get_left_side(self) -> Graph:
@@ -56,7 +57,9 @@ class P11(Production):
 
         # --- detect mid-edge nodes and collect edge info for each directed segment ---
         pair_to_mid = {}
-        segment_attributes: Dict[Tuple[str, str], Dict] = {}  # directed (from, to) -> {R, B}
+        segment_attributes: Dict[Tuple[str, str], Dict] = (
+            {}
+        )  # directed (from, to) -> {R, B}
 
         for i in range(len(corners)):
             c1 = corners[i]
@@ -67,11 +70,11 @@ class P11(Production):
                 key = tuple(sorted((c1.label, c2.label)))
                 pair_to_mid[key] = h
                 new_graph.add_node(h)
-                
+
                 # Get attributes for EACH directed segment separately
                 attrs_c1_h = self._get_directed_edge_attributes(matched, c1, h)
                 attrs_h_c2 = self._get_directed_edge_attributes(matched, h, c2)
-                
+
                 segment_attributes[directed_edge_key(c1, h)] = attrs_c1_h
                 segment_attributes[directed_edge_key(h, c2)] = attrs_h_c2
 
@@ -87,7 +90,7 @@ class P11(Production):
 
             undirected_prev = tuple(sorted((c_prev.label, c.label)))
             undirected_next = tuple(sorted((c.label, c_next.label)))
-            
+
             h_prev = pair_to_mid.get(undirected_prev)
             h_next = pair_to_mid.get(undirected_next)
 
@@ -96,23 +99,29 @@ class P11(Production):
                 continue
 
             # Q face with R=0
-            new_graph.add_edge(
-                HyperEdge((center, h_prev, c, h_next), "Q", R=0)
-            )
+            new_graph.add_edge(HyperEdge((center, h_prev, c, h_next), "Q", R=0))
 
             # Get attributes for each outgoing edge from corner c
             # Edge from h_prev to c
-            attrs_h_prev_c = segment_attributes.get(directed_edge_key(h_prev, c), {'R': 0, 'B': 1})
+            attrs_h_prev_c = segment_attributes.get(
+                directed_edge_key(h_prev, c), {"R": 0, "B": 1}
+            )
             # Edge from c to h_next
-            attrs_c_h_next = segment_attributes.get(directed_edge_key(c, h_next), {'R': 0, 'B': 1})
-            
+            attrs_c_h_next = segment_attributes.get(
+                directed_edge_key(c, h_next), {"R": 0, "B": 1}
+            )
+
             # Create boundary edges with their specific attributes
-            new_graph.add_edge(HyperEdge((c, h_next), "E", 
-                                        R=attrs_c_h_next['R'], 
-                                        B=attrs_c_h_next['B']))
-            new_graph.add_edge(HyperEdge((h_prev, c), "E", 
-                                        R=attrs_h_prev_c['R'], 
-                                        B=attrs_h_prev_c['B']))
+            new_graph.add_edge(
+                HyperEdge(
+                    (c, h_next), "E", R=attrs_c_h_next["R"], B=attrs_c_h_next["B"]
+                )
+            )
+            new_graph.add_edge(
+                HyperEdge(
+                    (h_prev, c), "E", R=attrs_h_prev_c["R"], B=attrs_h_prev_c["B"]
+                )
+            )
 
             # Internal spoke - always B=0, R=0
             new_graph.add_edge(HyperEdge((center, h_next), "E", R=0, B=0))
@@ -164,20 +173,26 @@ class P11(Production):
                 return True
 
         return False
-    
+
     def can_apply(self, graph: Graph) -> bool:
         return self.find_match(graph) is not None
 
-    def find_match(self, graph: Graph) -> Optional[HyperEdge]:
+    def find_match(
+        self, graph: Graph, node_label: Optional[str] = None
+    ) -> Optional[HyperEdge]:
         for e in graph.hyperedges:
             if e.hypertag == "S" and e.R == 1 and len(e.nodes) == 6:
                 corners = list(e.nodes)
                 mids = [
-                    n for n in graph.nodes
+                    n
+                    for n in graph.nodes
                     if n not in corners and self.is_midpoint(graph, n, corners)
                 ]
                 if len(mids) == 6:
-                    return HyperEdge(tuple(corners + mids), "S", R=1)
+                    all_nodes = corners + mids
+                    if node_label and not any(n.label == node_label for n in all_nodes):
+                        continue
+                    return HyperEdge(tuple(all_nodes), "S", R=1)
         return None
 
     def is_midpoint(self, graph: Graph, node: Node, corners: List[Node]) -> bool:
@@ -192,7 +207,9 @@ class P11(Production):
 
         return abs((d1 + d2) - d_full) < 1e-4
 
-    def _corner_neighbors(self, graph: Graph, node: Node, corners: List[Node]) -> List[Node]:
+    def _corner_neighbors(
+        self, graph: Graph, node: Node, corners: List[Node]
+    ) -> List[Node]:
         result = []
         for e in graph.hyperedges:
             if e.hypertag == "E" and node in e.nodes:
@@ -203,7 +220,7 @@ class P11(Production):
 
     def _sort_angularly(self, nodes: List[Node], cx: float, cy: float) -> List[Node]:
         return sorted(nodes, key=lambda n: math.atan2(n.y - cy, n.x - cx))
-    
+
     def _find_mid_node(self, graph: Graph, a: Node, b: Node) -> Optional[Node]:
         """
         Finds a node lying between a and b that:
@@ -231,21 +248,23 @@ class P11(Production):
         d = math.hypot(a.x - b.x, a.y - b.y)
         return abs((d1 + d2) - d) < eps
 
-    def _get_directed_edge_attributes(self, graph: Graph, node_from: Node, node_to: Node) -> Dict:
+    def _get_directed_edge_attributes(
+        self, graph: Graph, node_from: Node, node_to: Node
+    ) -> Dict:
         """
         Extracts R and B attributes from a directed edge segment in the original graph.
         Returns a dict with 'R' and 'B' values for the specific edge from node_from to node_to.
         """
         r_flag = 0  # default
         b_flag = 1  # default boundary
-        
+
         # Find the specific directed edge
         for e in graph.hyperedges:
             if e.hypertag == "E" and node_from in e.nodes and node_to in e.nodes:
-                if hasattr(e, 'R'):
+                if hasattr(e, "R"):
                     r_flag = e.R
-                if hasattr(e, 'B'):
+                if hasattr(e, "B"):
                     b_flag = e.B
                 break  # Found the edge, use its attributes
-        
-        return {'R': r_flag, 'B': b_flag}
+
+        return {"R": r_flag, "B": b_flag}

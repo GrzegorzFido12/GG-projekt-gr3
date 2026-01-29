@@ -96,9 +96,13 @@ class P9(Production):
                 return True
         return False
 
-    def find_match(self, graph: Graph) -> Optional[HyperEdge]:
+    def find_match(
+        self, graph: Graph, node_label: Optional[str] = None
+    ) -> Optional[HyperEdge]:
         # Zwracamy hiperkrawędź S, która spełnia wszystkie wymogi topologiczne
         for edge in graph.hyperedges:
             if self._check_topology(graph, edge):
+                if node_label and not any(n.label == node_label for n in edge.nodes):
+                    continue
                 return edge
         return None

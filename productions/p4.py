@@ -92,13 +92,17 @@ class P4(Production):
                 return True
         return False
 
-    def find_match(self, graph: Graph) -> Optional[HyperEdge]:
+    def find_match(
+        self, graph: Graph, node_label: Optional[str] = None
+    ) -> Optional[HyperEdge]:
         """
         Finds a matching edge in the graph for the left side of the production.
         Returns the first boundary edge (B=1) marked for refinement (R=1).
         """
         for edge in graph.hyperedges:
             if edge.hypertag == "E" and edge.R == 1 and edge.B == 1:
+                if node_label and not any(n.label == node_label for n in edge.nodes):
+                    continue
                 return edge
         return None
 

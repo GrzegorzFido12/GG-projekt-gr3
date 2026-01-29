@@ -39,7 +39,9 @@ class P7(Production):
                 return n
         return n
 
-    def find_match(self, graph: Graph) -> Optional[HyperEdge]:
+    def find_match(
+        self, graph: Graph, node_label: Optional[str] = None
+    ) -> Optional[HyperEdge]:
         # The trigger is the central pentagonal edge P with R=1
 
         for edge in graph.hyperedges:
@@ -59,6 +61,10 @@ class P7(Production):
                 if flag == 1:
                     continue
                 else:
+                    if node_label and not any(
+                        n.label == node_label for n in edge.nodes
+                    ):
+                        continue
                     return edge
         return None
 

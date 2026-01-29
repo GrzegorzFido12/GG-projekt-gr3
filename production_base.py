@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from graph_model import Graph
+from typing import Optional
+from graph_model import Graph, HyperEdge
 
 
 class Production(ABC):
@@ -20,4 +21,10 @@ class Production(ABC):
 
     @abstractmethod
     def get_right_side(self, matched: Graph, level: int) -> Graph:
+        pass
+
+    @abstractmethod
+    def find_match(
+        self, graph: Graph, node_label: Optional[str] = None
+    ) -> Optional[HyperEdge]:
         pass

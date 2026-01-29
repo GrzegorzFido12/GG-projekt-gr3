@@ -30,7 +30,9 @@ class P3(Production):
         g.add_edge(HyperEdge((v1, v2), "E", R=1, B=0))
         return g
 
-    def find_match(self, graph: Graph) -> Optional[HyperEdge]:
+    def find_match(
+        self, graph: Graph, node_label: Optional[str] = None
+    ) -> Optional[HyperEdge]:
         # Find a hyperedge 'E' connecting exactly two nodes, with R=1 and B=0.
         for edge in graph.hyperedges:
             # Check for the hypertag, number of nodes, R=1, and B=0
@@ -40,6 +42,8 @@ class P3(Production):
                 and edge.R == 1
                 and edge.B == 0
             ):
+                if node_label and not any(n.label == node_label for n in edge.nodes):
+                    continue
                 return edge
         return None
 

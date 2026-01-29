@@ -3,13 +3,18 @@ from typing import List, Optional, Tuple, Dict
 from graph_model import Graph, HyperEdge, Node
 from production_base import Production
 
+
 @Production.register
 class P14(Production):
 
     def get_left_side(self) -> Graph:
         g = Graph()
         corners = [
-            Node(10 * math.cos(2*math.pi*i/7), 10 * math.sin(2*math.pi*i/7), f"v{i}") 
+            Node(
+                10 * math.cos(2 * math.pi * i / 7),
+                10 * math.sin(2 * math.pi * i / 7),
+                f"v{i}",
+            )
             for i in range(7)
         ]
         for v in corners:
@@ -51,9 +56,13 @@ class P14(Production):
                 key = tuple(sorted((c1.label, c2.label)))
                 pair_to_mid[key] = h
                 new_graph.add_node(h)
-                
-                segment_attributes[(c1.label, h.label)] = self._get_edge_attrs(matched, c1, h)
-                segment_attributes[(h.label, c2.label)] = self._get_edge_attrs(matched, h, c2)
+
+                segment_attributes[(c1.label, h.label)] = self._get_edge_attrs(
+                    matched, c1, h
+                )
+                segment_attributes[(h.label, c2.label)] = self._get_edge_attrs(
+                    matched, h, c2
+                )
 
         for n in matched.nodes:
             new_graph.add_node(n)
@@ -75,27 +84,37 @@ class P14(Production):
                 key = (h_node.label, c.label)
                 if key in segment_attributes:
                     attrs = segment_attributes[key]
-                    new_graph.add_edge(HyperEdge((h_node, c), "E", R=attrs['R'], B=attrs['B']))
+                    new_graph.add_edge(
+                        HyperEdge((h_node, c), "E", R=attrs["R"], B=attrs["B"])
+                    )
                 else:
                     key_rev = (c.label, h_node.label)
                     if key_rev in segment_attributes:
                         attrs = segment_attributes[key_rev]
-                        new_graph.add_edge(HyperEdge((c, h_node), "E", R=attrs['R'], B=attrs['B']))
+                        new_graph.add_edge(
+                            HyperEdge((c, h_node), "E", R=attrs["R"], B=attrs["B"])
+                        )
 
             new_graph.add_edge(HyperEdge((center, h_next), "E", R=0, B=0))
 
         return new_graph
 
-    def find_match(self, graph: Graph) -> Optional[HyperEdge]:
+    def find_match(
+        self, graph: Graph, node_label: Optional[str] = None
+    ) -> Optional[HyperEdge]:
         for e in graph.hyperedges:
             if e.hypertag == "T" and e.R == 1 and len(e.nodes) == 7:
                 corners = list(e.nodes)
                 mids = [
-                    n for n in graph.nodes
+                    n
+                    for n in graph.nodes
                     if n not in corners and self._is_midpoint(graph, n, corners)
                 ]
                 if len(mids) == 7:
-                    return HyperEdge(tuple(corners + mids), "T", R=1)
+                    all_nodes = corners + mids
+                    if node_label and not any(n.label == node_label for n in all_nodes):
+                        continue
+                    return HyperEdge(tuple(all_nodes), "T", R=1)
         return None
 
     def can_apply(self, graph: Graph) -> bool:
@@ -108,15 +127,15 @@ class P14(Production):
                 for n in e.nodes:
                     if n in corners:
                         neighbors.append(n)
-        
+
         if len(neighbors) != 2:
             return False
-            
+
         c1, c2 = neighbors
         d1 = math.hypot(node.x - c1.x, node.y - c1.y)
         d2 = math.hypot(node.x - c2.x, node.y - c2.y)
         d_total = math.hypot(c1.x - c2.x, c1.y - c2.y)
-        
+
         return abs((d1 + d2) - d_total) < 1e-4
 
     def _sort_angularly(self, nodes: List[Node], cx: float, cy: float) -> List[Node]:
@@ -126,8 +145,14 @@ class P14(Production):
         for n in graph.nodes:
             if n is a or n is b:
                 continue
-            has_a = any(e.hypertag == "E" and a in e.nodes and n in e.nodes for e in graph.hyperedges)
-            has_b = any(e.hypertag == "E" and b in e.nodes and n in e.nodes for e in graph.hyperedges)
+            has_a = any(
+                e.hypertag == "E" and a in e.nodes and n in e.nodes
+                for e in graph.hyperedges
+            )
+            has_b = any(
+                e.hypertag == "E" and b in e.nodes and n in e.nodes
+                for e in graph.hyperedges
+            )
             if has_a and has_b:
                 d1 = math.hypot(a.x - n.x, a.y - n.y)
                 d2 = math.hypot(n.x - b.x, n.y - b.y)
@@ -139,5 +164,5 @@ class P14(Production):
     def _get_edge_attrs(self, graph: Graph, n1: Node, n2: Node) -> Dict:
         for e in graph.hyperedges:
             if e.hypertag == "E" and n1 in e.nodes and n2 in e.nodes:
-                return {'R': e.R, 'B': e.B}
-        return {'R': 0, 'B': 1}
+                return {"R": e.R, "B": e.B}
+        return {"R": 0, "B": 1}

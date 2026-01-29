@@ -67,7 +67,9 @@ class P10(Production):
                     return True
         return False
 
-    def find_match(self, graph: Graph) -> Optional[HyperEdge]:
+    def find_match(
+        self, graph: Graph, node_label: Optional[str] = None
+    ) -> Optional[HyperEdge]:
         s_edges = [e for e in graph.hyperedges if e.hypertag == "S" and e.R == 1]
 
         for s_edge in s_edges:
@@ -82,6 +84,9 @@ class P10(Production):
             # Tutaj również musimy być ściśli.
             # Jeśli znajdziemy S, ale jest uszkodzony (nie ma 6 krawędzi), nie zwracamy go.
             if len(enclosed_edges) != 6:
+                continue
+
+            if node_label and not any(n.label == node_label for n in s_edge.nodes):
                 continue
 
             for edge in enclosed_edges:

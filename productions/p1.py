@@ -1,4 +1,5 @@
 from production_base import Production
+from typing import Optional
 from graph_model import Graph, HyperEdge
 
 
@@ -43,12 +44,16 @@ class P1(Production):
 
         return False
 
-    def find_match(self, graph: Graph):
+    def find_match(
+        self, graph: Graph, node_label: Optional[str] = None
+    ) -> Optional[HyperEdge]:
         for q in graph.hyperedges:
             if q.hypertag != "Q" or q.R != 1 or len(q.nodes) != 4:
                 continue
 
             if self._check_isomorphism(graph, q):
+                if node_label and not any(n.label == node_label for n in q.nodes):
+                    continue
                 return q
 
         return None
