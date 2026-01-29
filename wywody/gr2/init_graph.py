@@ -2,48 +2,52 @@ from graph_model import Graph, Node, HyperEdge
 
 
 def make_graph() -> Graph:
-    graph = Graph()
+    g = Graph()
 
-    v_A = Node(0, 5, "A")
-    v_B = Node(0, 10, "B")
-    v_C = Node(5, 15, "C")
-    v_D = Node(40, 15, "D")
-    v_E = Node(50, 10, "E")
-    v_F = Node(50, 5, "F")
-    v_G = Node(40, 0, "G")
-    v_H = Node(5, 0, "H")
-    v_I = Node(10, 5, "I")
-    v_J = Node(10, 10, "J")
-    v_K = Node(30, 10, "K")
-    v_L = Node(30, 5, "L")
+    # Left
+    w0 = Node(0.0, 1.0, "B")
+    w1 = Node(0.5, 2.0, "C")
+    w2 = Node(1.0, 1.0, "J")
+    w3 = Node(1.0, -1.0, "I")
+    w4 = Node(0.5, -2.0, "H")
+    w5 = Node(0.0, -1.0, "A")
 
-    for v in [v_A, v_B, v_C, v_D, v_E, v_F, v_G, v_H, v_I, v_J, v_K, v_L]:
-        graph.add_node(v)
+    nodes = [w0, w1, w2, w3, w4, w5]
+    for n in nodes:
+        g.add_node(n)
+    for u, v in ((w0, w1), (w0, w5), (w4, w5)):
+        g.add_edge(HyperEdge((u, v), "E", boundary=True, R=0, B=1))
+    for u, v in ((w1, w2), (w2, w3), (w3, w4)):
+        g.add_edge(HyperEdge((u, v), "E", boundary=False, R=0, B=1))
 
-    # Outline A -> H
-    graph.add_edge(HyperEdge((v_A, v_B), "E", R=0, B=1))
-    graph.add_edge(HyperEdge((v_B, v_C), "E", R=0, B=1))
-    graph.add_edge(HyperEdge((v_C, v_D), "E", R=0, B=1))
-    graph.add_edge(HyperEdge((v_D, v_E), "E", R=0, B=1))
-    graph.add_edge(HyperEdge((v_E, v_F), "E", R=0, B=1))
-    graph.add_edge(HyperEdge((v_F, v_G), "E", R=0, B=1))
-    graph.add_edge(HyperEdge((v_G, v_H), "E", R=0, B=1))
-    graph.add_edge(HyperEdge((v_H, v_A), "E", R=0, B=1))
+    # Right
+    w8 = Node(4.0, -2.0, "G")
+    w9 = Node(5.0, -1.0, "F")
+    w10 = Node(5.0, 1.0, "E")
+    w11 = Node(4.0, 2.0, "D")
+    nodes = [w8, w9, w10, w11]
+    for n in nodes:
+        g.add_node(n)
+    for u, v in ((w8, w9), (w9, w10), (w10, w11), (w1, w11), (w4, w8)):
+        g.add_edge(HyperEdge((u, v), "E", boundary=True, R=0, B=1))
 
-    # Central Quad I - > L
-    graph.add_edge(HyperEdge((v_I, v_J), "E", R=0, B=0))
-    graph.add_edge(HyperEdge((v_J, v_K), "E", R=0, B=0))
-    graph.add_edge(HyperEdge((v_K, v_L), "E", R=0, B=0))
-    graph.add_edge(HyperEdge((v_L, v_I), "E", R=0, B=0))
+    # Connector
+    w6 = Node(3.0, 1.0, "K")
+    w7 = Node(3.0, -1.0, "L")
+    nodes = [w6, w7]
+    for n in nodes:
+        g.add_node(n)
+    for u, v in ((w2, w6), (w3, w7), (w6, w7)):
+        g.add_edge(HyperEdge((u, v), "E", boundary=False, R=0, B=1))
 
-    # Connectors: Outline -> Central Quad
-    graph.add_edge(HyperEdge((v_C, v_J), "E", R=0, B=0))
-    graph.add_edge(HyperEdge((v_D, v_K), "E", R=0, B=0))
-    graph.add_edge(HyperEdge((v_G, v_L), "E", R=0, B=0))
-    graph.add_edge(HyperEdge((v_H, v_I), "E", R=0, B=0))
+    for u, v in ((w7, w8), (w6, w11)):
+        g.add_edge(HyperEdge((u, v), "E", boundary=False, R=0, B=1))
 
-    # Figures
-    graph.add_edge(HyperEdge((v_H, v_G, v_I, v_L), "Q", R=0))
-    graph.add_edge(HyperEdge((v_D, v_E, v_F, v_G, v_L, v_K), "S", R=0))
+    # Hyperedges
+    g.add_edge(HyperEdge(tuple((w1, w2, w6, w11)), "Q", R=0))
+    g.add_edge(HyperEdge(tuple((w2, w6, w7, w3)), "Q", R=0))
+    g.add_edge(HyperEdge(tuple((w3, w7, w8, w4)), "Q", R=0))
+    g.add_edge(HyperEdge(tuple((w6, w7, w8, w9, w10, w11)), "S", R=0))
+    g.add_edge(HyperEdge(tuple((w0, w1, w2, w3, w4, w5)), "S", R=0))
 
-    return graph
+    return g

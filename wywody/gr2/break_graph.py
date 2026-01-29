@@ -1,4 +1,5 @@
 import os
+from graph_model import Graph
 from wywody.gr2.init_graph import make_graph
 from visualization import draw
 from productions.p0 import P0
@@ -14,74 +15,29 @@ from productions.p11 import P11
 DIR = "wywody/gr2/img"
 
 
+def pipeline(g: Graph, label: str, level: int):
+    step = 1
+    marking = [P9, P0]
+    productions = [P1, P4, P3, P5, P10, P4, P2, P3, P11]
+    for _ in range(level):
+
+        for prod in marking:
+            while g.apply(prod(), specified_label=label):
+                draw(g, os.path.join(DIR, f"{step}.png"))
+                step += 1
+
+        for prod in productions:
+            while g.apply(prod()):
+                draw(g, os.path.join(DIR, f"{step}.png"))
+                step += 1
+
+
 def main():
     os.makedirs(DIR, exist_ok=True)
 
-    # Around vertex G
-    graph = make_graph()
-    draw(graph, f"{DIR}/0.png")
-
-    # 1. Mark Quad
-    graph.apply(P0())
-    print("P0")
-    draw(graph, f"{DIR}/1.png")
-
-    # 2. Mark Hex
-    graph.apply(P9())
-    print("P9")
-    draw(graph, f"{DIR}/2.png")
-
-    # 3. Marking Quad Edges
-    graph.apply(P1())
-    print("P1")
-    draw(graph, f"{DIR}/3.png")
-
-    # 4. Break Boundary
-    while P4().can_apply(graph=graph):
-        graph.apply(P4())
-        print("P4")
-    draw(graph, f"{DIR}/4.png")
-
-    # 5. Break Joint Edges
-    while P3().can_apply(graph=graph):
-        graph.apply(P3())
-        print("P3")
-    draw(graph, f"{DIR}/5.png")
-
-    # 6. Break Quad
-    while P5().can_apply(graph=graph):
-        graph.apply(P5())
-        print("P5")
-    draw(graph, f"{DIR}/6.png")
-
-    # 7. Marking Hex Edges
-    graph.apply(P10())
-    print("P10")
-    draw(graph, f"{DIR}/7.png")
-
-    # 8. Break Boundary
-    while P4().can_apply(graph=graph):
-        graph.apply(P4())
-        print("P4")
-    draw(graph, f"{DIR}/8.png")
-
-    # 9. Break Joint Already Broken
-    while P2().can_apply(graph=graph):
-        graph.apply(P2())
-        print("P2")
-    draw(graph, f"{DIR}/9.png")
-
-    # 10. Break Joint Edges
-    while P3().can_apply(graph=graph):
-        graph.apply(P3())
-        print("P3")
-    draw(graph, f"{DIR}/10.png")
-
-    # 11. Break Hex
-    while P11().can_apply(graph=graph):
-        graph.apply(P11())
-        print("P5")
-    draw(graph, f"{DIR}/11.png")
+    g = make_graph()
+    draw(g, os.path.join(DIR, f"0.png"))
+    pipeline(g, "G", 2)
 
 
 if __name__ == "__main__":
