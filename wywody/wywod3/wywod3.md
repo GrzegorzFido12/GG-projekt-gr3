@@ -1,4 +1,12 @@
 # Raport z przebiegu wywodu grafowego
+## Idea wywodu
+
+<div align="center">
+  <img src="/visualizations/wywod3/idea_wywodu.png" width="1000">
+  <br>
+  <i><strong>Rysunek 1:</strong> Idea wywodu dla grupy 3.</i>
+</div>
+
 ## Proces transformacji siatki krok po kroku
 
 | Krok | Operacja                                                                                                    | Wizualizacja Grafu |
@@ -41,7 +49,7 @@
 <div align="center">
   <img src="/visualizations/wywod3/graph_after_29_step.png" width="1000">
   <br>
-  <i><strong>Rysunek 1:</strong> Stan końcowy siatki po pełnej sekwencji transformacji (29 kroków).</i>
+  <i><strong>Rysunek 2:</strong> Stan końcowy siatki po pełnej sekwencji transformacji (29 kroków).</i>
 </div>
 
 ---
@@ -49,5 +57,5 @@
 <div align="center">
   <img src="/visualizations/wywod3/wywod_rysunek.png" width="1000">
   <br>
-  <i><strong>Rysunek 2:</strong> Uproszczony schemat wywodu, rysowany w programie paint.</i>
+  <i><strong>Rysunek 3:</strong> Uproszczony schemat wywodu, rysowany w programie paint.</i>
 </div>

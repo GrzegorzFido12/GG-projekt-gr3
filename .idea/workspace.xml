@@ -4,9 +4,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ca52990-a426-42bd-84e5-4b9b29a309b0" name="Changes" comment="test4">
-      <change afterPath="$PROJECT_DIR$/docs/dokumentacja_p12.md" afterDir="false" />
+    <list default="true" id="4ca52990-a426-42bd-84e5-4b9b29a309b0" name="Changes" comment="Wywod3">
+      <change beforePath="$PROJECT_DIR$/.idea/GG-projekt-gr3.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GG-projekt-gr3.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/p2_visualisations/test_missing_edge.png" beforeDir="false" afterPath="$PROJECT_DIR$/visualizations/p2_visualisations/test_missing_edge.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/p2_visualisations/test_multiple_after.png" beforeDir="false" afterPath="$PROJECT_DIR$/visualizations/p2_visualisations/test_multiple_after.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/p6_visualisations/test_multiple_after.png" beforeDir="false" afterPath="$PROJECT_DIR$/visualizations/p6_visualisations/test_multiple_after.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/test_p0_square_after.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/test_p0_square_before.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/test_p0_triangle_after.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/test_p0_triangle_before.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/test_p0_two_nodes_after.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/test_p0_two_nodes_before.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/test_p4_basic_after.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/test_p4_basic_before.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/test_p4_complex_after.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/test_p4_complex_before.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/test_p4_diagonal_after.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/test_p4_diagonal_before.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/test_p4_large_mesh_after.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/test_p4_large_mesh_before.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/test_p4_multiple_after.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/test_p4_multiple_before.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/test_p4_square_after.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/test_p4_square_before.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/test_p4_triangle_after.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/test_p4_viz_correctness.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wywody/wywod3/Wywod3.py" beforeDir="false" afterPath="$PROJECT_DIR$/wywody/wywod3/Wywod3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wywody/wywod3/wywod3.md" beforeDir="false" afterPath="$PROJECT_DIR$/wywody/wywod3/wywod3.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +63,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/GrzegorzFido12/GG-projekt-gr3.git&quot;,
-    &quot;accountId&quot;: &quot;b4996b37-0484-42fb-be59-8b1329eab67a&quot;
+    &quot;accountId&quot;: &quot;886ce80e-ba71-419b-b631-b98877fcd137&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -51,7 +77,10 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python tests.Python tests in test_p0.py.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests in test_p12.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in test_p2.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Wywod3.executor&quot;: &quot;Run&quot;,
     &quot;Python.p12 (1).executor&quot;: &quot;Run&quot;,
     &quot;Python.p12.executor&quot;: &quot;Run&quot;,
     &quot;Python.temporary.executor&quot;: &quot;Run&quot;,
@@ -59,9 +88,9 @@
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;wywod3&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/emiar/Desktop/MOJE/STUDIA/Nowy folder/GG-projekt-gr3&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/adasa/Desktop/9 semestr/Grafowe/GG-projekt-gr3&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -73,17 +102,40 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\adasa\Desktop\9 semestr\Grafowe\GG-projekt-gr3" />
       <recent name="C:\Users\emiar\Desktop\MOJE\STUDIA\Nowy folder\GG-projekt-gr3" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\adasa\Desktop\9 semestr\Grafowe\GG-projekt-gr3\wywody\wywod3" />
+      <recent name="C:\Users\adasa\Desktop\9 semestr\Grafowe\GG-projekt-gr3\visualizations\wywod3" />
       <recent name="C:\Users\emiar\Desktop\MOJE\STUDIA\Nowy folder\GG-projekt-gr3\visualizations" />
       <recent name="C:\Users\emiar\Desktop\MOJE\STUDIA\Nowy folder\GG-projekt-gr3\visualizations\p12_visualizations" />
       <recent name="C:\Users\emiar\Desktop\MOJE\STUDIA\Nowy folder\GG-projekt-gr3\productions" />
-      <recent name="C:\Users\emiar\Desktop\MOJE\STUDIA\Nowy folder\GG-projekt-gr3\tests" />
-      <recent name="C:\Users\emiar\Desktop\MOJE\STUDIA\Nowy folder\GG-projekt-gr3\visualizations\p4_visualisations" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in test_p0.py">
+  <component name="RunManager" selected="Python.Wywod3">
+    <configuration name="Wywod3" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="GG-projekt-gr3" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="C:\Users\adasa\Desktop\9 semestr\Grafowe\GG-projekt-gr3\wywody\wywod3\Wywod3.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="p12 (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GG-projekt-gr3" />
       <option name="ENV_FILES" value="" />
@@ -98,7 +150,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/graphs/p12.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -108,7 +159,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="p12" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="test_p0" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GG-projekt-gr3" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -117,13 +168,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/productions" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="RUN_TOOL" value="" />
-      <option name="SCRIPT_NAME" value="C:\Users\emiar\Desktop\MOJE\STUDIA\Nowy folder\GG-projekt-gr3\graphs\p12.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/test_p0.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -143,13 +192,12 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/test_p0.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in test_p12.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in test_p2.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="GG-projekt-gr3" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -159,27 +207,25 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/test_p12.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/test_p2.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Wywod3" />
+        <item itemvalue="Python tests.Python tests in test_p2.py" />
         <item itemvalue="Python tests.Python tests in test_p0.py" />
+        <item itemvalue="Python.test_p0" />
         <item itemvalue="Python.p12 (1)" />
-        <item itemvalue="Python.p12" />
-        <item itemvalue="Python tests.Python tests in test_p12.py" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-a71380e98a7c-JavaScript-PY-252.28238.29" />
-        <option value="bundled-python-sdk-a101402ee41c-968fe969f28a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.28238.29" />
+        <option value="bundled-python-sdk-7bb8055f9097-cbfc7b97e6b2-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-252.28238.29" />
       </set>
     </attachedChunks>
   </component>
@@ -215,15 +261,46 @@
       <option name="project" value="LOCAL" />
       <updated>1766141824434</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Wywod3">
+      <option name="closed" value="true" />
+      <created>1769268793487</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1769268793487</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="test4" />
-    <option name="LAST_COMMIT_MESSAGE" value="test4" />
+    <MESSAGE value="Wywod3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Wywod3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/productions/p9.py</url>
+          <line>89</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/GG_projekt_gr3$p12__1_.coverage" NAME="p12 (1) Coverage Results" MODIFIED="1767528298790" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/graphs" />

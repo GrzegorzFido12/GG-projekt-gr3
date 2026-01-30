@@ -3,13 +3,13 @@ import os
 from graph_model import Graph, Node, HyperEdge
 from productions.p0 import P0
 from productions.p1 import P1
-from productions.p10 import P10
-from productions.p11 import P11
 from productions.p2 import P2
 from productions.p3 import P3
 from productions.p4 import P4
 from productions.p5 import P5
 from productions.p9 import P9
+from productions.p10 import P10
+from productions.p11 import P11
 from visualization import draw
 
 OUTPUT_DIR = "../../visualizations/wywod3"
