@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Sprawozdanie Projekt 2</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Sprawozdanie Projekt 2</h1>
+</header>
+<h1 id="sprawozdanie-z-projektu-2-łamanie-grafu-do-punktu">Sprawozdanie
+z Projektu 2: Łamanie grafu do punktu</h1>
+<p><strong>Autorzy:</strong> Wójcik, Klatka (Grupa 5)</p>
+<h2 id="cel-zadania">Cel zadania</h2>
+<p>Celem drugiej części projektu było napisanie sterownika (procedury
+pilotującej), który automatycznie przeprowadzi wywód gramatyki grafowej.
+Wywód ten miał na celu zagęszczenie (połamanie) siatki w kierunku
+wybranego punktu (w naszym przypadku wierzchołka <code>v5</code>) na
+grafie startowym, wykorzystując przygotowane wcześniej produkcje.</p>
+<hr />
+<h2 id="szczegółowa-wizualizacja-wywodu">1. Szczegółowa wizualizacja
+wywodu</h2>
+<p>Poniżej przedstawiono każdy krok wywodu wygenerowany przez nasz
+sterownik. Każdy obraz odpowiada jednemu stanowi pośredniemu grafu.</p>
+<h3 id="faza-1-inicjalizacja-i-podział-pentagonu">Faza 1: Inicjalizacja
+i podział Pentagonu</h3>
+<h4 id="krok-0-graf-początkowy">Krok 0: Graf Początkowy</h4>
+<p>Stan początkowy siatki. Widoczne trzy elementy czworokątne (trapezy
+2D) oraz jeden element pięciokątny po prawej stronie.</p>
+<figure>
+<img src="../visualizations/group5/0_initial.png" alt="Step 0" />
+<figcaption aria-hidden="true">Step 0</figcaption>
+</figure>
+<h4 id="krok-1-oznaczenie-pentagonu">Krok 1: Oznaczenie Pentagonu</h4>
+<p>Znaleziono element typu <code>P</code> (pięciokąt) i zmieniono jego
+atrybut <code>R</code> na <code>1</code>. Oznacza to, że jest on
+przeznaczony do dalszego podziału.</p>
+<figure>
+<img src="../visualizations/group5/1_marked.png" alt="Step 1" />
+<figcaption aria-hidden="true">Step 1</figcaption>
+</figure>
+<h4 id="krok-2-aplikacja-p7-marking">Krok 2: Aplikacja P7 (Marking)</h4>
+<p>Zastosowano produkcję <code>P7</code>. Produkcja ta oznacza wszystkie
+krawędzie należące do wybranego pięciokąta (atrybut <code>R</code>
+krawędzi zmienia się na <code>1</code>), przygotowując je do
+podziału.</p>
+<figure>
+<img src="../visualizations/group5/2_p7_applied.png" alt="Step 2" />
+<figcaption aria-hidden="true">Step 2</figcaption>
+</figure>
+<h4 id="krok-3-łamanie-krawędzi-breaking-edges">Krok 3: Łamanie Krawędzi
+(Breaking Edges)</h4>
+<p>Pętla stabilizująca wielokrotnie aplikowała produkcje <code>P4</code>
+(dla krawędzi brzegowych) oraz <code>P2</code> (dla krawędzi
+wewnętrznych), dzieląc wszystkie oznaczone krawędzie na pół i wstawiając
+nowe wierzchołki.</p>
+<figure>
+<img src="../visualizations/group5/3_edges_broken.png" alt="Step 3" />
+<figcaption aria-hidden="true">Step 3</figcaption>
+</figure>
+<h4 id="krok-4-aplikacja-p8-podział-pentagonu">Krok 4: Aplikacja P8
+(Podział Pentagonu)</h4>
+<p>Zastosowano produkcję <code>P8</code>, która wstawia nowy element do
+wnętrza “połamanego” pięciokąta, finalizując jego podział.</p>
+<figure>
+<img src="../visualizations/group5/4_p8_applied.png" alt="Step 4" />
+<figcaption aria-hidden="true">Step 4</figcaption>
+</figure>
+<h3 id="faza-2-podział-górnego-trapezu">Faza 2: Podział Górnego
+Trapezu</h3>
+<h4 id="krok-5-oznaczenie-górnego-trapezu">Krok 5: Oznaczenie Górnego
+Trapezu</h4>
+<p>Sterownik zidentyfikował górny trapez sąsiadujący z <code>v5</code>
+(na podstawie wierzchołków <code>v4</code> i <code>v5</code>) i oznaczył
+go atrybutem <code>R=1</code>.</p>
+<figure>
+<img src="../visualizations/group5/5_top_trap_marked.png"
+alt="Step 5" />
+<figcaption aria-hidden="true">Step 5</figcaption>
+</figure>
+<h4 id="krok-6-aplikacja-p1-marking">Krok 6: Aplikacja P1 (Marking)</h4>
+<p>Zastosowano produkcję <code>P1</code> na oznaczonym trapezie
+<code>Q</code>. Produkcja ta oznacza krawędzie tego czworokąta do
+podziału (atrybut <code>R=1</code>).</p>
+<figure>
+<img src="../visualizations/group5/6_p1_applied.png" alt="Step 6" />
+<figcaption aria-hidden="true">Step 6</figcaption>
+</figure>
+<h4 id="krok-7-łamanie-krawędzi">Krok 7: Łamanie Krawędzi</h4>
+<p>Ponownie uruchomiono pętlę stabilizującą. Krawędzie trapezu zostały
+podzielone przez produkcje <code>P4</code> (brzegowe) oraz
+<code>P2</code>/<code>P3</code> (wewnętrzne).</p>
+<figure>
+<img src="../visualizations/group5/7_edges_broken_top.png"
+alt="Step 7" />
+<figcaption aria-hidden="true">Step 7</figcaption>
+</figure>
+<h4 id="krok-8-aplikacja-p5-podział-trapezu">Krok 8: Aplikacja P5
+(Podział Trapezu)</h4>
+<p>Na przygotowanym trapezie (z podzielonymi krawędziami) wykonano
+produkcję <code>P5</code>, dzieląc go na cztery mniejsze elementy.</p>
+<figure>
+<img src="../visualizations/group5/8_p5_applied.png" alt="Step 8" />
+<figcaption aria-hidden="true">Step 8</figcaption>
+</figure>
+<h3 id="faza-3-łamanie-do-punktu-v5---iteracja-1-kierunek-v4-v5">Faza 3:
+Łamanie do punktu <code>v5</code> - Iteracja 1 (Kierunek v4-v5)</h3>
+<p>W tej fazie sterownik precyzyjnie wybiera mniejszy trapez
+przylegający do wierzchołka <code>v5</code> od strony krawędzi
+<code>v4-v5</code>.</p>
+<h4 id="krok-9a-oznaczenie-krawędzi">Krok 9a: Oznaczenie Krawędzi</h4>
+<p>Znaleziono odpowiedni mały trapez przy <code>v5</code>. Oznaczono
+jego krawędzie (wewnętrzne i brzegowe) do podziału.</p>
+<figure>
+<img src="../visualizations/group5/9a_v5_trap_1_0_marked_edges.png"
+alt="Step 9a" />
+<figcaption aria-hidden="true">Step 9a</figcaption>
+</figure>
+<h4 id="krok-9b-podział-krawędzi-p4">Krok 9b: Podział Krawędzi (P4)</h4>
+<p>Wykonano produkcję <code>P4</code>, dzieląc oznaczone krawędzie
+brzegowe i wstawiając nowe wierzchołki.</p>
+<figure>
+<img src="../visualizations/group5/9b_v5_trap_1_0_p4_splits.png"
+alt="Step 9b" />
+<figcaption aria-hidden="true">Step 9b</figcaption>
+</figure>
+<h4 id="krok-9c-oznaczenie-elementu-q">Krok 9c: Oznaczenie Elementu
+Q</h4>
+<p>Oznaczono sam element <code>Q</code> (trapez) do podziału
+(<code>R=1</code>).</p>
+<figure>
+<img src="../visualizations/group5/9c_v5_trap_1_0_q_marked.png"
+alt="Step 9c" />
+<figcaption aria-hidden="true">Step 9c</figcaption>
+</figure>
+<h4 id="krok-9d-aplikacja-p5">Krok 9d: Aplikacja P5</h4>
+<p>Zastosowano produkcję <code>P5</code>, dzieląc ten mały trapez na
+cztery jeszcze mniejsze. Zagęszczenie przy <code>v5</code> wzrosło.</p>
+<figure>
+<img src="../visualizations/group5/9d_v5_trap_1_0_p5_applied.png"
+alt="Step 9d" />
+<figcaption aria-hidden="true">Step 9d</figcaption>
+</figure>
+<h3 id="faza-4-łamanie-do-punktu-v5---iteracja-2-kierunek-v5-v8">Faza 4:
+Łamanie do punktu <code>v5</code> - Iteracja 2 (Kierunek v5-v8)</h3>
+<p>Następnie sterownik zajmuje się drugim kierunkiem wychodzącym z
+<code>v5</code> (w stronę <code>v8</code>), aby zagęścić siatkę również
+z tej strony.</p>
+<h4 id="krok-10a-oznaczenie-krawędzi">Krok 10a: Oznaczenie Krawędzi</h4>
+<p>Zidentyfikowano kolejny trapez przy <code>v5</code> (tym razem w
+kierunku <code>v8</code>). Oznaczono jego krawędzie.</p>
+<figure>
+<img src="../visualizations/group5/10a_v5_trap_2_0_marked_edges.png"
+alt="Step 10a" />
+<figcaption aria-hidden="true">Step 10a</figcaption>
+</figure>
+<h4 id="krok-10b-podział-krawędzi-p4">Krok 10b: Podział Krawędzi
+(P4)</h4>
+<p>Produkcja <code>P4</code> podzieliła krawędzie brzegowe tego
+trapezu.</p>
+<figure>
+<img src="../visualizations/group5/10b_v5_trap_2_0_p4_splits.png"
+alt="Step 10b" />
+<figcaption aria-hidden="true">Step 10b</figcaption>
+</figure>
+<h4 id="krok-10c-oznaczenie-elementu-q">Krok 10c: Oznaczenie Elementu
+Q</h4>
+<p>Oznaczono trapez <code>Q</code> do podziału (<code>R=1</code>).</p>
+<figure>
+<img src="../visualizations/group5/10c_v5_trap_2_0_q_marked.png"
+alt="Step 10c" />
+<figcaption aria-hidden="true">Step 10c</figcaption>
+</figure>
+<h4 id="krok-10d-aplikacja-p5">Krok 10d: Aplikacja P5</h4>
+<p>Finalny podział trapezu produkcją <code>P5</code>. W rezultacie wokół
+punktu <code>v5</code> siatka jest znacznie gęstsza niż w pozostałych
+obszarach.</p>
+<figure>
+<img src="../visualizations/group5/10d_v5_trap_2_0_p5_applied.png"
+alt="Step 10d" />
+<figcaption aria-hidden="true">Step 10d</figcaption>
+</figure>
+<hr />
+<h2 id="weryfikacja-poprawności">2. Weryfikacja poprawności</h2>
+<h3 id="a-zgodność-grafów-pośrednich">a) Zgodność grafów pośrednich</h3>
+<p>Analiza powyższych 17 kroków potwierdza: 1. <strong>Ciągłość
+Topologiczna</strong>: W żadnym kroku (nawet 3, 7, 9b, 10b) nie dochodzi
+do rozerwania siatki w sposób niezgodny z logiką FEM. Każdy “wiszący”
+wierzchołek powstały na krawędzi jest obsługiwany przez produkcję
+<code>P2</code> (propagacja pęknięcia) lub <code>P5</code> (podział
+wnętrza), co widać na finalnych obrazach każdej fazy (4, 8, 9d, 10d). 2.
+<strong>Poprawność Atrybutów</strong>: Mechanizm oznaczania
+(<code>Marking</code>) działa bezbłędnie. Na obrazach <code>1</code>,
+<code>5</code>, <code>9c</code>, <code>10c</code> widać zmianę stanu
+elementu <code>Q</code>/<code>P</code> (zmiana koloru/etykiety). Na
+obrazach z serii <code>a</code> (np. <code>9a</code>) widać oznaczone
+krawędzie. 3. <strong>Spójność Wierzchołków</strong>: Wierzchołki są
+współdzielone poprawnie między sąsiednimi elementami.</p>
+<h3 id="b-zastosowanie-odpowiednich-produkcji-warunkowych">b)
+Zastosowanie odpowiednich produkcji warunkowych</h3>
+<p>Kluczowym aspektem jest kolejność. Sterownik zawsze najpierw oznacza
+element (<code>Marking</code>), potem krawędzie, a następnie w pętli
+wykonuje <code>Breaking Edges</code>. Dopiero gdy struktura brzegowa
+jest gotowa, następuje <code>Splitting</code>. Zapobiega to sytuacji, w
+której <code>P5</code> próbowałoby się wykonać na “niepołamanym”
+otoczeniu, co byłoby niezgodne z lewą stroną produkcji.</p>
+<hr />
+<h2 id="szczegółowy-opis-sterownika-procedury-pilotującej">3.
+Szczegółowy opis sterownika (procedury pilotującej)</h2>
+<p>Sterownik został zaprojektowany w sposób <strong>generyczny</strong>,
+aby unikać “hardcodowania” (sztywnego wpisywania) ID elementów. Zamiast
+tego, sterownik analizuje geometrię grafu w czasie rzeczywistym.</p>
+<h3
+id="mechanizm-1-geometryczne-wyszukiwanie-następnego-kroku">Mechanizm 1:
+Geometryczne Wyszukiwanie “Następnego Kroku”</h3>
+<p>Głównym wyzwaniem było: <em>“Który z wielu trapezów przy
+<code>v5</code> podzielić teraz?”</em>. Wcześniejsze podejście oparte na
+kierunkach krawędzi okazało się niewystarczające. Zastąpiliśmy je
+bardziej robustną funkcją <code>find_q_closest_to_target</code>.</p>
+<p>Działa ona następująco: 1. Pobiera punkt centralny (<code>v5</code>)
+i punkt docelowy (target), który wskazuje “kierunek” (np.
+<code>v4</code> dla górnego trapezu, <code>v8</code> dla prawego). 2.
+Szuka w grafie wszystkich elementów <code>Q</code> zawierających
+<code>v5</code>. 3. Dla każdego kandydata oblicza metrykę odległości
+wszystkich jego węzłów do punktu docelowego. 4. Wybiera ten
+<code>Q</code>, który jest przestrzennie najbliżej celu.</p>
+<p>Dzięki temu sterownik wie, że w kroku 9 ma wziąć trapez “idący w
+stronę v4” (góra), a w kroku 10 trapez “idący w stronę v8” (prawo).</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Przykład użycia w pętli głównej sterownika:</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>targets <span class="op">=</span> [</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;v4&quot;</span>, <span class="co"># Kierunek Góra (Trapezoid 1)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;v8&quot;</span>, <span class="co"># Kierunek Prawo (Trapezoid 2)</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Funkcja wybiera trapez na podstawie bliskości do targetu</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>current_q, adjacent_nodes <span class="op">=</span> find_q_closest_to_target(</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    graph, <span class="st">&quot;v5&quot;</span>, target_label</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<h3 id="mechanizm-2-funkcja-split_trapezoid">Mechanizm 2: Funkcja
+<code>split_trapezoid</code></h3>
+<p>Jest to główna “procedura wykonawcza”. Nie jest to proste wywołanie
+produkcji, ale złożony algorytm:</p>
+<ol type="1">
+<li><strong>Identyfikacja Centrum</strong>: Znajduje “strukturalny
+środek” dzielonego czworokąta. Nowa logika szuka węzła z etykietą
+zaczynającą się od <code>c_</code> lub <code>center_</code>. Jest to
+znacznie pewniejsze niż heurystyki odległościowe.</li>
+<li><strong>Inteligentne Oznaczanie Krawędzi</strong>:
+<ul>
+<li>Analizuje sąsiadów. Jeśli sąsiad jest już “zagęszczony” (posiada w
+nazwie <code>h_</code> itp.), pomija oznaczanie tej krawędzi.</li>
+<li>Jeśli krawędź jest “świeża”, oznacza ją <code>B=1, R=1</code>.</li>
+</ul></li>
+<li><strong>Proaktywne Krawędzie Wewnętrzne</strong>: Funkcja szuka też
+krawędzi “szprych” (od rogów do środka) i też je oznacza.</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> split_trapezoid(...):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ...</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Identfikacja Centrum po etykiecie</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    center_node <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> n <span class="kw">in</span> q_element.nodes:</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> n.label.startswith(<span class="st">&quot;c_&quot;</span>) <span class="kw">or</span> n.label.startswith(<span class="st">&quot;center&quot;</span>):</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>            center_node <span class="op">=</span> n</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Oznaczanie krawędzi (tylko tych niezagęszczonych)</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> neighbor <span class="kw">in</span> adjacent_nodes:</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> is_refined_node(neighbor):</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span> </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ... oznacz krawędź ...</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Aplikuj pętlę P4 (Breaking Boundaries)</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> p4.can_apply(graph):</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        graph.<span class="bu">apply</span>(p4)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4. Zaznacz Q i wykonaj P5</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    graph.add_edge(HyperEdge(q_element.nodes, <span class="st">&quot;Q&quot;</span>, R<span class="op">=</span><span class="dv">1</span>, ...))</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> p5.can_apply(graph):</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        graph.<span class="bu">apply</span>(p5)</span></code></pre></div>
+<h3 id="mechanizm-3-pętla-stabilności-stability-loop">Mechanizm 3: Pętla
+Stabilności (Stability Loop)</h3>
+<p>Po każdej operacji <code>split_trapezoid</code>, sterownik uruchamia
+tzw. <em>Stability Loop</em>. Jest to <code>while True</code>, który
+próbuje uruchomić JAKĄKOLWIEK produkcję naprawczą (<code>P2</code>,
+<code>P3</code>, <code>P4</code>). Gwarantuje ona spójność topologiczną
+siatki (eliminacja wiszących węzłów).</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_stability():</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        broken <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> p4.can_apply(graph): graph.<span class="bu">apply</span>(p4)<span class="op">;</span> broken<span class="op">=</span><span class="va">True</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> p2.can_apply(graph): graph.<span class="bu">apply</span>(p2)<span class="op">;</span> broken<span class="op">=</span><span class="va">True</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> p3.can_apply(graph): graph.<span class="bu">apply</span>(p3)<span class="op">;</span> broken<span class="op">=</span><span class="va">True</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> broken: <span class="cf">break</span></span></code></pre></div>
+<p>Dzięki temu podejściu (Geometryczne Szukanie celu -&gt; Inteligentny
+Split -&gt; Stabilizacja), sterownik poprawnie realizuje zadane
+zageszczenie siatki.</p>
+</body>
+</html>

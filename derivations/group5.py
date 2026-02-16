@@ -1,16 +1,542 @@
-# Cursed Script
 import os
-import cryptography.fernet as f
-from dotenv import load_dotenv
 
-load_dotenv()
-k = os.getenv('SECRET_KEY')
-if not k: 
-    raise ValueError("Key missing")
-if isinstance(k, str): 
-    k = k.encode()
+from graph_model import Graph, Node, HyperEdge
+from productions.p7_ import P7
+from productions.p8 import P8
+from productions.p1 import P1
+from productions.p5 import P5
+from productions.p2 import P2
+from productions.p3 import P3
+from productions.p4 import P4
+from visualization import draw
 
-c = f.Fernet(k)
-# The encrypted blob is stored as a literal bytes object here
-encrypted_data = b'gAAAAABpc_bx1Z_uikGgYS5hsfnRHtc_Ctzd7qipLVmzxbM_e5Fbkq99cS-Cpf6AAgVYmocL7dsk8ZMWW2-V2yBAQcFWSTDSm9vsj2RDIxHDGKcYNXyfAka64jJFvL8Qax3II1rV14CcfEQuaZs5GMIflreJKND0v989buJpe0xE1ipp5oLCg_0Si_WI5052Wypjwu-t3oYantaSUmIW8jQ-FaN3pEufGvW8JMzwF1a61u7RUefuVzP1-xJgALZOnsBkBbTuKW2rQ8J8rsFu6fV2o8oPtTJmDskuRCRRfSbaGRt-R2vt9R_EAcqEn3AEMeYYqbSZg907g6IE3IyjpYNnOS6D2Vu_G6xfOes7g-MYVmXOUWjNG47swHWNNxpw6Tr0wHB6EogI55ATCRZgXX1HqTbsvsHfw1XGBfZ4a3s4sUmqdSg0a3RNyM4aeqku8iLeIwAC_DXA6UnOKwyCu2owUpBZR8ex3BtndvQBpqEsG1hWdxL7dl6Eg_aNbN4we9jW82RT94Lp9HH99HgDaCn8Vy7Y3kro0-XzbWJSzk9ocSl_GqPRegV4U9ZK9VmGxZm-_chseSyjRmYA7atqN9qqafFfVKUAXcaq_LHsP7pQC-77e1Pk06Uga0Jn_GLz8yNc1060YN60ugcqInfHYlprJYQljjto-NY4ks0brnX3VxziDYR6NjPHW5kXsNoPC5VW4P6rXoPQvJ6z0Bnr0GwgdGZxDJwBQhoqceTNVlsVQHi0i5U6RfAUNO89mt6-61JmK1o1G7HGdGK6i9NRXijDkwxJZkoguwSKY_4fv97pfx_BlVcOXOz8-6s17jFSvmqHiqiSQpPMLrAzObH9PMbDYvxlh5CjG6uHXxv9QZNGl1gwojjQXwBHeBve8QVAvqmWghYPPethgTZ4UqgQwV1h0gvskQ02kLFs_8jnziCTeeNxt-vicp8L9SkOk-qyNTscRxhZD8H3yD_Mo3AzLmZ5Ta__MAFReu3cBNBb8MDRwOr20uePZUNRao37N_dunRUhf9aXifGL5dyLpgtqTY8uhi2zqA6zM8RgU06-11QKFxTFB32vqb1AQnW27dDQgITMFTM5tduzXTsr6DIoZO5S-BPxyBFv9miuynCBlz6qoIeMFf2E9ePi8LyvQVKp5etiFw5O7WR08brPG95VYHZPouWJffxmV9DJptCWJcGn5U0pUQsRbil9Vt1HiDHJbxYPY_2Zmk-yB-REt0L-sL1v1JL4u1-ow2venOisu95ZWHx_VzwnHmaOlgElpHIr6e2Fos6YAepRtxgfo474NUNtAOkmAfmT17PylEq86ue4qgDT6DD_N4uAIrhufalvbS5FBuUaUL9xqxrSdxC3X0WtqAVUn5qbKo9g9_4sXYqK5kImxF6_A0JR9YFkLDr9LKlF-4LG80wxc-0WaoBY4HDw4en0KiE3Rzu7wPzhcWm_x7U-71rfye8-1KP7LKa92VJMGnvU7lHVH9yqRhCXAttPE-hLtoqJRtXip5f7wxb2WBlayT0nqohsVF6pbQGFxyeOJCXhz3cLB1kAfEUSRp6HafHukwK-tlMKNo3uvdfAKXqCTlmaZWx1LjyiB_Gmsqucm2wPYuPnaNgxIpq3_mkQpIZ_hswfK15NwUvxX4-29HjtyPChVczTMoSpBVAuii2pCRvFiMWZRHpY5UgdIlErzauUTNcQzFnMN8NNTYewL8bWVUwYnZ_NNnRLhZavWRNzx0kfTCVa4gu7Ba1Q3BVyUJria9JMH7nWx7OSxviIcqo1_2jN2bxlIqx6A-iFrFqFMBLG7TUuZmmTW9bHs0ubswjvP_C2FO0ok9Csa3xbqLk99dH4KYMtMkw6JimENX8rQI_XKrlB4Gl-jWLRMM_z7ASSsQyDOl5mPlaRgxiERa0ytHbvqeCO0_6gDW41NVqpmX__LOsh3JjCs4CsWkpoPaHVfnig1YEYbcU9F8zUlCcApAwtGdJMCH248ix4A2Z1SidCgC03ai7Ydj0glnV7K0ZCkOIpGRLA1iPJlWzqpfJUo-0b363g4Sn0pq6_WNujrpVfUf9L3oEn6Vv8WVf4DR_PY2evERtjNwqUGmqS1ksVkk41bpHerTAvBdgo52xljS_HbzR705lfa_UQfxhwNpf5XzHT_iUpQACF1jfJTQSsynOmfYNLSx4LXsNKiMdFHRrHyqBciDs7r36gvChCnuQ_TWP9MBaZhUkxjPUC1Dq65dteqlhEOuDRWGKiKp2g_yBLlr-NQd8EyZOhc9-cxQU6aKxT7sCJ8zEocqN5tqpVfNOYinXaYPhWHAGe9euxIJBS6gIh87-0JjHWuKxInknXKZO4G6p-QJ_kriKT1VH4Pu2eTcV_JUsXUgKJfKqIghs4qlZFAuZG2a8psMphEEu7PI08ypd_sKGI5t411BsLnm-bgyHCBXCiSQVHs4m9bgvf-EI-RoI9bxhrIjk-mbAv6bYEOoJwtLFOh5c-UZhaiXWwfM56GnZ_wfOmUvuFLUhZkwk3S3oreLB4WelNB5r37s8AJivmR7tYWYk_DMktRHEQQRoj2wgDHfnP47KeBTPHa148-mMoCamWBvYzSfsMEHIQWPiztbo6MYP_ds1HcvKBag9ao0f9Mh5jRAWNSOdcaObhQHkp0ra3OgUnrVukmiPUEnZKucseQQUIURM6EW8ZI-iBx_mxkGZannSjGT5GsReXA2dMdKZqrIJLcoRF9IhVT7lNzof8cqpRCOVn6zd6rFRkqCxQbCizKVMN3blPQjEvCiK87pE-iWlfOlRdjSoycVRDnh3plTiFkE66I9DHWlL-RgOY5WK-yRtlLY2m7DtoG9oYGJe0RAV91vjKCCk_K_uulMXc5I0x5JhQ6NWCUaaAjil6K74jbRtq4cMDGrmg7Noqc0ocv2IVfUSHjVrXh3eQWbR7DFaqCqdTTKNOcyL4WvYs-5TtUXunIziMk-KRwVzwHXTphD6sWgpkYTqs-hSx2LES-F1fR9gXrZ2WS_7X6akk_FogBHaNPgJLLkLaxj5DP36_QTpPil6VuFhQ84ZJlUKfR-9POLEjaAQS9hWJ_sjtwHb-FYURYkj6ZwbnZV8w5fiDxoGY1CcOfh4-qDJB5hlgj-aX1dEHFD1gjVRHZAL0_8tAgXzGYknEJKR1437aFJ31MU51g1m15_3TVVXNJlWTXrK-_PRrOQpC_XueqrLeD8-4_euXl3lxr1YfOnJm_QNO7UGE1WpONyktXPN5dNzWnKYDZUT1F15MsY54gz5zRSlSQii1C6HnigyhAQK-atkMZ4M_rUezQwnCJsGi2lMj6x2VUmOVOgRfwq6Wle8Gjre9V4SEoIxO5xnbA19UiTaOWu6WQb0bOEGn8AT1c0dAxSCiUYJt0GIvUvXdZMHOemVIcPVwxeEEWNnOd7tNiHGDOzVxLrfHYVFXoDdaW6GNGbCvKLlgOM-Dj7a6ZpNTZaPmRMweAEkcZ_ZZ0e3e90YACZGRWbYgt82x3QgPEOMbWazFM01BDNG0iXHV9gbxr0StRW02J_oA5gX9SEppLIhxhOkC_gA9THbpBOgdGc9q13sZlgQOWKOgcMn8NXnoLVk-GwmXRzk-wY6rCyh-ALNCYSFMFfL59DPIoYsc4eo61uxf2JtX64bQTJS7bDHhLT7NqU4pyQZcX9DQR2saknmWS3DYIm6WLJo6RrEyQ4TMjEd3hV5JTEioM2gRS-G-VGoqOvnwVHR-R1js3tm3DBKb-6cKD8rqVaWKfLwmz2GKdaMLej3bsPzMzgAtL-l9_g7UhP4x3_hKUCARiZJctWi3mYV1IgamF4GqHVVIMk-B8AQ70z0kI7VZ1fF1ij8WNWAb0zGnRRN8pf4y2a-fmdAH5claNnwu4RqYMZ2RzdryaMpFytm0y93teemPqJyCNyMMtlzeiDtwvdV19pJK0gfJundDQbJKT03hDwZdONt1JwtI_2BJ-tBpUC3YSrGjcSf8RSvNFL8ICiakBhYwCkHrzl_Cg4s5KBec4yQNxLBIDgGm6Hn68M9MnxfBfOQ-NZgqSAEzP2IXG9gPXbUtOBJIHWDhjQgSVC40V7xSxrUMG8a6htg30-02aqahFP10g7pu03bU6el4MCslnxo_9mNzGTK7wty07hwpekNAZQRdQsTmuJO1DvdyOmXttvVXP9B25IkKMXbptGCqPUCQpSGypHokhJ0mxLD4nERJKlnfPR3DC1Xit1qnP_tcTB8uDBoo7kkCa6KJgrt4LoL78v4e9BalPmmit4uxKt2mZp6cfngwuupD8JyPXELh5Q5Bj6_CmXluLbLRUgcfhtod6JsVnE8HAI1DXAVZjM-Ij57-7TGlKnKWiCQA5Flzala4DoqDcA8E6V6TthUDfjmIbBY5bxWpJmtlUcTrLKrIAlmKqjxGcXq5WzOHlIZUbntmFqOzGbIhdnKJXstoxufo7t1NICJ1-hp4cxUdoaG_2ebMkmM6ShjQH7M93928wNMujj15R56s4VlDRxaU_JYKOOpgj05ostVpOLweG7r82CnzhZXUwRO9eWgx3M6LkUYhoMiYjaOQ44CKWe6oVURFS5MTAmBtbyin0QGF26oxpkjjabhsYw-epbZ94PRWPtrvvb-AmUT4_Mn8gY8HJ6ZCHSfHXNrpO7fbYHBYkF6w5wZM2hMx14Lrais1o4qZ5F_o4r9kZyCWJWKACl2VOXXC-kooRlZNmOo_2mF4YcFi60NuE4_G-bdivl7rKVUmzIk7t7iecjAFWhQLfalthcoYihMX0YLgBto_S5rmj3pZbD2h1DW_484U1bBLSkGfzZ9tedb7TLp3cUvucUJuxURJLJddejmnq17k3A67mlS986nOunAGB8G3TXlWrhvriE0WA0FPWM0npgZDmDErf0adartC8lVeggfvfuJcGk0XMlYHGN7V-_2f86k67C8RkLy1wgLe-uQTAtQX1cCTfQncjrJahl55Oh_OlYMkZfoX827g9Q_4J8jpSbf8GOstF9Gcvpm2x1UuaTwhFDGBDMEfTVwKGY2s2uzrBCtXm9ABdkJFzvV58NWkw3Rj_gG3uB6u1oug-pTcEj_UaAVutMokJFi72LsuJ50dd4x4zCrV_zfKs6KNQmSahvoDBMHoHcz3fw_b8OezJUy8ckjAo8e5ksz2iXtpggXb1Q1ThAgzevm845OE1UpEITp45dY1-fT6UTsBKH2CrsDGG7PDNCH2OKUMI78NhTlVuwegdghU42x6a_sxx1S5zD5vaEhQfRvfxuqKqCucckqbwlNxM7K7TTRCgBFvP-gO_PMota2-0fUbGomFAYJrykZqHXpOluyNVEIhnWKMpXCaCLVF9ZzZtwJ8v0WhiD7kK7oUgjifJQKFmF6RPzDl91fYAYrcMp6AssAWmiOkHIcxp6rH99wKvnr_F3Ff58Z8bZ87gebv-Oi74KG7pgQ377U4ZTTuHQgEkU4GW-X24h7ZDE2GfsaPjnO71F3MPKzABvxdr8V2eiExkpgpCgq7tg3A8A2aytahwneDHZBRVCJLZXX5QTQAmQYZtM5OXBEc5_Eca7RzH4eDukmgYxptlw1NoEb1DZfI3mU0jpvOk_WsF64ltpZZXr1g90K3Lsl7sJdVn2cdZbsZL5CewFLwOElL4b69XkBss_EM-Tztilrehff6v4xb29tpU--uj3O7Aphn6_MtoF70sQTn4rrbWupS-m73TDMixAYhilkO34HzeXta2pyF-H7Dz0W-UQYb56VXN0gLHucpVWrHtM_3DXAu9tgiBKA7yI5ttcVFQEXKbK3M9AjgYO2AJc2FtZjvs8x3tvlhBToEn6zUugO74w_HWlyl6zEtywJ7L6l_j4RRzSFrA4DG3Q1OMaGTWkB6HpiUW2iAWuclCQ2tS1oB8hhMxxAcs3zb8rIWv96q2zIbXuqddCgmBykaeS7LH2yhjrnbum-DV_DJmpMzshV_8QcArC6bEkt3YN9Me2Yn2i0NREvp4Y81oX7IrUGHVJ2SX8iFP6E2VQmYCV8P02pzJi3C24EdNz-WTLY9dL8Z2aJHWZirL_KZZmlZDYFO4wv7o3WxJZGzXrr1KzY_ukXkHfxiTScD7pXYKmbc2KeZJsjzbxMdUunoKoOE0WFNgbv_Rx_R5Ut_hIV9_OGLV4SQJmEURE8JAHlpLx1DsTAGAGgbaijB3Rg2HT9Oh3W9-F12ovgkYhs_6cg-kcSmV-aF0QHsLdRKGCVqJH1vREWL2MVkASrA2W2oqLlBjx8rAjxbCSLrG6-aznuNBzgLxDG_ie-0jyZ7bLz6Gjc3ZJb_evY4xy7Mqnsc-354aLjsYrFkYdIE1h9ZmpNjPx-KVDSEuNHMWBsXL0n0S02O0T19SnM6XQP-cmZfbB9iaWvrBt6CEADeDzfOWL9MIIoPrm_66yH8pdSz4IX92zEBExbfdrVKdsGB6vTqdyJfbVfTDjiaQOWyi3nzzlHnC7HhNlF-_09OrXTxJkDx2rQetUlDKBy7xWWMOhc3zI0hTfxLvxHwewnD5lF4DKGUr-SJNy9ue7xwxV346kAYvG6qOBFvr4oJssHlqCZTxk8xi_83FFCm4_8eo5MEELoMPT7os0lQDHgYhl2JN5cd1H6kybN_4_G336Kty_kDBe8xkIei3uso6mFZgJTblHB9HIyDea4KEDs9UBRJeB-pdKTUxalqTe1XfpnKUkJEesycBsAD-Eeo48bh7c4uSO2segUcOxbYAJILU5GxuER0cUVJMzA1Aith84RBNvHAvmNbsGu8rMlp9A3HaRts61yi9WITkQ8Fj1j-DPZ-KyknIMwiSa-DSgdiE4xtKAZTMyu2KFKRsC6KaMOQhMmo0k6faiOP7tQkcPZHXyClT-7zzVijCStXojuhe3mPn4sHucGMkR3FklVZQpS-U1L0ZBDdG8isuwCNsKST_sxGfysIoFwO7t8kxb2GEJCCrDhh_3C03emEvy0ApYe4eddBYG4zxkuw7qD822E4pkZM5Wizzd3wU8zgVFA9GpvN5XEDCYCf3Wy0peiTWwG7xzCG1GTctbKD94J0whHf3k0XkURN-geqm91KI3bkEBcXhsQ3bwZG-SJp7cazbW1-IOwiP9X201Wue4BLMgYGW8vdFFYCF2twnoL3ryYgigxR-t67X5vOkfuReyxp3kzAb8rVXNfDrUtaEsAnIKJP_vBkmsYS9bq6GW18jdifjFrL_H7lK6BbKBk6gu8uF-BBOFZ45iLD2kLjLjaJ4YFzbsJLo541j-Tqby4GOTJPquIlon0N89wWrgUTzKJCDau4zWQaprFAam22ayHEMr4uaOSggzC4vvoL1KtSw7QIgyYm7kAG8QcDR7P1g3d_2pwkCqtYYd7aGY8owPxA2rxBxC3_Lc7X3El5Vzc-jevIVh_kj3qP1f38GP1fmwb3-NMwXjCUGWZkDQNrAoS6c3SU7RIrjAoDwl9gaJEtzSS8PgxK7HHlkBposqSF-0f-R0n-R2d6EzySO8OIAx_dmb9D9LRrkfWUeADvUoYfR9_Wqb5fEPR4INM8Z383AyqzR6nUtV3J_G8lTmghgo_rw59yitQu2kdJbZe1YNdz-ipzPYjO2DsmuOeFnsJP3h30Y6XA_cUHdFe4bwKso3AaHu7K2Z2c8Odp4PCvqd_vCLjiFdNdg-ZXbU1W_l5wc_YctF5XDiB7ago-zLYqCLSUEAJcxaBkckrXZnTb_2Zf3Nu964CoIxShX3oktc_z8zP6Ta9X_CE_xlnG8GwmjYk9wF8PudU1vU_qsXOFSbYNN7Tf-7krL00XexFUyYn-WFyNRC5raeWWnWCbNlW8mtDbC_cqUjuSXXdEKuu-j7jCG481ULN3EAj02XAkSnq5IcyujpnJiVwy9ui6ek-Sg5OtDZvRlLW5g83i0_IFw3NHZb0z-RsY3bKrxbmWmN-e9CVpiflOeJ88UpiQo4GSLK6AUuglfH-Y0q4-K8Chnp-QVVHq1Rm1LxBkq5xEGDS33kHqSICHZHKuTMuj_WLjaP0oWeQ-a912o8ANxwGqssDtCkLCh1r20Xgh1P5HtLdS2lWCrYxeSyuqkxOGoEpNnCtvdCWmLVH0yHdYJQodkTrN3Zpx2CnTcXK6O9GfatphocUFY4SdMO4TkUMeFN2CkUMLx4OqY9eJNLEefdkh_ds6IcXrI0e04xMI4inrpiN-S4VStIs8M12e4k22i_i1lKhaMvP9qz5Txl1-67pyMkwoRNLMEvTrZRIuveoyQXG_qh0fHQgTLF_U5S9Nj1-LuzhFZpHFecbvApRQVaE8sJyOwRKpyMOHG1USZqtUphlA6dRAYW3WBNqf-hIxzCgyoxjm7RKZqZbl3-TQw9WTdP6rNxdhqmRfpX_Y3noOpJgCQ_QDoS4HakdzxrxcKo-9Sn4roeATJYgtSrOnG3f4CDemnFU_mgALijLYQ5UKlySosGcFk7LiZ5LRZ1EskqfLM2Ckhhmor5sL2Dl71q8kz4bbCVkwZUUlKxLBXGPpTc9lQKf7i3gqg6IU8EOKqC4NqoJHd2hJZnVje6o9cXq1TN-o1IDEKZ0-e9cxyDAFTDJhee5jKmbYLxPa6MSUWnrlHYLlTZ98474wHk44hoUQGF3mD9H_05br9wDpMIsi-iLiwoXAEMiFRz33FI5swUUHTh_7H6PUrvacXL3H1nh30AXGvQYsENFSpco15k1Mjw43sURp6sIu2AICgJpOr8vcDLHFbMGgUWSjp53UwRyK3H8KtmPsxVVQlOPcNspAgEJ425tH0uY4X14UbIajeePaSxd-6bxlT7t8d9TjUyBWvJk9hGHDcllsnatUH5-7bvlOWaRHVJpp0Y9lB25N6QZ0OgM6HYT0Q1m9YzD4m4elEvQQwA7SrS6yPvRH2U_dCiHzd5Qv9zCRT9RsdtRSDt8NojjmL61lBBmYHzV-hJa2BzFS-vLGxxf4kqSNEIWuOca2vRsMLT2ldC5TCEp0bt3qxr2ItevqOYAvN4E-zNeTDAsA9dBQR4ezbH2lrcC5PX9D1XXH5iAvJOX7etd4aH8BsaVmex0l_PDPKcIPvt24H0Cfop1-qm14aQV6oRdq1_JenPrwoIpNtqjeAsOGTw1TVAkDvuNbFPfH5gM3uakTbj0pK7TweU1tCOAkdRYPdctvGPOhSMSyYTtKSaBauGX-bHFcs9HQuw57e-8jrphogfqBPj5NdHK_Mb1IX1ZLUNzN5E-v4Q6k7pibhe4NJ5rTCizFouzyYlqtsX-Tr2--5i5cBC5OuuKTKfQm7DkBMa7JVk_bGZQOJXq-xJpI3MVpcyGjyiyk1vTOlHvUbQQ2lWNQ9qDDwfCFuN6uuQTb_-SmUgqYmrGsPbqzUUkjChtjG_42JEA9dyoextlVBRDtGGlfsWy7g2fRk1dCu0J66pJ4sVhmjvlJICrDjyHxrFvzQ3DwS3W_pGKTbuCGs17lkjxIy7pq9RfJQrFGxMqJllgIpYhYmiCmDOCU7aT7H0i5b4Y4I5ZqHaraPARiEns1MQpBTX2WCmoJxevaUNT0B5KhIJ-Oi_q86MO600FWp3t-y80_8KHr81wwruJjhVBK_J3gV25y3I7c4xQE55-qrnZfYWrwH8102MakNTCIGYKm38YEDdMQXqiJNfIjuQTmP8UzG_oR-nCpGiZTNpVJvDd5_Tu2jdHX-k3qjd_vhlrL4ihAonpku6n3QpNA3HvMLfQzuUhIbCliImPoluBw56fIPAbJmz4CdqR9u9nc5v6W-A9EWy3prIPDk7yijh2HKhOn9cPEBl9Grz8cqFCnlNEdVfrzbpFL7eQzaxgAZgDI_TTrvOlYTXJ3jwWyVgdvzTvLWvjdKGHLKkZGUsM5D8yx_o8u-0BScPF6VaFIxmNQU-Qb9yURP-Kos6jBlSHEFXgV1WMNW0i8-F23A2cnwdZMgtB91q07T7FE1x80NKg-jM0_ve0yAR-41k30jsgVT62vUOuAYmH3no8zGKiHlP_Y4-gawZMdyg5sLSPdykgTWLLQTnpT0LEVcQLgTfLZqpLlv6BXT-vChEbUaurfHYL3isA-M4lIfqpVonXSkhtOoIm79QnetCjHcs7UDDHGKJxKu4msEMNJrwzRS_Tsj64xPOK9EoX_E4QzrUM3eZ4AHah4izj9Fm6tVIqFC9_pvWEW7CIoFg7SdHYE-Hrv1oSqm6IHs4m1oh8DQNnIGAC3eVO6LBoCXrWab-Z2_9hIdAjk2OZ-5lZ5brdey6yft3XLsjlNjF3aSkuM0_CRRgU8PB_FAxhK6SC8j_m38dxbQRCZuMgtRkBKhSEmFpAvA6P_n04aXqfq3_UUAWugvrv-YZZ24gp6_M2pOtlSb4zTBj-PmkshZt_tseU8hmkvfnTpQV5nTaCCPm1kwaIxCqGKrcWE9aQ0geWVdyrXJTnrr3sU1ky2ft9W_k1QnnOqSev-Q_vMWbCWsKWwOu0KCP4BBPG-cghKf8xsfTBNN__tL6yp20IML0oeVLyiTpi4hPW2IZy_f0QMXVqPaerrz2LBxQHLfdB0_UVF-6p0A7J42IVSX61_GL-HqWx6yItlYio1wK8SLISgLh5JMMr2hBmKdFRLxN4RBrjYCW6-lJBwwe2_q6shfszkgdVAb9KUaZZhVcTi9WmW-C3e3bT954Ejkcz5XBI0eg_kHHdFey8yndjybluCRjfoh1nMRg6QaIWBaH9OsOnXEM0GsVSnCIIVR6-w0vqWqIiX6Od0wk8VnUwRiSdvqxJKRjc9YZRDp77cpXGX_lgwgZglI83d1LGdqRspPRK4GEauIGasGvxABQbZRb1pSrxhyo-0m9KQlgS4ZuJEKVtHXG8BSC2zRDSvb1Ph1Y-NoxlVr53JEXOJgQNVZhmmg2O1hKNQkaAZP--fSs4y0VXZK6Cvjx0eufzOXle108cPfuIcY68D3WgIiSFclg9RV0i53cD0Ov7dhjK-nxRAPmynPkOPu1y49qmJh9FppUywNqhnhB00Wzk3UVgtXcCNYWjhYF82-arm3ZIqqaS_tEoNr8fR6gtnesMnfrkkhDQ0rnCgmpTF6rF1yVMzfZuHWU6mO-ji9guVfo2-t-kaWQGdYFi12BaF4Dqt-P0m1VhBiGMRI2LrHq2rf7GQxZkchYe36DRIu44s0lSlEHC4BDZdeeVYNvB560PMKCIs1aB0V3ewJW6-qnU_BbcHISJhnS9R9GL-r1fW0A0JeVg31Hbgf0nxfi-g-L7MvVLvcEucXuOymWbrI0ee4A97Z62RpwH3klfyScWD_QLwaJ2z0LLfw0pNxukxeyl5t8ulkYD3mvPHrut8HGldTFth0dLmnjSDWhfySDw_z4J3JclY-iDRt7rBUXtJQGTEkqS4zoIYZsWzhywAYamik5RoQuzrePCCR3ZZAJqSZTCUQ_Mf1USU_CXq5-Cc-guwyqUq8morGTYJoc_KItAOnO2KiTU8G6pCDQQFVKp4j4GBDcfQZ5EFUYEcEsSdy71YuTfqN_gd6sS4fX4DQoWtGCfEpC4fTfiN48NbHg6GtqWNCOqPDU8A_QoeH81EEU2YSFEcDGVrAx0PVEueXGk_8aTqsL7HB7gZZVeE-0KRXy6k8LARNsZRdw78TBVVp2nGV7aRIZuBT_5hOoLLOQoNcsbAZZnnIP-Jezly27S7_jI26JzUTdWI5O5rOnOW_w3qUSW86B_XVbHUfms8qwwcEMZ6R_dYxffk9Z0vJslN_dv6JL43jJWR_33XhxxSzjZWDJ7YqSqDTIcD9kW2jiO5v_q9ygFveYZsb32jcxfKqJ-8QZfjga8WjKVOYgLvGERaS30x-_Duhs2qaWNRTacE91352GDNMUt7FnO0eMNHF6EyZO0_GHvwa0X5qtwlqR3Dvq8wtDmtI4lbNptNeGBZ9QQ2yPLdFvm-NJOAzsg7wqid0ruDuYRJbGKQahOxJXH3k2G-hJ-o7Bj21Z-ieTXFVRVrDvtYzYvmCnA1BnQLo5cz9UGYOZw-FJI1OCTxNQw3gRQDA2uai_MwjMgpUG7s3tdRc7m0fcDi4zFgHxJInlL4NDEii04e6iwB3eNQXZbFtHKdBbLCUIiiuwUePPFErrvTkxga83z6fK1yY-eO2P_OwAqdmWezH2eETYFgpG-CbXzIBqT94h5ZUiwCdUbeZrFr9UuERUBySlz-MEbVGuV2P63HC3SB_ccUnGtV_gzLdPBrpjDPVHghkwJ6hg661dEjh-Lfllq0jR18nmPybk_Yq8aQgczSkahyE8qTfqvz51JalFF7GL3pKFydvN65HotcVqGUpaDBC_LsY0L3rJ90gozEU8vxRf7LMdrL7jh5s-AIYEikvig9hjO2PY1QVQh_q_n9EJqtKsvQetAVe6-bl4IaepSJATI6-g3pewI1EyIt5LZlnaLUUhnXInbTq3DjSTE1YXLE5RCKLCSjtFXlNT8gqR1uiKdpQkp3F3-KWRDiKgxg2_F4hJBGwBomvgCCkvxCOONBP2YiY67DKTA9jRJD2lVBNlGTSclP2OZEVC50P_Hdv9Fiais2g2vuVD5-M5SzNZXgKbqY4NbSmCO8aZhB9swedC_gfPH7PmuFnxcKU5IjhL05CZt8JGnywRuv0TwpFQmXN1gpbytJfKOkMUrN1SMHQN-KXTMUZIZIEYCy-JEKsI5RZQ_VQFiIH9icKdobkyAfrybpSg5EzWwJ-3j4SZEEa2ZdzmOfGef1vjZd7bZBgrZkITN2RK87aShKFr65Bx0u4Um4Jf1jlhxj69DvtvijdDoYxmG7zcPFWezdytOvuBLDT_b7RZp2qQDeeRZpbAeG44tPpgxSj-geTlTZ2yDlQahn1NNDuGD6Lg2JzgHFdb0UR_q7kO3LlRMDkV4mkDoDuxe30d8i1DdZub1Yupsis1P0cRC7GYy1iEEUYr-9DBrQnSERX_ytphq5bn-CxWFmxhJA-43XfHsROLOzhlRc49dm79joU0s3A6MxsmKsv-iGV0r2sclkiTHnjtSrAmfqHywXgjc3Wuhs4b0KEu6gSeWz9canFYIqdL1dFRnsfdf4ssK_U7A4FEn4dsLlW1HIhFlQcl3cS9rN4pDpu4s_WEB2fEOOWsOTFl0beGwQknosKT78h5AJrdSvc2GHpiJGBnH_BICkVcDWS6BXBHgKiSBl8SpZmC8fYi3aV_FK7ptmrJT9D57mpVscbJaLI59rRm3yKXC1WV95oCvVefPyUWL1VW0Na4UyVuYjetK14frn9yw53koyCJyUQkvh55AGAUfbl_-cppc3sv63BmLfx5UnBIuJ5nrNtPOFkw3kPGtLMBQIv4ZgvDQtZGmSUQi-ZhjA835ts1dM5PJOXN9HRHfYWRkP_hy2ihcWWuII2MBvyNw5qiwaeipK_OyS4DJ2QM6hfrZDjjqpkFr_NjejzKBKRyPijpYOsRlKGHYLb75ez2CmSmy_kswKJjgNjoU7TXc4R0fVXoao9sV_W1T8d8Z4oZESlTLHQRnWLo666cWJUxaCNTyF8WdrTcB_JT-q9TMlGpDxpd94q_BLtRBvS3ZGw7yJ_tgYvco9HH4zkSTnWIqKJhQ3yRgszlzXqYl-QBXI1Ujp8Tz2GFpigymZCC01ht_vLKahc3UqyINIU-9aSu_84WUwd4P-FyrhObKIgxnSpO9kYOWGrYU6UIznFb7sGmq6dnIMFCrhgV1qSq4t8Vxe9gyn3vcFnRx-Dggxv97A9XJ1mIFS0cCOTJ_SP-hGr62zGW5gvVxnzbb8jm40Qkca18Xx-Vx1XUULGb9jLD68G0HloNEqvxtYcf6Y8qoGkTcxPgR82edR08WgLQhYgUnCXQ6qL82IbFcXUaToir6sOXesCEQgDXBhVJ7as1ENY7e9tJ7hJfauAiaTHDDmHmtrMmEJ9twj2YVUPnRv-XNY_aDuZlvulEA3d9UcIR8GrUqFRnaZuufLN7hscQ9ZOE-AWrICad_n8Bq6tSLJU71_84hbFDXQgbOT60V0SaFniB453zmQUl6DN2jUZNHjDZ2meHQ090GyEDP3i7btJMI16dkG0ukYyA3-wn-CDxe1qhDPZDjDbIuTCfne88pytHObzbcOEugRB7ipNimVqOIyCPSQQVWzC_8NStzmTpmheCVdIC4QwPQIc8LoH87Haxy8ia1XU41r61ZXUiHIIgwqasdo0x_hU4P5jaWrGReTsScGJqNLqRNIgXHz2-m1ayQj5_VZp3XQ_vugNahI_RgkERiGnInVFi2cU8isrw5rvgaVNlm6ip96sMvo6dyPT80JFowWXfYIWe8FXK894o86aOYYaRwfF4m0LDoTQkhMzockyIgFDx-eSLctOy051oaWL3G2IVGwAdJM1JEUtaYcGosLY4X3Eagz3S60qUhnwbtR8o_732Gs957c8Jjna5Qb3vCOIr0sSYa5JOo50r2sObx-FgpKvPxxVzCuhzrq_4xz-xNV8Oz-NxAQyWBzq1oMT7QI0945bRrHirzHuNaOIeSuqsaGsPK7Md3Uaepc95E5VE6rz-IWb576nkaXJOqo73-_garmyYRAd0pDL01knHEmQqW236RngCEWWgeR7aLiyD2TnTFT5dNUoQnF0IInTN1z9wxhI0p0frCt2CYWXKg19fDUq84S2IuZwId39vlhNyhLEXv3MMg5knaD7mO2VGGniT3xGHRnWfnbS5pQ6lnZlIk109avSkLqzwiSLaABe7t76g46Oh0crBzCtsDzPjWGB0HGczZSKAA8uDRymiTcHctIGbL6kfpQGDtc6ZAphwP-9Ivie68s_FcTG6_ZbrCv4GZE6J_s5yhwXtHU6aoLhVo7iRiNkDFZEIoAtz2kQpF7TC5zmc5Ytc3QrLTY4IJg-8uJpkqeXs6tdBKCbQRZth058oe2sNYKFfPjjyof5ATlK0On7CGF1PPHwd2oXI8RzSFDZ8LbHwysFoWh8i-kvXj1ABCJ72pAIo1tCu4wQCjtaF7pcydJOtbnYGmp36DSz-0jmgi6LbD5i9h_F_SRiwj01p2FEXKprW_bkE1k2fRI8UdCz4DOFfcUownoZ7pcXNKxM3gEu2tKOdjRCXU2Gu7W8wQ1_E7ehDQksht7AYxn-vuHtSBFh6j7ZinrawroFRsHAxN5PWLNw1iUErtQLWEBfin9tZY6luqtDj72IxctEWdPgteQYp1j-XTr9eEyxyk0bRifIj_P0yXUZRMJj3mD2cM09qV8yCJoOxm50K_HYS2hMdSmUg8-0A3AlkuUSTV_w4_-aV2NuUy31-ooLMfR0ixfzlk3ErtG8uYNztDmLIUbJezzIARMDM-cWW0XK-GGK2kUk-1i-dFdUO-VC-DknTUXtsRLcIi1ftarthOOPUxoA2mJU-kFPUWJNMQHmaloEzLCABzQra6h_i5cCJ3u_Uvmbdip2ZXyGKOCYYp9mwZRJlRy2B0QQrP8j3Ba4_cuqzI_iQvL-4IgNFZQu6O_hix1dVrGFI53-VLTsvQQ6IxnGKa5VQu-hRNmJHEizpvJZ_adNs2oiZehQTiTd8I0sezzp1SMISoRR-QM5o2PI02Jvck599RGgPtS1mi500HWzcoYQJL1UYA2vh7zf9OuNiSf-U6dybE9qISkp697UHNlzQyjGmm5DTazNtDLfRQ3Y97Gi5d476ibjfgjHEfVlDfYxbL8Mx5xZ57jTWQNuL1EU3nORRHmJRDE3UFxLTQE7YSujTZgU_H0mdnHhEWw6kwsy3P6uCIW_RZc6rlgocvCunufwA5il17vcifHZ-rtqse4z5EuE1BH6NlmWy9cqmXSgUihtxFCYqgmbPHRo2MWj1wigayKFaACoJr5cOFT0ySzQUQYW5al9Z_OsWM49TLcc0O6BKwB6Dabte-PZDQ2lrITZeyDZ-KxI9Q8DV8ab4FCAfNtn24MTBRs29e-u7t36ffG-ojks0PoB5H1gZHKSjlBjd54grtBaCXpwMtHa3dVtutQKGrUu4BlUzvikPx2G2-lzDInkXD1mF317IM1qk2n6puyvmc00ExoM4eh-UIouEQHWzGpK7RkNBlbbsa23XxQgQGQfvxGeY8ekAfCyyoCm_ZIIZaDl9HN2H6QpS4TIrG8I8jsBTAK1zGsaIOA5OiFp9Ax117GOu4tPwDUmxEkSoiZ_TxuqRFBSCS6atZK_PXMQjy_U1QZEPgTy4KnBsDu0nDfosycU2kY7PP02UVmjXr5bxmNskqv3Jkku3DdnMx2KVnnLWqItT_LhcLLWMN6YY7MWsgLw1tgVUE5SrPMpUQPl5z_W66Ph5tzBz4X8V8q0Xf0t26vmvOkCpPyZqiIj6z88tQ9HzIO9PiDI3lCmg4ozoP5HHg0R16n9_ZU7_ICmTSh9FGfaBICoOC8uJtbQP3oFBp4AsRHuJiHUigeBW3T3XaEXanJJqccsy83lMfKb_xGlihKozEzz5cR1tmp0Gou2EYLn6IqWg1HKMpzaY_XNwlBmHzPoZvgP4s7YpLZRn_1grBVKg2176tskOhRpqUuBlU2GV0cjhuZyqxyKJwR9b-5jNB2WQOHS3L0nRPMrFlal-64BGJK2ivwvYbmuwWeNgphtCjcbDmYOX0R8R68MniJl4nKpA6ODI0vP80M1IXyEsgPSvA8RIvz16TlGdn6-8bxh7V1xuFYTduYfz5FTlGBfao5nxkYCq_kkYNHlnCncpLAuTo8H2TFR-YdxYEBvXeXZG8iUC0gGFvhdzWp8ekeoXetRZfpfYbbzxhDnNglyAK5b5tzihhdtB9XVDVBsutiFtSryre3yQAOu020KWK7qedANlIRPadpNgbdlo5fZe6597JfDN3S7sL0JsXgiNW3TjxYgjW2Gzl0eZE4-zsWfQ5NvXHXasJjAnInpIhvCoUhjqNYSvjMgLUexaKM4FEqk4GVe_L2WRckTOlHoDB0G-K1WD4KnJ489KJzQZBXJ3lagB0Xw_WMzg94h4w_kChhKeOqKLASm_sKGi7ornKGV4doJFmHaSBYeTWSDf_mjlcW0a5O2Qchy3M2QNS4Pp905CVmoYzi78ZKYtapWIdpftwP-uoQ0MgI_06dJCsDD_7fv5IjUHKr6j8SVrZGseJvjSX3XD9RqXp61CwEKJxhVJrGZ9n6dm88oeR3ro_YbUCA5N-_Zoh0XyrX8P-fFLFX5nXXfaPt2Z0VkUZNzNmrHiDwVO8vugmhvC9huKEvIe6UCrt-Qy0QtuwrHhO7WoQ9lMuKI5eFcdfTC0CYracFpzcMYfcfABSeGTf0Rh36ymMqFvFrELxgxHlMA6ykmlHMQ7y-jOhdCITx8KQGhIOSs0gE0djD5ixmnUQc3ovkYtJ_D0QBA_cWfiJFbCB48QJ7F3h9t3SQ5Kso9aLHDoAirmkFmWpwg0yTQ7ziy1Uoq3xZEsv3bNe61KKrYCGpKHqwUryYJMMrbHrOhYzRANur9ZWNnORLbVpsWUm3MR37ANTlMZWOqDtsEiBWgMK_kfK7THApt-iI_MCOz3ZSwNwZwvaN84JjGGPFIhAt5rk7y1nOTmwNgaux8iT5JYd25aOzK8tUqah6IeWyXe5WfcmS_f8k696KiIKclOIv7AVWq2vL5Vw9SSerWAmhsiY841uPtEGiO0b0yLfh4JZvzU9BVuJzmCJfZH-4jFPNdRw3Dh47vpEURAMLeOSw6xSTYs9CZ8mWb3RttT5JAHDXsRRcMLiucLFvo74EOZXsdPaQVvQSXjVmtXgcCal5lFj3lqOeM7I2Ruemie4NJNslRK5hrTEPeYFdraYQ3UG0OJm4VNsRTn0X5kCpAAMf-1qNnQkTz-avIoeaX4WpQIqaSY9RaN6znp7ToRg9oLkr7jkNKxmrmzArVh3Yn3LBCFVLQZQYCdy4uClPlnvKKoD8J4q6QVK6r9b5XjSTiFTxNNEihboven5lgkAaaTnrPKqcV3NP-QMlgje2a3mKAx8sXLYGbQXkV6VlBsv5jDTzeCCnjY-QPAJnM1-9FGuMv6Vv9kiGmTE0DyZzocdZiM3Ock1Q_I2-4Eozd816gx4PbFwTUlHfi0iNHecDxKSo0teXSHuRdLcmF1ZZP6tsLMTC3gImyFBE9WsKgt5VxQyHQW2e58s32drqXxs5UWrz_LIInT4kiqxfTs_ZDNwhUwDsJ2PIgpMigCKFrCxRl9cvevO_RDRVUhCWlpnVnOYabOoLHwCbfoUiM0Nq316aXH0oHpPInNfjIJp_iGZvCsQwaXDQt05inbnbPZvEFmtz34o4re12dU_WfVAQejipkELwxUJK1TXZGbaZxWT7cdq5-lx29tICf4EYTox7gdNJtiBziOMTuOU62L0bDeh7tbUxtbjoVokpOM_RfLc3849wE1cg0esRT4D8mIm2I7YX7MLJpCZSBRz6CcFJOE4w4-qkbY9lNY7H5gJWZ0q1WZVswGtTQpHI2myAmhZC54oznd96VDbtqYcBWf7TNzcVos6rBmTpSewN1SVFxlVn7r4MltmlxoDOQOjsW9736_H0e042y1VSFiqW2fWccvBuP_iCwU_g03ECI94fNuJVGNLX_hwmV1pxuyxmoRNdplYGfH9Cnflutfdlrvu4Q6ezFXPmQA41g3e-MON4Coys6DiwOLBgORiDUnJJRTqjkozBMTYpyh2Aay1irLcwNhoMvTjlvISnsEHX1ht2j5tVSBeUl7hgN7t54jsfAvHPENOUqtHOfF89tqCRpFT7_WgqSoFT5aNdBi3KRRHfr59e_se8ja3fTeZfk55lf6YQP9xqQtluHhJBQv9JywHAOkfcncF5RpevQD2eWeFRj8MtJNjVbvk-FCxhAzHanNX_jtASxS1u3dlUgyBwNxWmsZNE-LPjsrp86pHg5seMJortcLtZYDqmnT5L8TwddgVviorlkGFcztMTtD4aUdVQgzWju1lcmH4qoRXE4-ENjcCrpGvnZap_WoSaWWb2_2kYbM4RExCMMUNCsLI0ptE9B81K_UQi0-6TtUgq15K33yMKqorSbu9WhY4lc-CdSGZsswOIvl1TKx7TMNqWDp0uLZb_QVj9hfpl3A6RMn1jHQDGNZv1S9FNOMvrtDVcILHGKKIcneMNZdf-_Q0TZv2o2OoBEp8s5Rafao6_Adu1naGfzgJwrImrcFlVzABo0P7be8VF0VVYUiosMoHceBqILcroG_7xNN86JMIIgW9JJOFWH8DwkQVHRZZHA52NDAJQaKifK1yo8xpsnFt4RaTsLVD9SrTyXF0hucXw8wgN6QeGtqFbvu3lRnGZSX_9meMY7e3UXXpafebAeafabjePXvjaDAxw2yXUgByP-OkZwu1ZjWi5PntdHXM0GS2eMvxfoJkylToMhm2xySml1s41rTGcIwwsBMdNroHguMsx_pEtrLbB7g_6vJ3BM1mSnBwZcUdc6RGGYlDxoW9BO1uz3d1mENjv-nFwJ0gyO_xYSsRV8bmf9ggVb2-pp0wqAurEMmF2rd1f-UyYQi2vvXchcHAXztwqGuOdE4hTeytVuIqm70myltZRBJVdVRma5GJ826x3h-MOBuKrPDSYZOzsdPtspQKccpc3iVXd6nuYe2X4raZPoeGWSFuIsXTBjpU0OISN34UJr_HNPzWlEqAttMgUi5kgVTTx4GBQTeh9-2X26qfLRI7-NgLIA9aDIw7gRQ7onRDHhOnXBQm0mzSI9r1wT3RLzSE8Wr3K0_ZNFF6dHajJ94TrNacmkwy7HLlnLUC3HsYYldmW_7B5eYN1fLZOrcqJCE3Aw3CPCN5Rhv-wsQ9K2IbSTnZwpZs9fWb7wyDCBz85hUfRY9UbzRjtgN6GAPqqM8Z7y-BtJREReXNLoBdJV2r64Y6-vWUDnnJXgwyJcZXUxHaA1kxqItsUfpd01dL8TDEY-xMRmM8sKasGb27ftyEMo8OUvjFs20_ypFJBRurhlII49uZ9Uzeyn7djs7J5qWvSILvvsFCsE68vmaXsOaLLwLPBBRsiuzGYX--dhsvaDWx8rSIRGEzFh41sXBw2NGpL0IphARma4_yLz-wACKrEo-sTlmiW9eGlAQ7KG3AHYyHsgDtUvtOjcVDR6S-0CvL1BsGY5FRasXiva3sJv-WuH97DVQ-F4rluyD-HGN41hCy7zBvm6Bkr02QXqLQ5z-97diIivf1AIkrpQsucThgR5abMWiwScOx85D1rFQ7KghAHh38ZAkyrLn6A1xnSRATwC0LNKh6328mS9tdLnP31THo7v_9PIatwycVOIl9ciWNl_pexwbNkfyDxojp7Kn8nfvrBpGRzUxJufzXIAhKJNHLJTLmvYVfqYy4uxc-mNm2EkE-K1bxYfb5dHQg8JayhUo7W4f4qAZdJqJXhU4RF3POVxvbd5Xm3-OL636SG_Ptnvph5xEgx8Jq-GHOXF7LQSlb146arDve95SlW8c31Lpo62VTLRAY6_H4CDiRqhtnPqxRq-jAR6BgC40x3DqWUevJroCkeyeNGwgkAw51_HdilNx5NNDf9ygHLIKGZWFrFWWuBV6LewlH33a0WPxlD7xXIdy8qMEAMHSXptB3aqOHHex1P_PpRE9awsDpp-VSUrEDD3_6pJqneUP5FfalQtZ6NdJpBREp_FfXjEKFwMhjP48JnW9vp3_UbyznnPhBNUchK7MkTS0XUwzuzXYKbxIkPI9l2naO_vhR3jv8sca-HYzhmWwhtJQR48-arMraQnopbetooVyz5lUa6m6OEvHTq2WdfDEwS5ViLVtGtR_pZQpZi__qNxYg_-y6huPqs2w7RnH8JDzhtF3C_UN5qzqt0FzsFeufHVfYDnGlfm830OK8_7lXBzIX-XeIYI_WqhiFoQFh5M-XoIK5qsumYM2AUnl362ojikaX0oTB91whXMbfE8VBqWu-M1_8AQTsjtNAB88Ubupi__eOlNVwirF6euyqQqm709jZet9EmaeU79ErSVUv-Oz-zjQjbmfM8kPJucNluz0rYEoD42YW_RSBJaGnF_CjocmD8gV9K0-zEKSFkXuXnhhfaD49a8ZN9nk3va_5TfWKbhYYrePg5rSJjqnJ0dlGC_mLO0C4xuOHUfgg-m5apkcjpGpMELo99GfhUo37-SZy5gynDw_KyUdkk_oU_QVtzxiTuFgscRdh_lZIBK0P7ci9_Cxn3494ywXdFOnTpSwf5udmGMsT0967-CV8IdOPuM0OSm32ipm9Ep7MYE3-Op2pmIwVbRr0L71PItqh_lVJJMRZBJa5_JBzbKLT_4niAXXa2pWx2z0ZXUa5rAQIN4evTAHGfanWm9fx5-qsXnJJnWgUJdKw1VBlc3ig9WyXZcyxTD2t1WhErg5fGQd4Z6gYZpejzBp9BcvaiKcDXDz7T4qjDHpawH9to28Y2pIju0QsEL4JhkLaCc7Xf2VtGW2QXMwHcpgESzJjeKmrwXQ9F9iUWqsFd5C0OYhHDUpTMJXyujc1uCNAbr0-ZUom6_Nrdm2wwpBQOC-ED6_2cYWaWqR2hc_KAprtG8OHXTLJRsH9BvHvuK57OpW0UeCS_lOolFvO3wD2c_fQD8ipT7XerbqqHglqKPx6783TkLtHCiolr6wHy84aqSeW7dminvgy58avKmCHi63_VFCV70LFWEbesJuFKgMx_IDq4yNw4eoRhEqvmFhNc28docHI82lCu8L__6DtTPg3oiqinf-G8Fel05oLh13rNq9E98nas2BVq7nIShsdrUvJyO8h1th9fsYrI2GRLLUQpI-ofkCgR7VRYA8iDs0ID8wlOKIRv3IAtJL_W9b4JGohvbPgETGnIyYuQOp_UcEcITYKWUwOw57mWwQEdsztuGbBPDzK2-R9HZFOeAGk8ftUa3ls-7LTvykHPs85a8VyeK0Tb0oEJP_1xlE3sWYixeggoMZyVBvi5BjHljHmkpRTEgDCDHb2iSBIM0gWWJd2yz551MQ6d2m9m_1nXucL-l8vx8UyMXzpyhshCZBsBte7e0pTFoyJXF7ZGGHfSFPHDTcJn0P5QK6B5rnVYHZJkZhr-Ab1Dso3uMtQbqAbsFrS9lpGNKloXr3RrKXhilWgqssLr94JYNTwTlZs7nrB7-zCzMCPFdqZ6sSr0TZByqxx7ffkBZN1MUM47mQVRv_42RaNYJLjMcHcWIDMKT5k7c3wdpbFJvHYJFQ7U5irSonCz24v0trpO8ZaoP3wxhe2MDzqdd5tqOutXhh5CdUzSO2fHMJolWylEuAvVVFFHIqVWeYtzDO2HDqib3tbYsHqB2QHYyKTlvOh36Ba583CJe3pgnwqWc0IX1Q2BUFKCX3aSshc0pPGNcef9VspKiXsu4fM0ekom0qsA1h_zgfP9yYWQnZj-ws-mkca6rsuUyEHJNvIfHiRgLz2N0UAkwkZJLPofuiolo1SsbNOUuyeU4j7FcTzjV4yPYevujYKGVpqVbQHocUkdPEwapKdlMepvMV7bcw3Pr17sJ25pKZaoKQns69Z7lVvmPD_Njz7GhAZqTW1hJik1tmJ25EHD9S6i25McS2MfJ_so2LJ0kLVFHT45G_H-oykYxII_ZcPbHIevZMRRR37c-aIVUN92yRWpxAnSEg1Uo-Zu34naKoSdHBtvT1FS4_6jvIU6Fc6rZDmbCtOGE1HpVnyIF4kOPw6AvFOflKZKvNpLpePz8alDjP8CQjHekVSgBJZv5bB0tLLMH1e_bFUlFsi87vCEA_rH5TffHZFryKvDcoMfh1nJQDAuwV0dxfEi_ojP2pnlqSS6Ad5zGnQvZsI6h1Qcd_MrOqC1NJFpVYjWfoZQN_dcxjjvDR-uFGB9k1wNZrc5N9FADjRzlN7svn8B6hYOOtuggbsSEvGPhdhQjWztwJRLkAbGcJFKGBF7Sof7u7W29DRY1rsziDjn89dG_Y_7bu1yTcPESBkY_-KWqNakvxi9AXDP53ymt2kwm7S5x_kRXt6nijJHQDtG7Ghwn69uyAKQaSlWYBfpUkVcMAPDlT1ttlVX2EVuF-8OjDDErghgRgx82d5uKoSpBhllAX_wfAakVzgUcWg0EXMJikgqr9l5V_kRydysTF5x1wyw3GHiKCaK-KooFN4OrxCsJSmT619kj-rysvYC1MuteMQRbFwfbHIv8BA99TRj3ShKY3fBSGKygRvFlREiHWOc1IPefdlK0IhrcjqKWM56teXHgLVaLcqXsWterdawZXsE5bkUoqfslXUqWKQkX2E8vXSXKUcApt4O3taSw0zzRLUHiWnUgT8sP_4Ln01ICrXSE2O0ylFqvxELR0GleeetXleUiYdIcc9TEz4qx2-h266jmnYTXbyRgvls7Ypwk8ifzY-FZMBu9Y3xu_CpSMvqgHfTTEuGuphGwIx3NWG9_XDk8sv1W3u3Y7i8scmvQF5xH5k1ildTFougibBEV8i43353EYYqexbO0ScATE9Mp1bjR2-9RdDhLsj72GTckoePxUkpWIBdCeZMeyGTqZY4wGBP7K8JPUEN8GWoFMJ_y0At0XOD3L1rMVu13tTX-Bt2JN8y06VQN4iNRU9kCEKHLrVM-F7Npb7OngsynUkg3MFjM4ABDB7Y_LCV-u0eQR-unTNuo86oL6L7Ne864vef0YonZXOyaSpEbh8K-B3u4BA-4wOsbVF80g5AGTsjAWvn2iuBBuWAts96FXyb9TbBWXWe8w5aaeGOqbsfrUaw9i06OpYKvCkOf01ZK03JxeOiEnhVK7vjScOh5V8ZdBU5IG4HxByVqUskJaTG8Evoxv00Gv6E9j2xUeI3A5zBtT3dAAgHBq-d5D2O7XmIsdMsQrzCzzIykgHW-pl82fBcOlzzwxzGWjJ_0HVfLzkGqXG2NlirWRl5JXfjtZDdcNHuR9epyiIlCB1w3vTJeaPXc5e-V6G7IhEP5EiBo6eU0TH55TZKDt-TEq94xH2C2_xmgVhls4sms9JOj37xJkhNlcNw0M-7pkxwI3qfYveVRsDglNWVyoaRaK-srbHTpLWQ4cicexthEC82JFVXR8ND2bgXCxjl72vP9hGyFDf99vLE1ikKvKDvz-3z6RRoTYVd0GiDg9L8MCzK2s_4hqO5yyWhZ0stf_5I-fY1MUibZyPpjGBM_AMaOeuUQbDpbPxgn4XRuGNSrc2asBs5_JaPUWMyv3EsMoDt8DMylqEwD4SnavX3WHwM4nujruGcPf9aDkKMmktHodooGSb6qmApSFLIh23Szo1vaDYCk9yDghUwVjmOAsqbNdf65Qxt38H595cHKvkNOx5fUQL4wI3k-boR0wGSJrVqqGsKFPnwCVUETLXcVq27nodR_KGOHGSqFwEdBDUGoXhsufgRaP1bVCnOBeRMRSO1b2Ct9-ogNYldQs4SOTQ1_3hWBLXuU5P9nxL2f_q6QSoEVVrQpTeFQkhoY3FaNc_512A87C-KkvEh57FCMU2MkxteNsUkH3-3AnzSS7WSeFdKosuI2J8InKRdN1cQav2uUqq0fHuNUs-U4krYc49dEvLZ4ztDK1zyqdhN0LSTtPFja56zTxU8Nxd2w59G1SHrprn3pW7ca1g1fxcYCZC8Y-djA4BKPwpBFaERQ5Yi07HvnvWb3OUeaW1Z2ZPsI983fsZwDJKUb1uZnIwp6S3u7T6VPCnV6JkMAqu9xvUMFkK7rZnqRiaImSs1VlzwSsfDJuUw-NnxiB00mSWbGI3iyApJQhIVcp4srmCvabz067L9P4bB_PxW3xW5YAypX_esXIT07Z9zFps4mp9Pe19CwWTOTXORfxTX9i6_bREmQrGKl3QWyu9t_RAWJPfWpYrUvCufLlplIo91CV0AgvN9gBtERydUChDJg3XfFsCy1lD9ehqupKR03XA_m-3lTi9C-p-nzm8nx1tSYgb2I8L6UNKWqIESbNTvcBOSFraY07WYr1mloocokVWOeUIkNt8pqE7UN1CjaT8jmiQzstTQ6O5LYTuHGMvVvZIfgTZmSvUcyO5KxZGvq8t4bzD-EuDd0qPstrLjlhSBx93BRroz-1Ko2kY__XMZZU6VqEtGPEtucxEp8qX2ERH0puszA2f48mjwu8ckwKiOC_LUdKFq0Fv7BfIceKR8XvBPhN2SypmGULSeKFDZeOqAxm7-W0zHbuJn_Y1FqVdmwLrsl14RbWRKiltX2ImVqUp_zOjd0F8AcBba3o5aA6uX3EYwFFiv2OzD_5IylRysPUFMDrRIhm5ZR2yI0nOVzHOVzXs530nKFNSnXQRHTlCMNSXXr16WzulVBKboE_otPSTzZ5nXsOUTq2Q1XP0dA7AJjgxIq7-jOIGl0SnEZKO63DrwnFFVcl8GdeHF0PqEm_5VtTSEc4guHkqU02c3ArFCgshBGYu3N8CTFyLvEIK1BNoW9ZsBo0-lhnFUJ72aWvNnqComoLvLnJ8yEufeq-w52nWOHM_YTc03ouS8zvpwvzpdwFQAWS9zcDYG6nGd9emLP2ABhnRRSVEA70vHHLIwIRNDdFOLw34ZiBapV5ATdfYAtRAomgWD9GONWJ3NqcRjEBm6fO1vO2b9aUOmLaaybk0gTGBRcCD2ddrWRZ4GtncJkNcevtxNTfsbCxix4kvEFuIRsUVbFlJ1ydhACDrOkNqy8EiSptWwI42GF-lGuD6icqakN7l4jX_Ro9jV42InGFzAvaVHkCJK8wtFnDZwqyzbiSXw0XjwskVCUD2jixj6Z6xfXG2YT8EJ74KbUWr_flY4P5zy2vBaaC_TAAliv5F6B8ikihuvWqccDbgzpMH44oQfhoposSIuX4AZ8z_9DVJIXaS-YXOubnS7-3AyUATT8aAhDDIdHkuFKmjAX1ONzGxYRFu3D3m58gtVb_UiEVrJXCeCoNaTyz9cdyZg1Qfl59EVms0tcTQn06Dgncyld6uvFSfKC_ESmxjNQmBPVxQe7HtReY2FpyAbyPjK-0Kq7jV6joxeiofijFIxnM5kgBzbNkb06px_xnatOLx2r0KQsagKzG_oi6qR_X8nwX_n9LFir2a1977NpWL708VychTBjdIrwzhG6j9Kc6UpK0aj81EYfeGn-xjdAirMRhpyowgAWnjClImRqwTlwtv1l9rgLHJ1QJJENOYDvEJcujHwVFlLcsDSt-w5DEnylHEgbvsozY-qHMiLLOVyJGtI4NhJqWu86SG9W3bdYbIMqcs2yoAdmfyqFD9rg3THQjHRqmPaefPs3CVdto1fGu27rqx1F_FKUFAFJrhj1AZF-yUgnqtUyNTdQ5bwq9hOi5UKrclwFTwGCuItIdXFTkhTOQW7LUaQhY3-Y5zBdeZYTsJANFNmQhRlPLxqvDTPpDt4TM2-i2mR12EOVcxBAX4Ip3Yd5px28dpnh9hJeBDLxToTFIv2g3F3kSZVgqrDyFFbI8ZRJ6GDAnexeUkGz6cOhSKHyqvKGCw_Oy6Nk8G1pNqQrPPAKAAHsA7jtF8pV_QKKJcpQyvO9-mdRY_3G7EnOQQlayv6miLpsp4kpzBKi7PzPn6gDwMymoUNGmVWMU4rVdlUM6SGdiKzRZZpkncwRKBN4rqcFolLXyNS2-fOkhhTQFniBxem5brpL6X0TdhmMepRPgcCgSAE9OnpXokhx9GsIoXD30ZyXW5mvqVetS2hL7C4rn_KQjiEXv0-wLuSJrhRjq4aA0BpjvHeBMdIalEYGlX7Pt0r8yqFbIjiAC7fUzVxr6W7ROhbxjm8yh_MkNbFJf4rid_TcK_czalSIFoAzTj22QBlwCqgXAoycs6LDiC_rMbp5_9Yt9OpEk8UkNDLIL-NwHskOiUjuXMomIxDQiBDsDAUwLmvnbhPucFpfI277WRwXykONYUmPi1-9qMoXRTwPerHV0UHPVu1X1rez459BUYqIdVPDDcrA5M8iph_6smP82KEcGuHK6No7qiPjjcDvg7iDIgGaHV8AyuPTdqUDxmvxuFjndz1NKKnm02Hm4qHrpevTQfXFpoWQXrdJfJQt-acvA_OMeBeVZaYIptS-N6EMI8SJmmPttnpuiqxu22uvkXQCNVEkDnnK1YTwcqeMQtqY9nAaPHQ7HzhCygzUjF7saMWigHj_jFs62hBT90AxAPbTs8UCLzVBgK6E9SNVeGhRIoaB_luYsHMmEEIgmcW1ubEiew5_bSjuDtpE-mgQ8-MfRGkDUT2P5ZxOWuDEmkiTpKleB1fJ8ZTR1cMIhJ4--zG8BH4Hf1qXCNqLPlj3wjFomekP_Y-aikV9JvDGUPTSWizTrJQXWm_NtsAAWk1SbOPhajHXRUEzMgEfH_DPqaipIN0BzhGmsp6R_Cj0DqRHAIkGgyAjUA7YtIzUT3uhta5F4O1caLIPpbE_-prpzXKB4mWCVgCKSS56TSVbdt7QqTUs4UOgcejcNGnuNRoTt8Rfw_cM-VkJlO8118YD7GhQnDM7rApzrY_oIqdHv354oFKcMj4i9AFDjN0L1Uzu99yR7z2jnx63roLnu1XmCOyQEd7x6Qlxp-7mxzFdw_v1xNJbj2BBoigmYyUDvPz_079l_VEreugX0t8AwDPVlkbQ-YLSy2FY9BlcO2w54Do2wZHNzrWfXhyhF6DSXL19g7gHB049wcFWhnCGuQpLn-syoww5tOEaRxUQWQN7Ry98f7o0lRBf_KiC5gc84wdaWhPhDSQpuZZn-KcsEstTjJ9u0z5nNK6stJKkh14WMVNpjBKF8bHUFZuMAV73nRE10eGaNcKDBIHrBFILdQ5rMBcKH6flIbuqP5VOVDJqeyS30IlpbLdI6vjDmh7tHnaB0_4WW4lkQYt4S7AlFpfhm-GCO64o9G7qn-mjQD-X3YM5Vet8Wf9jofoFbLzgNihZQY-wpUfY3nuCsA-Uy5W_Xi6FePawStz8edroE-BmhccPE5tIS3-lWxr3vIMUCpUulug-s0MvjGu_7Nhya70U1HgMWZASqwSw1e2QUDYnjgdzUt4RG8mbrOUoOQgF5iWvUlcRklAsX8iukTy7e9tBQ=='
-exec(c.decrypt(encrypted_data))
+VIS_DIR = "visualizations/group5"
+os.makedirs(VIS_DIR, exist_ok=True)
+
+
+def create_initial_graph():
+    """
+    Creates an initial graph with 3 trapezoidal elements around a central rectangular void.
+    Top, Left, and Bottom Trapezoids.
+    """
+    g = Graph()
+    nodes = []
+
+    # Center and size for Inner Rectangle
+    width, height = 20, 15
+    center_x, center_y = 15, 15
+
+    # Margin for Outer Nodes (to form trapezoids)
+    margin = 10
+
+    # Inner Corners (v0-v3)
+    inner_corners = [
+        (center_x - width / 2, center_y + height / 2),  # v0: TL
+        (center_x + width / 2, center_y + height / 2),  # v1: TR
+        (center_x + width / 2, center_y - height / 2),  # v2: BR
+        (center_x - width / 2, center_y - height / 2),  # v3: BL
+    ]
+
+    # Outer Corners (v4-v7) (expanded)
+    outer_corners = [
+        (center_x - width / 2 - margin, center_y + height / 2 + margin),  # v4: Outer TL
+        (center_x + width / 2 + margin, center_y + height / 2 + margin),  # v5: Outer TR
+        (center_x + width / 2 + margin, center_y - height / 2 - margin),  # v6: Outer BR
+        (center_x - width / 2 - margin, center_y - height / 2 - margin),  # v7: Outer BL
+    ]
+
+    coords = inner_corners + outer_corners
+    for i, (x, y) in enumerate(coords):
+        n = Node(x, y, f"v{i}")
+        nodes.append(n)
+        g.add_node(n)
+
+    # Alias for clarity
+    v0, v1, v2, v3 = nodes[0], nodes[1], nodes[2], nodes[3]
+    v4, v5, v6, v7 = nodes[4], nodes[5], nodes[6], nodes[7]
+
+    # Define Elements (HyperEdges)
+    # Order: Top-Left, Top-Right, Bottom-Right, Bottom-Left of the QUAD
+
+    # Central HyperNode S (R=0 initially)
+    g.add_edge(HyperEdge((v0, v1, v2, v3), "Q", R=0))
+
+    # Top Trapezoid: Left side is v4-v0, Top is v4-v5, Right is v5-v1, Bottom is v0-v1
+    # Nodes: v4, v5, v1, v0
+    trap_top = HyperEdge((v4, v5, v1, v0), "Q", R=0)
+
+    # Left Trapezoid: Left side is v7-v4, Top is v4-v0, Right is v0-v3, Bottom is v7-v3
+    # Nodes: v7, v4, v0, v3
+    trap_left = HyperEdge((v7, v4, v0, v3), "Q", R=0)
+
+    # Bottom Trapezoid: Left side is v3-v7, Top is v3-v2, Right is v2-v6, Bottom is v7-v6
+    # Nodes: v3, v2, v6, v7
+    trap_bottom = HyperEdge((v3, v2, v6, v7), "Q", R=0)
+
+    g.add_edge(trap_top)
+    g.add_edge(trap_left)
+    g.add_edge(trap_bottom)
+
+    # Define Edges with Boundary Flags
+    # Helper to add edge
+    def add_boundary_edge(n1, n2, is_boundary):
+        g.add_edge(
+            HyperEdge((n1, n2), "E", boundary=is_boundary, B=(1 if is_boundary else 0))
+        )
+
+    # --- Top Trapezoid Edges ---
+    add_boundary_edge(v4, v5, True)  # Top Outer
+    add_boundary_edge(v5, v1, False)  # Right Arm (Boundary)
+    add_boundary_edge(v0, v1, False)  # Bottom Inner (Boundary of hole)
+    add_boundary_edge(v4, v0, False)  # Left Arm (Shared with Left Trap)
+
+    # --- Left Trapezoid Edges ---
+    add_boundary_edge(v7, v4, True)  # Left Outer
+    add_boundary_edge(v7, v3, False)  # Bottom Arm (Shared with Bottom Trap)
+    add_boundary_edge(v3, v0, False)  # Right Inner (Boundary of hole)
+
+    # --- Bottom Trapezoid Edges ---
+    add_boundary_edge(v6, v7, True)  # Bottom Outer
+    add_boundary_edge(v6, v2, False)  # Right Arm (Boundary)
+    add_boundary_edge(v2, v3, False)  # Top Inner (Boundary of hole)
+
+    # --- Close the hole on the right ---
+    add_boundary_edge(v1, v2, False)  # Right Inner (Boundary of hole)
+
+    # --- Close the Outer Right Edge with 2 segments ---
+    v8_x = (v5.x + v6.x) / 2 + 20
+    v8_y = (v5.y + v6.y) / 2
+    v8 = Node(v8_x, v8_y, "v8")
+    g.add_node(v8)
+
+    add_boundary_edge(v5, v8, True)  # Top-Right Outer Segment
+    add_boundary_edge(v8, v6, True)  # Bottom-Right Outer Segment
+
+    # Right Pentagon
+    # Initially R=0. We will mark it for refinement in run_derivation.
+    pentagon_right = HyperEdge((v1, v2, v6, v8, v5), "P", R=0)
+    g.add_edge(pentagon_right)
+
+    return g
+
+
+def run_derivation():
+    print("Running Group 5 Derivation...")
+
+    # 0. Initial State
+    graph = create_initial_graph()
+    draw(graph, os.path.join(VIS_DIR, "0_initial.png"))
+    print("Step 0: Initial graph created.")
+
+    # 1. Mark Pentagon for Refinement (Manual Step or P0 equivalent)
+    # Find the central pentagon (Tag="P", R=0) and mark it (R=1)
+    # This prepares it for P7.
+    candidates = [e for e in graph.hyperedges if e.hypertag == "P" and e.R == 0]
+    if candidates:
+        # Assuming only one for this derivation
+        cand = candidates[0]
+        graph.remove_edge(cand)
+        graph.add_edge(HyperEdge(cand.nodes, "P", R=1, B=cand.B))
+        draw(graph, os.path.join(VIS_DIR, "1_marked.png"))
+        print("Step 1: Pentagon marked for refinement (R=1).")
+    else:
+        print("Warning: No pentagon found to mark.")
+
+    # 2. Apply P7 (Marks edges of the pentagon)
+    p7 = P7()
+    if p7.can_apply(graph):
+        graph.apply(p7)
+        draw(graph, os.path.join(VIS_DIR, "2_p7_applied.png"))
+        print("Step 2: P7 applied.")
+    else:
+        print("Step 2 Failed: P7 condition not met.")
+        return
+
+    # 3. Break Edges (Apply P2/P4 Loop)
+    # P7 marks edges with R=1. We need to split them.
+    # P4 handles boundary edges (B=1, R=1) -> splits them.
+    # P2 handles internal edges (B=0, R=1) -> splits them.
+    # We loop until no more edges can be broken.
+    print("Step 3: Breaking edges...")
+    p2 = P2()
+    p3 = P3()
+    p4 = P4()
+
+    iteration = 0
+    while True:
+        broken_something = False
+
+        # Try P4 (Boundary)
+        if p4.can_apply(graph):
+            graph.apply(p4)
+            broken_something = True
+            # print("  Applied P4 (Boundary Edge Break)")
+
+        # Try P2 (Internal hanging match)
+        elif p2.can_apply(graph):
+            graph.apply(p2)
+            broken_something = True
+            # print("  Applied P2 (Internal hanging match)")
+
+        # Try P3 (Internal Refinement)
+        elif p3.can_apply(graph):
+            graph.apply(p3)
+            broken_something = True
+            # print("  Applied P3 (Internal Edge Break)")
+
+        if not broken_something:
+            break
+
+        iteration += 1
+
+    draw(graph, os.path.join(VIS_DIR, "3_edges_broken.png"))
+    print(f"Step 3: Edges broken in {iteration} iterations.")
+
+    # 4. Apply P8 (Splits the pentagon now that edges are broken)
+    p8 = P8()
+    if p8.can_apply(graph):
+        graph.apply(p8)
+        draw(graph, os.path.join(VIS_DIR, "4_p8_applied.png"))
+        print("Step 4: P8 applied.")
+    else:
+        print("Step 4 Failed: P8 condition not met.")
+
+    #  --- NEW STEPS FOR TOP TRAPEZOID ---
+
+    # 5. Mark Top Trapezoid for Refinement
+    # Find the Q element with nodes v4, v5 (Top Outer corners).
+    print("Step 5: Marking Top Trapezoid...")
+    top_trap = None
+    for q in graph.hyperedges:
+        if q.hypertag == "Q" and q.R == 0:
+            # Check if this Q contains v4 and v5
+            # We need to find nodes by label since objects might differ if re-created (though here they persist)
+            n_labels = [n.label for n in q.nodes]
+            if "v4" in n_labels and "v5" in n_labels:
+                top_trap = q
+                break
+
+    if top_trap:
+        graph.remove_edge(top_trap)
+        graph.add_edge(HyperEdge(top_trap.nodes, "Q", R=1, B=top_trap.B))
+        draw(graph, os.path.join(VIS_DIR, "5_top_trap_marked.png"))
+        print("Step 5: Top Trapezoid marked (R=1).")
+    else:
+        print("Step 5 Failed: Top Trapezoid not found.")
+        return
+
+    # 6. Apply P1 (Marks edges of the Q)
+    p1 = P1()
+    if p1.can_apply(graph):
+        graph.apply(p1)
+        draw(graph, os.path.join(VIS_DIR, "6_p1_applied.png"))
+        print("Step 6: P1 applied (Edges marked).")
+    else:
+        print("Step 6 Failed: P1 condition not met.")
+        # We might continue if maybe edges are already marked or broken, but P1 is expected.
+
+    # 7. Break Edges (Apply P2/P4 Loop again)
+    print("Step 7: Breaking edges for Top Trapezoid...")
+    iteration = 0
+    while True:
+        broken_something = False
+
+        # Try P4 (Boundary)
+        if p4.can_apply(graph):
+            graph.apply(p4)
+            broken_something = True
+
+        # Try P2 (Internal hanging match)
+        elif p2.can_apply(graph):
+            graph.apply(p2)
+            broken_something = True
+
+        # Try P3 (Internal Refinement)
+        elif p3.can_apply(graph):
+            graph.apply(p3)
+            broken_something = True
+
+        if not broken_something:
+            break
+
+        iteration += 1
+
+    draw(graph, os.path.join(VIS_DIR, "7_edges_broken_top.png"))
+    print(f"Step 7: Edges broken in {iteration} iterations.")
+
+    # 8. Apply P5 (Splits the Top Trapezoid)
+    p5 = P5()
+    if p5.can_apply(graph):
+        graph.apply(p5)
+        draw(graph, os.path.join(VIS_DIR, "8_p5_applied.png"))
+        print("Step 8: P5 applied (Top Trapezoid split).")
+    else:
+        # Debugging info
+        print("Step 8 Failed: P5 condition not met.")
+        # Check why
+        # Q marked?
+        candidates = [q for q in graph.hyperedges if q.hypertag == "Q" and q.R == 1]
+        print(f"  Candidates Q(R=1): {len(candidates)}")
+        # Check ctx
+        ctx = p5._compute_ctx(graph)
+        print(f"  P5 Context found: {ctx is not None}")
+
+
+    import math
+    import re
+
+    # --- HELPER FUNCTIONS ---
+
+    def get_adjacent_nodes(node, graph):
+        """Returns list of nodes directly connected to 'node' via E edges."""
+        adjacent = []
+        for edge in graph.hyperedges:
+            if edge.hypertag == "E" and len(edge.nodes) == 2:
+                if node in edge.nodes:
+                    other = edge.nodes[1] if edge.nodes[0] == node else edge.nodes[0]
+                    adjacent.append(other)
+        return adjacent
+
+    def find_edge(n1, n2, graph):
+        """Returns the E edge connecting n1 and n2, or None."""
+        for edge in graph.hyperedges:
+            if edge.hypertag == "E" and set(edge.nodes) == {n1, n2}:
+                return edge
+        return None
+
+    def find_node_by_label(label, graph):
+        """Returns the node with the given label, or None."""
+        for node in graph.nodes:
+            if node.label == label:
+                return node
+        return None
+
+    def node_distance(n1, n2):
+        """Returns Euclidean distance between two nodes."""
+        return math.sqrt((n1.x - n2.x) ** 2 + (n1.y - n2.y) ** 2)
+
+    def find_q_closest_to_target(graph, center_node_label, target_node_label):
+        """
+        Finds the Q element containing 'center_node_label' that is spatially closest
+        to 'target_node_label'.
+        Returns: (best_q, adjacent_nodes_in_q)
+        """
+        center_node = find_node_by_label(center_node_label, graph)
+        target_node = find_node_by_label(target_node_label, graph)
+
+        if not center_node or not target_node:
+            return None, None
+
+        candidates = []
+        for q in graph.hyperedges:
+            if q.hypertag == "Q" and q.R == 0 and len(q.nodes) == 4:
+                if center_node in q.nodes:
+                    # Metric: sum of distances of all nodes in Q to target
+                    # (Or min distance, but sum is robust)
+                    metric = sum(node_distance(n, target_node) for n in q.nodes)
+                    candidates.append((q, metric))
+        
+        if not candidates:
+            return None, None
+        
+        # Sort by metric (ascending)
+        candidates.sort(key=lambda x: x[1])
+        best_q = candidates[0][0]
+
+        # Find nodes in this Q that are directly connected to center_node via E edges
+        # These are the "adjacent" nodes defining the sector
+        q_neighbors = []
+        for n in best_q.nodes:
+            if n == center_node:
+                continue
+            if find_edge(center_node, n, graph):
+                q_neighbors.append(n)
+        
+        # If expected structure holds, there should be 2 such neighbors
+        # If not (e.g. diagonal connection?), we take what we find
+        return best_q, q_neighbors
+
+    def split_trapezoid(
+        graph, q_element, target_vertex, adjacent_nodes, p4, p5, step_num, vis_prefix
+    ):
+        """
+        Generic function to split a trapezoid:
+        1. Mark edges (between target/adjacent, and adjacent/center)
+        2. Apply P4 to split edges
+        3. Mark Q for refinement
+        4. Apply P5 to split the Q
+        5. If P5 fails, try P2 (to resolve hanging nodes created by previous splits)
+        """
+        print(f"Step {step_num}: Processing trapezoid with nodes: {[n.label for n in q_element.nodes]}...")
+
+        # Identify center node: The node in Q that is the "structural center" (from previous split)
+        # It typically starts with 'c_' or 'center'.
+        center_node = None
+        for n in q_element.nodes:
+            if n.label.startswith("c_") or n.label.startswith("center"):
+                center_node = n
+                break
+        
+        if not center_node:
+             # Fallback to max distance if no explicit center node found
+            center_node = max(q_element.nodes, key=lambda n: node_distance(target_vertex, n))
+        
+        print(f"  Identified center node: {center_node.label}")
+
+        # Helper to detect if a node is already "Level 2" refined (e.g. h_v5_h_v5_v1)
+        def is_refined_node(node):
+            return node.label.count("h_") > 1
+
+        # Edges to mark
+        edges_to_mark = []
+        
+        # 1. Edges from target to neighbor (Boundary)
+        # We rely on 'adjacent_nodes' (closest to v5) for the boundaries.
+        for neighbor in adjacent_nodes:
+            if is_refined_node(neighbor):
+                print(f"  Skipping boundary edge to {neighbor.label} (already refined).")
+                continue
+                
+            edge = find_edge(target_vertex, neighbor, graph)
+            if edge:
+                edges_to_mark.append((target_vertex, neighbor, edge))
+        
+        # 2. Edges from Q-Corners to Center (Internal Spokes)
+        # We look at ALL nodes in Q (except target and center) to find spokes.
+        # This catches nodes like h_v5_v1 which might not be adjacent to v5 anymore (green circle case).
+        q_corners = [n for n in q_element.nodes if n != target_vertex and n != center_node]
+        for corner in q_corners:
+            edge = find_edge(corner, center_node, graph)
+            if edge:
+                 edges_to_mark.append((corner, center_node, edge))
+
+        if edges_to_mark:
+            print(f"  Marking {len(edges_to_mark)} edges.")
+            for n1, n2, target_edge in edges_to_mark:
+                graph.remove_edge(target_edge)
+                graph.add_edge(HyperEdge((n1, n2), "E", boundary=True, R=1, B=1))
+            
+            draw(graph, os.path.join(VIS_DIR, f"{step_num}a_{vis_prefix}_marked_edges.png"))
+
+            split_count = 0
+            while p4.can_apply(graph):
+                graph.apply(p4)
+                split_count += 1
+            
+            draw(graph, os.path.join(VIS_DIR, f"{step_num}b_{vis_prefix}_p4_splits.png"))
+            print(f"  P4 applied {split_count} times.")
+
+        # Mark Q
+        graph.remove_edge(q_element)
+        graph.add_edge(HyperEdge(q_element.nodes, "Q", R=1, B=q_element.B))
+        
+        draw(graph, os.path.join(VIS_DIR, f"{step_num}c_{vis_prefix}_q_marked.png"))
+        
+        if p5.can_apply(graph):
+            graph.apply(p5)
+            draw(graph, os.path.join(VIS_DIR, f"{step_num}d_{vis_prefix}_p5_applied.png"))
+            print(f"  P5 applied successfully.")
+            return "p5"
+        
+        # If P5 failed, maybe P2 can apply? (Hanging node resolution)
+        p2 = P2()
+        if p2.can_apply(graph):
+            graph.apply(p2)
+            draw(graph, os.path.join(VIS_DIR, f"{step_num}d_{vis_prefix}_p2_applied.png"))
+            print(f"  P5 failed, but P2 applied (hanging node resolution).")
+            return "p2"
+            
+        print(f"  P5 and P2 failed.")
+        return "fail"
+
+
+    # --- GENERIC RECURSIVE TRAPEZOID SPLITTING ---
+    print("\n=== Starting Generic Trapezoid Splitting at v5 ===")
+
+    # Define target directions (nodes roughly in the direction we want to find Qs)
+    targets = [
+        # Trapezoid 1 (Top): Closest to v4
+        "v4",
+        # Trapezoid 2 (Right): Closest to v8
+        "v8",
+    ]
+
+    step_counter = 9
+    
+    # Process each direction
+    for i, target_label in enumerate(targets):
+        print(f"\n--- Processing Direction {i + 1}: Towards {target_label} ---")
+        
+        # Retry loop for this direction (in case P2 splits the Q into something closer)
+        retry_count = 0
+        while retry_count < 3: # Limit retries to avoid infinite loops
+            current_q, adjacent_nodes = find_q_closest_to_target(
+                graph, "v5", target_label
+            )
+            
+            if not current_q:
+                print(f"  No trapezoid found for these edge directions. (Done for this direction)")
+                break
+            
+            print(f"  Found Q: {[n.label for n in current_q.nodes]}")
+            print(f"  Adjacent to v5 (closest): {[n.label for n in adjacent_nodes]}")
+            
+            v5_node = find_node_by_label("v5", graph)
+            vis_prefix = f"v5_trap_{i + 1}_{retry_count}"
+            
+            # Attempt split
+            result = split_trapezoid(
+                graph,
+                current_q,
+                v5_node,
+                adjacent_nodes,
+                p4,
+                p5,
+                step_counter,
+                vis_prefix,
+            )
+            
+            step_counter += 1
+            
+            # Common stability loop helper
+            def run_stability():
+                p2 = P2()
+                p3 = P3()
+                stab_iter = 0
+                while True:
+                    broken_something = False
+                    if p4.can_apply(graph):
+                        graph.apply(p4)
+                        broken_something = True
+                    elif p2.can_apply(graph):
+                        graph.apply(p2)
+                        broken_something = True
+                    elif p3.can_apply(graph):
+                        graph.apply(p3)
+                        broken_something = True
+                    if not broken_something:
+                        break
+                    stab_iter += 1
+                if stab_iter > 0:
+                    print(f"  Stability loop finished in {stab_iter} iterations.")
+            
+            if result == "p5":
+                print("  Success (P5 applied). Running stability and moving to next direction.")
+                run_stability()
+                break # Done with this direction
+                
+            elif result == "p2":
+                print("  Partial Success (P2 applied). Running stability and retrying direction...")
+                run_stability()
+                retry_count += 1
+                continue # Retry finding Q for this direction
+                
+            else:
+                print("  Failed to split. Stopping this direction.")
+                break
+
+    print(f"\n=== Finished Generic Processing ===")
+
+
+if __name__ == "__main__":
+    run_derivation()

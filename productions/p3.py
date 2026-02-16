@@ -70,7 +70,7 @@ class P3(Production):
         # Calculate midpoint coordinates for the new vertex
         # Note: In a real system, the coordinates might be managed differently,
         # but for this example, we take the average as shown in the image.
-        new_x = v1.x + v2.x
+        new_x = (v1.x + v2.x) / 2
         new_y = (v1.y + v2.y) / 2
         # Assuming a z-coordinate for the third dimension, but since it's not in Node,
         # we'll use a placeholder or assume 2D if the original nodes only have x/y.
@@ -79,7 +79,7 @@ class P3(Production):
         # Create a unique label for the new node
         # print(new_x,new_y)
         new_node_label = f"v_new_{new_x, new_y}"
-        v_new = Node(x=new_x, y=new_y, label=new_node_label)
+        v_new = Node(x=new_x, y=new_y, label=new_node_label, hanging=True)
         result.add_node(v_new)
 
         # --- 2. Add original nodes to the result ---
